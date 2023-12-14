@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "855259076004",
+    "project_id": "datareflix",
+    "storage_bucket": "datareflix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855259076004:android:073cef0de7ac8fb21add31",
+        "android_client_info": {
+          "package_name": "com.jonathanaguilar.datareflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5gNV_8gGPOBEaQPWe2IHxgDMC9HOuHv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

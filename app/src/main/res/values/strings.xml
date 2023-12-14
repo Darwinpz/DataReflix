@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">DataReflix</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_register">Register</string>
+    <string name="title_back">Back</string>
+    <string name="text_welcome">Welcome</string>
+    <string name="text_username">Username:</string>
+    <string name="text_myusername">My username</string>
+    <string name="text_password">Password:</string>
+    <string name="text_forgot_password">Forgot your Password?</string>
+    <string name="text_mypassword">My Password</string>
+    <string name="text_signin">Sign In</string>
+    <string name="text_login">Log In</string>
+    <string name="text_logout">Log Out</string>
+    <string name="text_logo">Logo Institutional</string>
+    <string name="text_image">Image</string>
+</resources>

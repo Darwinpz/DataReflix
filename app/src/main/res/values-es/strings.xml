@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DataReflix</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_register">Registro</string>
+    <string name="title_back">Volver</string>
+    <string name="text_welcome">Bienvenido</string>
+    <string name="text_username">Usuario:</string>
+    <string name="text_myusername">Ingresar nombre de usuario</string>
+    <string name="text_password">Contraseña:</string>
+    <string name="text_forgot_password">¿Olvidó su Contraseña?</string>
+    <string name="text_mypassword">Mi Contraseña</string>
+    <string name="text_signin">Registrarse</string>
+    <string name="text_login">Ingresar</string>
+    <string name="text_logout">Salir</string>
+    <string name="text_logo">Logo Institucional</string>
+    <string name="text_image">Imagen</string>
+</resources>
