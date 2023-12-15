@@ -17,12 +17,12 @@ import com.jonathanaguilar.datareflix.databinding.ActivityPrincipalBinding;
 public class Principal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityPrincipalBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
+        ActivityPrincipalBinding binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarPrincipal.toolbar);
