@@ -13,7 +13,13 @@
     <string name="text_mypassword">Mi Contraseña</string>
     <string name="text_signin">Registrarse</string>
     <string name="text_login">Ingresar</string>
+    <string name="text_login_finger">Ingresar con huella digital</string>
     <string name="text_logout">Salir</string>
-    <string name="text_logo">Logo Institucional</string>
+    <string name="text_logo">Logo Empresarial</string>
     <string name="text_image">Imagen</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_schedules">Horarios</string>
+    <string name="menu_profile">Perfil</string>
+
 </resources>

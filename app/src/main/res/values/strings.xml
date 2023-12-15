@@ -12,7 +12,12 @@
     <string name="text_mypassword">My Password</string>
     <string name="text_signin">Sign In</string>
     <string name="text_login">Log In</string>
+    <string name="text_login_finger">Login with Fingerprint</string>
     <string name="text_logout">Log Out</string>
-    <string name="text_logo">Logo Institutional</string>
+    <string name="text_logo">Business Logo</string>
     <string name="text_image">Image</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_schedules">Schedules</string>
+    <string name="menu_profile">Profile</string>
 </resources>

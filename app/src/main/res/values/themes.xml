@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DataReflix" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -10,4 +10,13 @@
     </style>
 
     <style name="Theme.DataReflix" parent="Base.Theme.DataReflix" />
+
+    <style name="Theme.DataReflix.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.DataReflix.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.DataReflix.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
