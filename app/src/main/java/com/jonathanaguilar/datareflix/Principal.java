@@ -17,21 +17,20 @@ import com.jonathanaguilar.datareflix.databinding.ActivityPrincipalBinding;
 public class Principal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-
+    private ActivityPrincipalBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityPrincipalBinding binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
+        binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarPrincipal.toolbar);
-        binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "Mi Accion", Snackbar.LENGTH_LONG)
+                .setAction("Accion", null).show());
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_schedules, R.id.nav_profile)
                 .setOpenableLayout(drawer)
