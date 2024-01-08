@@ -1,12 +1,12 @@
 package com.jonathanaguilar.datareflix.fragments;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +28,8 @@ public class Fragment_Perfil extends Fragment {
 
     DatabaseReference databaseReference;
     Button btn_salir;
-    TextView txt_usuario, txt_email;
+    TextView txt_nombre, txt_cedula;
+    EditText editTextEmail;
     Progress_dialog progressDialog;
 
     @Nullable
@@ -37,8 +38,9 @@ public class Fragment_Perfil extends Fragment {
 
         final View vista = inflater.inflate(R.layout.fragment_perfil,container,false);
 
-        txt_usuario = vista.findViewById(R.id.txt_usuario);
-        txt_email = vista.findViewById(R.id.txt_email);
+        txt_nombre = vista.findViewById(R.id.txt_nombre);
+        txt_cedula = vista.findViewById(R.id.txt_cedula);
+        editTextEmail = vista.findViewById(R.id.editTextTextEmailAddress);
         btn_salir = vista.findViewById(R.id.btn_salir);
         progressDialog = new Progress_dialog(vista.getContext());
 
@@ -51,8 +53,9 @@ public class Fragment_Perfil extends Fragment {
 
                     if(snapshot.exists()){
 
-                        txt_usuario.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
-                        txt_email.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
+                        txt_nombre.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
+                        txt_cedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
+                        editTextEmail.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
 
                     }
 
@@ -69,15 +72,10 @@ public class Fragment_Perfil extends Fragment {
         btn_salir.setOnClickListener(view -> {
 
             progressDialog.mostrar_mensaje("Cerrando Sesión...");
-            SharedPreferences.Editor editor = MainActivity.preferences.edit();
-            editor.putString("uid","");
-            editor.putString("nombre","");
-            editor.apply();
-
+            MainActivity.preferences.edit().clear().apply();
             progressDialog.ocultar_mensaje();
 
             requireActivity().finish();
-
             startActivity(new Intent(vista.getContext(), MainActivity.class));
 
         });
