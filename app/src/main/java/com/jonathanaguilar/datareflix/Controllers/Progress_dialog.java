@@ -5,25 +5,26 @@ import android.content.Context;
 
 public class Progress_dialog {
 
-    private ProgressDialog dialog;
-    private Context context;
+    ProgressDialog dialog;
+    Context context;
 
-    public Progress_dialog(ProgressDialog dialog, Context context) {
-        this.dialog = dialog;
+    public Progress_dialog(Context context) {
         this.context = context;
-    }
-
-    public void mostrar_mensaje(String mensaje){
-        dialog = new ProgressDialog(context);
-        dialog.setMessage(mensaje);
+        this.dialog = new ProgressDialog(context);
         dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
     }
 
-    public void ocultar_mensaje()
-    {
-        dialog.dismiss();
+    public void mostrar_mensaje(String mensaje) {
+        dialog.setMessage(mensaje);
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    public void ocultar_mensaje() {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
 }

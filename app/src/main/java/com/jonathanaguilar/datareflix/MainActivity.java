@@ -4,13 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,15 +18,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     public static FirebaseDatabase DB = FirebaseDatabase.getInstance();
     public static SharedPreferences preferences;
     DatabaseReference databaseReference;
     EditText txt_usuario, txt_clave;
-    private Progress_dialog dialog;
-    public static Activity activity;
-    public Alert_dialog alertDialog;
+    Progress_dialog dialog;
+    public Activity activity;
+    Alert_dialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,78 +36,67 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btn_ingreso = findViewById(R.id.btn_ingresar);
-
         preferences = getPreferences(MODE_PRIVATE);
-
         databaseReference = DB.getReference();
-
-        txt_usuario = (EditText) findViewById(R.id.editTextTextEmailAddress);
-        txt_clave = (EditText) findViewById(R.id.editTextTextPassword);
-
-        dialog = new Progress_dialog(new ProgressDialog(this),this);
+        txt_usuario = findViewById(R.id.editTextTextEmailAddress);
+        txt_clave = findViewById(R.id.editTextTextPassword);
+        dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
-
 
         btn_ingreso.setOnClickListener(view -> {
 
             dialog.mostrar_mensaje("Iniciando sesión...");
 
             if (!txt_usuario.getText().toString().isEmpty()&&!txt_clave.getText().toString().isEmpty()) {
-
                 databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot datasnapshot) {
 
                         if (datasnapshot.exists()) {
 
+                            boolean existe = false;
                             for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-                                if(snapshot.child("usuario").getValue().toString().equals(txt_usuario.getText().toString()) &&
-                                        snapshot.child("clave").getValue().toString().equals(txt_clave.getText().toString())){
-
-                                    dialog.ocultar_mensaje();
-
+                                if(Objects.requireNonNull(snapshot.child("usuario").getValue()).toString().equals(txt_usuario.getText().toString()) &&
+                                        Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(txt_clave.getText().toString())){
+                                    existe = true;
                                     SharedPreferences.Editor editor = preferences.edit();
-                                    editor.putString("uid", snapshot.getKey().toString());
+                                    editor.putString("uid", snapshot.getKey());
+                                    editor.putString("nombre", Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
                                     editor.apply();
-
-                                    startActivity(new Intent(getBaseContext(), Principal.class));
-
+                                    dialog.ocultar_mensaje();
                                     finish();
-
+                                    startActivity(new Intent(getBaseContext(), Principal.class));
                                 }
-
                             }
 
-                            alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto",builder -> {
-                                builder.setCancelable(true);
-                                alertDialog.mostrar_mensaje(builder);
-                            });
-
+                            if(!existe) {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
+                                    builder.setCancelable(true);
+                                    builder.create().show();
+                                });
+                            }
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
+                        dialog.ocultar_mensaje();
                         alertDialog.crear_mensaje("Advertencia", "Error al Iniciar Sesión",builder -> {
                             builder.setCancelable(true);
-                            alertDialog.mostrar_mensaje(builder);
+                            builder.create().show();
                         });
-
                     }
                 });
 
-
             }else{
 
+                dialog.ocultar_mensaje();
                 alertDialog.crear_mensaje("Advertencia", "Ingresa el usuario y la clave",builder -> {
-
                     builder.setCancelable(true);
-                    alertDialog.mostrar_mensaje(builder);
-
+                    builder.create().show();
                 });
-
 
             }
 
@@ -124,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty()) {
             finish();
+            startActivity(new Intent(getBaseContext(), Principal.class));
         }
 
     }

@@ -5,9 +5,7 @@ import android.content.Context;
 
 public class Alert_dialog {
 
-    private AlertDialog dialog;
-    private Context context;
-
+    Context context;
 
     public Alert_dialog(Context context) {
         this.context = context;
@@ -16,18 +14,9 @@ public class Alert_dialog {
     public void crear_mensaje(String titulo, String mensaje, Interfaces.build build){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(titulo)
-                .setMessage(mensaje)
-                .setCancelable(false);
-
+        builder.setTitle(titulo).setMessage(mensaje);
         build.verbuilder(builder);
 
     }
-
-    public void mostrar_mensaje(AlertDialog.Builder builder){
-        dialog =builder.create();
-        dialog.show();
-    }
-
 
 }
