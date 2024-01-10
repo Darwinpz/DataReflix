@@ -25,6 +25,7 @@
             />
 
         <ImageView
+            android:id="@+id/header_imagen"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:contentDescription="@string/text_image"
@@ -36,7 +37,7 @@
         </ImageView>
 
         <TextView
-            android:id="@+id/username"
+            android:id="@+id/header_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_myusername"

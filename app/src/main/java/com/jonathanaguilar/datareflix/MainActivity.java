@@ -57,16 +57,20 @@ public class MainActivity extends AppCompatActivity {
                             boolean existe = false;
                             for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-                                if(Objects.requireNonNull(snapshot.child("usuario").getValue()).toString().equals(txt_usuario.getText().toString()) &&
+                                if(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().equals(txt_usuario.getText().toString()) &&
                                         Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(txt_clave.getText().toString())){
                                     existe = true;
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                    editor.putString("uid", snapshot.getKey());
-                                    editor.putString("nombre", Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
-                                    editor.apply();
+
                                     dialog.ocultar_mensaje();
-                                    finish();
-                                    startActivity(new Intent(getBaseContext(), Principal.class));
+
+                                    if (preferences.getString("uid","").isEmpty()) {
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.putString("uid", snapshot.getKey());
+                                        editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                        editor.apply();
+                                        finish();
+                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                    }
                                 }
                             }
 
