@@ -18,4 +18,26 @@
         app:navigationIcon="@drawable/baseline_chevron_left_24"
         />
 
+    <Button
+        android:id="@+id/add_actividades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:text="@string/btn_add"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/success"
+        android:textColor="@color/white"
+        >
+
+    </Button>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/add_actividades"
+        android:id="@+id/recyclerview_actividades"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </RelativeLayout>

@@ -2,9 +2,11 @@ package com.jonathanaguilar.datareflix;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,6 +34,9 @@ public class Principal extends AppCompatActivity {
     public static String id = MainActivity.preferences.getString("uid","");
     public static String rol = MainActivity.preferences.getString("rol","");
     public static DatabaseReference databaseReference;
+    public static String Nombre = "";
+    private boolean doubleBackToExitPressedOnce = false;
+    private static final int DOUBLE_CLICK_INTERVAL = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,10 @@ public class Principal extends AppCompatActivity {
 
                     if (snapshot.exists()) {
 
-                        headerTextView.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
+                        if (snapshot.child("nombre").exists()) {
+                            Nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                            headerTextView.setText(Nombre);
+                        }
 
                         if (snapshot.child("url_foto").exists()) {
                             String foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
@@ -94,6 +102,17 @@ public class Principal extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Presione de nuevo para salir", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, DOUBLE_CLICK_INTERVAL);
     }
 
     @Override

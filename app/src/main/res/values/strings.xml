@@ -34,4 +34,6 @@
     <string name="home_op4">Permissions</string>
     <string name="home_op5">Work Schedule</string>
 
+    <string name="btn_add">Create</string>
+
 </resources>

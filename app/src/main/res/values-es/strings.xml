@@ -35,4 +35,6 @@
     <string name="home_op4">Solicitudes</string>
     <string name="home_op5">Horario de Tienda</string>
 
+    <string name="btn_add">Crear</string>
+
 </resources>
