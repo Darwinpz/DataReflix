@@ -29,12 +29,10 @@
     <string name="menu_schedules">Horarios</string>
     <string name="menu_profile">Perfil</string>
 
-
-    <string name="home_op1">Option</string>
-    <string name="home_op2">Option2</string>
-    <string name="home_op3">Option3</string>
-    <string name="home_op4">Option4</string>
-    <string name="home_op5">Option5</string>
-    <string name="home_op6">Option6</string>
+    <string name="home_op1">Marcación</string>
+    <string name="home_op2">Horario</string>
+    <string name="home_op3">Actividades</string>
+    <string name="home_op4">Solicitudes</string>
+    <string name="home_op5">Horario de Tienda</string>
 
 </resources>

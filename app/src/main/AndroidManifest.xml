@@ -16,10 +16,49 @@
         android:theme="@style/Theme.DataReflix"
         tools:targetApi="31">
         <activity
+            android:name=".Horarios.Ver_horarios"
+            android:exported="false" />
+        <activity
+            android:name=".Horarios.Det_horario"
+            android:exported="false" />
+        <activity
+            android:name=".Horarios.Add_horario"
+            android:exported="false" />
+        <activity
+            android:name=".Marcacion.Ver_marcaciones"
+            android:exported="false" />
+        <activity
+            android:name=".Marcacion.Det_marcacion"
+            android:exported="false" />
+        <activity
+            android:name=".Marcacion.Add_marcacion"
+            android:exported="false" />
+        <activity
+            android:name=".Actividades.Det_actividad"
+            android:exported="false" />
+        <activity
+            android:name=".Actividades.Add_actividad"
+            android:exported="false" />
+        <activity
+            android:name=".Actividades.Ver_actividades"
+            android:exported="false" />
+        <activity
+            android:name=".Usuarios.Det_usuario"
+            android:exported="false" />
+        <activity
+            android:name=".Solicitudes.Ver_solicitudes"
+            android:exported="false" />
+        <activity
+            android:name=".Solicitudes.Det_solicitud"
+            android:exported="false" />
+        <activity
+            android:name=".Solicitudes.Add_solicitud"
+            android:exported="false" />
+        <activity
             android:name=".Vi_fotos"
             android:exported="false" />
         <activity
-            android:name=".Vi_usuarios"
+            android:name=".Usuarios.Ver_usuarios"
             android:exported="false" />
         <activity
             android:name=".Principal"

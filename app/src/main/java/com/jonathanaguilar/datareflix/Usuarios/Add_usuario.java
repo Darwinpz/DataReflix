@@ -1,14 +1,16 @@
-package com.jonathanaguilar.datareflix;
+package com.jonathanaguilar.datareflix.Usuarios;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Vi_usuarios extends AppCompatActivity {
+import com.jonathanaguilar.datareflix.R;
+
+public class Add_usuario extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vi_usuarios);
+        setContentView(R.layout.activity_add_usuario);
     }
 }

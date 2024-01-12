@@ -28,12 +28,10 @@
     <string name="menu_schedules">Schedules</string>
     <string name="menu_profile">Profile</string>
 
-    <string name="home_op1">Option</string>
-    <string name="home_op2">Option2</string>
-    <string name="home_op3">Option3</string>
-    <string name="home_op4">Option4</string>
-    <string name="home_op5">Option5</string>
-    <string name="home_op6">Option6</string>
-
+    <string name="home_op1">Assistance</string>
+    <string name="home_op2">Schedule</string>
+    <string name="home_op3">Activities</string>
+    <string name="home_op4">Permissions</string>
+    <string name="home_op5">Work Schedule</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package com.jonathanaguilar.datareflix.fragments;
+package com.jonathanaguilar.datareflix.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,8 +35,7 @@ public class Fragment_Perfil extends Fragment {
     Progress_dialog progressDialog;
     ImageView img_perfil;
     Alert_dialog alertDialog;
-    String URL_FOTO, NOMBRE;
-
+    String URL_FOTO = "", NOMBRE = "";
 
     @Nullable
     @Override
@@ -62,21 +61,23 @@ public class Fragment_Perfil extends Fragment {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     if(snapshot.exists()){
-                        txt_cedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
-                        NOMBRE = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
-                        txt_nombre.setText(NOMBRE);
 
+                        if(snapshot.child("cedula").exists()) {
+                            txt_cedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
+                        }
+                        if(snapshot.child("nombre").exists()) {
+                            NOMBRE = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                            txt_nombre.setText(NOMBRE);
+                        }
                         if(snapshot.child("url_foto").exists()){
                             URL_FOTO = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
                             Glide.with(vista.getContext()).load(URL_FOTO).centerCrop().into(img_perfil);
                         }else{
                             img_perfil.setImageResource(R.drawable.perfil);
                         }
-
                         if(snapshot.child("email").exists()){
                             editTextEmail.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
                         }
-
                         if(snapshot.child("telefono").exists()){
                             editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString());
                         }
@@ -86,8 +87,6 @@ public class Fragment_Perfil extends Fragment {
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
-
 
                 }
             });

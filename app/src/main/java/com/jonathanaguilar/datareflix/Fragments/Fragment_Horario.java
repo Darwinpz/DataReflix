@@ -1,4 +1,4 @@
-package com.jonathanaguilar.datareflix.fragments;
+package com.jonathanaguilar.datareflix.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +11,13 @@ import androidx.fragment.app.Fragment;
 
 import com.jonathanaguilar.datareflix.R;
 
-public class Fragment_Home extends Fragment {
+public class Fragment_Horario extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_home,container,false);
+        return inflater.inflate(R.layout.fragment_horario,container,false);
 
     }
 

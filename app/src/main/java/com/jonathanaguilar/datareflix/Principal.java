@@ -1,5 +1,6 @@
 package com.jonathanaguilar.datareflix;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,54 +37,63 @@ public class Principal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityPrincipalBinding binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        if(!id.isEmpty()) {
 
-        databaseReference = MainActivity.DB.getReference();
+            ActivityPrincipalBinding binding = ActivityPrincipalBinding.inflate(getLayoutInflater());
+            setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarPrincipal.toolbar);
-        binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "Mi Accion", Snackbar.LENGTH_LONG)
-                .setAction("Accion", null).show());
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+            databaseReference = MainActivity.DB.getReference();
 
-        View headerView = navigationView.getHeaderView(0);
-        TextView headerTextView = headerView.findViewById(R.id.header_username);
-        ImageView headerImageView = headerView.findViewById(R.id.header_imagen);
+            setSupportActionBar(binding.appBarPrincipal.toolbar);
+            binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "Mi Accion", Snackbar.LENGTH_LONG)
+                    .setAction("Accion", null).show());
+            DrawerLayout drawer = binding.drawerLayout;
+            NavigationView navigationView = binding.navView;
 
-        databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            View headerView = navigationView.getHeaderView(0);
+            TextView headerTextView = headerView.findViewById(R.id.header_username);
+            ImageView headerImageView = headerView.findViewById(R.id.header_imagen);
 
-                if(snapshot.exists()){
+            databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    headerTextView.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
+                    if (snapshot.exists()) {
 
-                    if(snapshot.child("url_foto").exists()){
-                        String foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
-                        Glide.with(getBaseContext()).load(foto).centerCrop().into(headerImageView);
-                    }else{
-                        headerImageView.setImageResource(R.drawable.perfil);
+                        headerTextView.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
+
+                        if (snapshot.child("url_foto").exists()) {
+                            String foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
+                            Glide.with(getBaseContext()).load(foto).centerCrop().into(headerImageView);
+                        } else {
+                            headerImageView.setImageResource(R.drawable.perfil);
+                        }
+
                     }
 
                 }
 
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_schedules, R.id.nav_profile)
-                .setOpenableLayout(drawer)
-                .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_principal);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_schedules, R.id.nav_profile)
+                    .setOpenableLayout(drawer)
+                    .build();
 
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_principal);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(navigationView, navController);
+
+        }else{
+            MainActivity.preferences.edit().clear().apply();
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     @Override

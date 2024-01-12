@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.jonathanaguilar.datareflix.fragments.Fragment_Home"
+        android:name="com.jonathanaguilar.datareflix.Fragments.Fragment_Home"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_schedules"
-        android:name="com.jonathanaguilar.datareflix.fragments.Fragment_Horario"
+        android:name="com.jonathanaguilar.datareflix.Fragments.Fragment_Horario"
         android:label="@string/menu_schedules"
         tools:layout="@layout/fragment_horario" />
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.jonathanaguilar.datareflix.fragments.Fragment_Perfil"
+        android:name="com.jonathanaguilar.datareflix.Fragments.Fragment_Perfil"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_perfil" />
 </navigation>

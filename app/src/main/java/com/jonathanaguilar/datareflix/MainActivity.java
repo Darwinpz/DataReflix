@@ -57,19 +57,21 @@ public class MainActivity extends AppCompatActivity {
                             boolean existe = false;
                             for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-                                if(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().equals(txt_usuario.getText().toString()) &&
-                                        Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(txt_clave.getText().toString())){
-                                    existe = true;
+                                if(snapshot.child("cedula").exists() && snapshot.child("clave").exists() && snapshot.child("rol").exists()) {
+                                    if (Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().equals(txt_usuario.getText().toString()) &&
+                                            Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(txt_clave.getText().toString())) {
 
-                                    dialog.ocultar_mensaje();
+                                        existe = true;
 
-                                    if (preferences.getString("uid","").isEmpty()) {
-                                        SharedPreferences.Editor editor = preferences.edit();
-                                        editor.putString("uid", snapshot.getKey());
-                                        editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
-                                        editor.apply();
-                                        finish();
-                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                        if (preferences.getString("uid", "").isEmpty()) {
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.putString("uid", snapshot.getKey());
+                                            editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                            editor.apply();
+                                            dialog.ocultar_mensaje();
+                                            finish();
+                                            startActivity(new Intent(getBaseContext(), Principal.class));
+                                        }
                                     }
                                 }
                             }
@@ -85,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                         dialog.ocultar_mensaje();
                         alertDialog.crear_mensaje("Advertencia", "Error al Iniciar Sesión",builder -> {
                             builder.setCancelable(true);
