@@ -31,7 +31,6 @@ public class Ctl_solicitud {
 
     }
 
-
     public void Ver_my_Solicitudes(Adapter_solicitud list_solicitud, String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);

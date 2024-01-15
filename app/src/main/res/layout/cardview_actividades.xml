@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:id="@+id/cardview_actividades"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:id="@+id/card_tipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tipo de actividad"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha: "
+                android:textStyle="bold"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:id="@+id/card_fecha"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="dd/mm/yyyy hh:mm:ss"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/card_empleado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre de empleado"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            />
+
+        <TextView
+            android:id="@+id/card_estado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estado"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="end"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
