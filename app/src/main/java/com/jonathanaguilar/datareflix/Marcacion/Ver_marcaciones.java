@@ -2,10 +2,12 @@ package com.jonathanaguilar.datareflix.Marcacion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ public class Ver_marcaciones extends AppCompatActivity {
     TextView txt_sinresultados, txt_contador, txt_nombre;
     Adapter_marcacion adapterMarcacion;
     Ctl_marcacion ctlMarcacion;
+    CardView cardview_nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class Ver_marcaciones extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         txt_contador = findViewById(R.id.txt_contador);
         txt_nombre = findViewById(R.id.txt_nombre);
+        cardview_nombre = findViewById(R.id.cardview_nombre);
 
         adapterMarcacion = new Adapter_marcacion(this);
         ctlMarcacion = new Ctl_marcacion(Principal.databaseReference);
@@ -45,8 +49,16 @@ public class Ver_marcaciones extends AppCompatActivity {
         recyclerView.setAdapter(adapterMarcacion);
 
         if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
-            txt_nombre.setText(Principal.Nombre);
-            ctlMarcacion.VerMarcaciones(adapterMarcacion, Principal.id, txt_sinresultados, progressBar, txt_contador);
+
+            if(Principal.rol.equals("Administrador")){
+                cardview_nombre.setVisibility(View.GONE);
+                txt_nombre.setText("");
+                ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
+            }else{
+                cardview_nombre.setVisibility(View.VISIBLE);
+                txt_nombre.setText(Principal.Nombre);
+                ctlMarcacion.Ver_my_Marcaciones(adapterMarcacion, Principal.id, txt_sinresultados, progressBar, txt_contador);
+            }
         }
 
     }

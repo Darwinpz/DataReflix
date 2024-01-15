@@ -18,23 +18,94 @@
         app:navigationIcon="@drawable/baseline_chevron_left_24"
         />
 
-    <Button
-        android:id="@+id/add_solicitudes"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_opciones"
         android:layout_below="@id/toolbar"
-        android:text="@string/btn_add"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/success"
-        android:textColor="@color/white"
+        android:orientation="horizontal"
+        android:gravity="end"
         >
 
-    </Button>
+        <Button
+            android:id="@+id/add_solicitudes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_add"
+            android:backgroundTint="@color/success"
+            android:textColor="@color/white"
+            >
+        </Button>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/layout_opciones"
+        android:id="@+id/cardview_nombre"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_myname"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/txt_nombre"
+            >
+        </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 Solicitudes"
+        android:gravity="end"
+        android:layout_below="@id/cardview_nombre"
+        android:id="@+id/txt_contador"
+        android:textColor="@color/danger"
+        android:layout_marginEnd="5dp"
+        >
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/layout_cargar"
+        android:layout_below="@id/txt_contador"
+        >
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:indeterminate="true"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/txt_sinresultados"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aún no hay Solicitudes..."
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/add_solicitudes"
+        android:layout_below="@id/layout_cargar"
         android:id="@+id/recyclerview_solicitudes"
         >
 

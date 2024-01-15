@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jonathanaguilar.datareflix.Holders.Holder_marcacion;
-import com.jonathanaguilar.datareflix.Objetos.Ob_Marcacion;
+import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
+import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import java.util.List;
 
 public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
 
-    public List<Ob_Marcacion> list_marcacion = new ArrayList<>();
+    public List<Ob_marcacion> list_marcacion = new ArrayList<>();
     Context context;
 
     public Adapter_marcacion(Context context) {
         this.context = context;
     }
 
-    public void AddMarcacion (Ob_Marcacion marcacion ){
+    public void AddMarcacion (Ob_marcacion marcacion ){
         list_marcacion.add(marcacion);
         notifyItemInserted(list_marcacion.size());
     }
@@ -45,6 +46,14 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
 
         holder.card_fecha.setText(list_marcacion.get(position).fecha);
         holder.card_hora.setText(list_marcacion.get(position).hora);
+
+        if(Principal.rol.equals("Administrador")) {
+            holder.card_empleado.setVisibility(View.VISIBLE);
+            holder.card_empleado.setText(list_marcacion.get(position).empleado);
+        }else{
+            holder.card_empleado.setVisibility(View.GONE);
+            holder.card_empleado.setText("");
+        }
 
     }
 

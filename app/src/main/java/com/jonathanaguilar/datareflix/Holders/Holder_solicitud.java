@@ -10,18 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jonathanaguilar.datareflix.R;
 
 
-public class Holder_marcacion extends RecyclerView.ViewHolder{
+public class Holder_solicitud extends RecyclerView.ViewHolder{
 
-    public TextView card_fecha, card_hora, card_empleado;
+    public TextView card_fecha, card_tipo, card_estado, card_empleado;
     public CardView cardView;
 
-    public Holder_marcacion(@NonNull View itemView) {
+    public Holder_solicitud(@NonNull View itemView) {
         super(itemView);
 
         card_fecha = itemView.findViewById(R.id.card_fecha);
-        card_hora = itemView.findViewById(R.id.card_hora);
+        card_tipo = itemView.findViewById(R.id.card_tipo);
+        card_estado = itemView.findViewById(R.id.card_estado);
         card_empleado = itemView.findViewById(R.id.card_empleado);
-        cardView =  itemView.findViewById(R.id.cardview_marcacion);
+        cardView =  itemView.findViewById(R.id.cardview_solicitud);
 
     }
 
