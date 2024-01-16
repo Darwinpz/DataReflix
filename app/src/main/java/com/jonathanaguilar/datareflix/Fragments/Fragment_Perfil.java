@@ -21,18 +21,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.MainActivity;
+import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 import com.jonathanaguilar.datareflix.Vi_fotos;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Fragment_Perfil extends Fragment {
 
-    Button btn_salir;
+    Button btn_salir, btn_update_profile;
     TextView txt_nombre, txt_cedula, txt_rol;
     EditText editTextEmail, editTextTextPhone;
-    Progress_dialog progressDialog;
+    Progress_dialog dialog;
     ImageView img_perfil;
     Alert_dialog alertDialog;
     String URL_FOTO = "", NOMBRE = "";
@@ -50,10 +53,41 @@ public class Fragment_Perfil extends Fragment {
         editTextTextPhone = vista.findViewById(R.id.editTextTextPhone);
         btn_salir = vista.findViewById(R.id.btn_salir);
         img_perfil = vista.findViewById(R.id.img_perfil);
-        progressDialog = new Progress_dialog(vista.getContext());
+        dialog = new Progress_dialog(vista.getContext());
         alertDialog = new Alert_dialog(vista.getContext());
 
+        btn_update_profile = vista.findViewById(R.id.btn_update_profile);
+
         if(!Principal.id.isEmpty()){
+
+            btn_update_profile.setOnClickListener(view -> {
+
+                dialog.mostrar_mensaje("Actualizando Perfil...");
+
+                if(!editTextEmail.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty()) {
+
+                    Ob_usuario usuario = new Ob_usuario();
+                    usuario.uid = Principal.id;
+                    usuario.email = editTextEmail.getText().toString();
+                    usuario.telefono = editTextTextPhone.getText().toString();
+                    update_perfil(usuario);
+
+                    dialog.ocultar_mensaje();
+                    alertDialog.crear_mensaje("Correcto", "Usuario Actualizado Correctamente", builder -> {
+                        builder.setCancelable(false);
+                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                        builder.create().show();
+                    });
+
+                }else{
+                    dialog.ocultar_mensaje();
+                    alertDialog.crear_mensaje("¡Advertencia!", "Completa todos los campos", builder -> {
+                        builder.setCancelable(true);
+                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                        builder.create().show();
+                    });
+                }
+            });
 
             txt_rol.setText(Principal.rol);
             Principal.databaseReference.child("usuarios").child(Principal.id).addValueEventListener(new ValueEventListener() {
@@ -126,9 +160,9 @@ public class Fragment_Perfil extends Fragment {
 
         btn_salir.setOnClickListener(view -> {
 
-            progressDialog.mostrar_mensaje("Cerrando Sesión...");
+            dialog.mostrar_mensaje("Cerrando Sesión...");
             MainActivity.preferences.edit().clear().apply();
-            progressDialog.ocultar_mensaje();
+            dialog.ocultar_mensaje();
 
             requireActivity().finish();
             startActivity(new Intent(vista.getContext(), MainActivity.class));
@@ -136,6 +170,17 @@ public class Fragment_Perfil extends Fragment {
         });
 
         return vista;
+    }
+
+    public void update_perfil(Ob_usuario usuario) {
+
+        if(usuario.uid != null) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("email", usuario.email.toLowerCase());
+            datos.put("telefono", usuario.telefono);
+            Principal.databaseReference.child("usuarios").child(usuario.uid).updateChildren(datos);
+        }
+
     }
 
 

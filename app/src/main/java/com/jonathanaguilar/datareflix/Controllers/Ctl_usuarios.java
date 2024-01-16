@@ -49,6 +49,7 @@ public class Ctl_usuarios {
 
     }
 
+
     public void VerUsuarios(Adapter_usuario list_usuario, String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
