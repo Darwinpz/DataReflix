@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.jonathanaguilar.datareflix.Holders.Holder_usuario;
 import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.R;
+import com.jonathanaguilar.datareflix.Usuarios.Det_usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,10 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
 
         holder.cardView.setOnClickListener(view -> {
 
-
+            Intent i = new Intent();
+            i.setClass(context, Det_usuario.class);
+            i.putExtra("uid",list_usuario.get(position).uid);
+            context.startActivity(i);
 
         });
 

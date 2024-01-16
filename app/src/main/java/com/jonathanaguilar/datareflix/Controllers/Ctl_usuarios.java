@@ -13,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_usuario;
 import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Ctl_usuarios {
@@ -29,7 +31,25 @@ public class Ctl_usuarios {
 
     }
 
-    public void VerUsuarios(Adapter_usuario list_usuario, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+    public void eliminar_usuario(String uid){
+        dbref.child("usuarios").child(uid).removeValue();
+    }
+
+    public void update_usuario(Ob_usuario usuario) {
+
+        if(usuario.uid != null) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("cedula", usuario.cedula);
+            datos.put("nombre", usuario.nombre);
+            datos.put("email", usuario.email.toLowerCase());
+            datos.put("telefono", usuario.telefono);
+            datos.put("rol", usuario.rol);
+            dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
+        }
+
+    }
+
+    public void VerUsuarios(Adapter_usuario list_usuario, String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -45,30 +65,34 @@ public class Ctl_usuarios {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        Ob_usuario usuario = new Ob_usuario();
-                        usuario.uid = snapshot.getKey();
+                        if(!Objects.equals(snapshot.getKey(), uid)) {
 
-                        if(snapshot.child("cedula").exists()) {
-                            usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
-                        }
-                        if(snapshot.child("nombre").exists()) {
-                            usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
-                        }
-                        if(snapshot.child("url_foto").exists()){
-                           usuario.url_foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
-                        }
-                        if(snapshot.child("email").exists()){
-                            usuario.email  = Objects.requireNonNull(snapshot.child("email").getValue()).toString();
-                        }
-                        if(snapshot.child("telefono").exists()){
-                           usuario.telefono = Objects.requireNonNull(snapshot.child("telefono").getValue()).toString();
-                        }
-                        if(snapshot.child("rol").exists()){
-                            usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
-                        }
+                            Ob_usuario usuario = new Ob_usuario();
+                            usuario.uid = snapshot.getKey();
 
-                        list_usuario.AddUsuario(usuario);
-                        contador++;
+                            if (snapshot.child("cedula").exists()) {
+                                usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
+                            }
+                            if (snapshot.child("nombre").exists()) {
+                                usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                            }
+                            if (snapshot.child("url_foto").exists()) {
+                                usuario.url_foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
+                            }
+                            if (snapshot.child("email").exists()) {
+                                usuario.email = Objects.requireNonNull(snapshot.child("email").getValue()).toString();
+                            }
+                            if (snapshot.child("telefono").exists()) {
+                                usuario.telefono = Objects.requireNonNull(snapshot.child("telefono").getValue()).toString();
+                            }
+                            if (snapshot.child("rol").exists()) {
+                                usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
+                            }
+
+                            list_usuario.AddUsuario(usuario);
+                            contador++;
+
+                        }
 
                     }
 

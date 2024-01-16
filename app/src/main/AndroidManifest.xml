@@ -61,9 +61,6 @@
             android:name=".Vi_fotos"
             android:exported="false" />
         <activity
-            android:name=".Usuarios.Ver_usuarios"
-            android:exported="false" />
-        <activity
             android:name=".Principal"
             android:exported="false" />
         <activity

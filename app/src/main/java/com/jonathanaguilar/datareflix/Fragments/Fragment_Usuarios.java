@@ -27,7 +27,7 @@ public class Fragment_Usuarios extends Fragment {
     ProgressBar progressBar;
     TextView txt_sinresultados, txt_contador;
     Adapter_usuario adapterUsuario;
-    Ctl_usuarios ctlUsuarios;
+    public static Ctl_usuarios ctlUsuarios;
     Button btn_add;
     @Nullable
     @Override
@@ -53,7 +53,7 @@ public class Fragment_Usuarios extends Fragment {
             startActivity(new Intent(vista.getContext(), Add_usuario.class));
         });
 
-        ctlUsuarios.VerUsuarios(adapterUsuario, txt_sinresultados, progressBar, txt_contador);
+        ctlUsuarios.VerUsuarios(adapterUsuario,Principal.id, txt_sinresultados, progressBar, txt_contador);
 
         return vista;
 

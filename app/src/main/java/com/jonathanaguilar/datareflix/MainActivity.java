@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.ocultar_mensaje();
                                 alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
                                     builder.setCancelable(true);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                                     builder.create().show();
                                 });
                             }
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         dialog.ocultar_mensaje();
                         alertDialog.crear_mensaje("Advertencia", "Error al Iniciar Sesión",builder -> {
                             builder.setCancelable(true);
+                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                             builder.create().show();
                         });
                     }
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.ocultar_mensaje();
                 alertDialog.crear_mensaje("Advertencia", "Ingresa el usuario y la clave",builder -> {
                     builder.setCancelable(true);
+                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                     builder.create().show();
                 });
 

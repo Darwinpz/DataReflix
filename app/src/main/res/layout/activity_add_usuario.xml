@@ -42,7 +42,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Información del usuario"
+                    android:text="Nuevo usuario"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -103,7 +103,7 @@
                         android:textColor="@color/black"
                         android:ems="10"
                         android:hint="Nombre completo"
-                        android:inputType="number"
+                        android:inputType="textPersonName"
                         android:textSize="15sp"/>
 
                     <TextView
@@ -149,7 +149,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tipo:"
+                        android:text="Rol:"
                         android:textStyle="bold"
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="10dp"
