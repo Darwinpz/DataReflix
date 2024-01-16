@@ -6,8 +6,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class Ver_actividades extends AppCompatActivity {
     Adapter_actividad adapterActividad;
     Ctl_actividad ctlActividad;
     CardView cardview_nombre;
+    Button btn_add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,18 @@ public class Ver_actividades extends AppCompatActivity {
         txt_nombre = findViewById(R.id.txt_nombre);
         cardview_nombre = findViewById(R.id.cardview_nombre);
 
+        btn_add = findViewById(R.id.add_actividades);
+
         adapterActividad = new Adapter_actividad(this);
         ctlActividad = new Ctl_actividad(Principal.databaseReference);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterActividad);
+
+        btn_add.setOnClickListener(view -> {
+            startActivity(new Intent(this, Add_actividad.class));
+        });
 
         if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
 

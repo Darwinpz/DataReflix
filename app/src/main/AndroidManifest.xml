@@ -46,6 +46,9 @@
             android:name=".Usuarios.Det_usuario"
             android:exported="false" />
         <activity
+            android:name=".Usuarios.Add_usuario"
+            android:exported="false" />
+        <activity
             android:name=".Solicitudes.Ver_solicitudes"
             android:exported="false" />
         <activity

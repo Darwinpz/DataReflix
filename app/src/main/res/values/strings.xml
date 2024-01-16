@@ -26,6 +26,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_schedules">Schedules</string>
+    <string name="menu_users">Users</string>
     <string name="menu_profile">Profile</string>
 
     <string name="home_op1">Assistance</string>
@@ -35,5 +36,24 @@
     <string name="home_op5">Work Schedule</string>
 
     <string name="btn_add">Create</string>
+
+    <string-array name="rol">
+        <item>Selecciona</item>
+        <item>ADMINISTRADOR</item>
+        <item>EMPLEADO</item>
+    </string-array>
+
+    <string-array name="tipo_solicitud">
+        <item>Selecciona</item>
+        <item>PERMISO LABORAL</item>
+        <item>VACACIONES</item>
+    </string-array>
+
+    <string-array name="tipo_actividad">
+        <item>Selecciona</item>
+        <item>RECOLECCIÓN</item>
+        <item>ATENCIÓN</item>
+    </string-array>
+
 
 </resources>

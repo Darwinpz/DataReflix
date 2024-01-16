@@ -6,14 +6,14 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jonathanaguilar.datareflix.Adaptadores.Adapter_marcacion;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_solicitud;
-import com.jonathanaguilar.datareflix.Controllers.Ctl_marcacion;
 import com.jonathanaguilar.datareflix.Controllers.Ctl_solicitud;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
@@ -26,6 +26,7 @@ public class Ver_solicitudes extends AppCompatActivity {
     Adapter_solicitud adapterSolicitud;
     Ctl_solicitud ctlSolicitud;
     CardView cardview_nombre;
+    Button btn_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +42,18 @@ public class Ver_solicitudes extends AppCompatActivity {
         txt_nombre = findViewById(R.id.txt_nombre);
         cardview_nombre = findViewById(R.id.cardview_nombre);
 
+        btn_add = findViewById(R.id.add_solicitudes);
+
         adapterSolicitud = new Adapter_solicitud(this);
         ctlSolicitud = new Ctl_solicitud(Principal.databaseReference);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapterSolicitud);
+
+        btn_add.setOnClickListener(view -> {
+            startActivity(new Intent(this, Add_solicitud.class));
+        });
 
         if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
 

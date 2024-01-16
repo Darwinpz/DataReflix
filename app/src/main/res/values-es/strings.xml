@@ -27,6 +27,7 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_schedules">Horarios</string>
+    <string name="menu_users">Usuarios</string>
     <string name="menu_profile">Perfil</string>
 
     <string name="home_op1">Marcación</string>
@@ -36,5 +37,23 @@
     <string name="home_op5">Horario de Tienda</string>
 
     <string name="btn_add">Crear</string>
+
+    <string-array name="rol">
+        <item>Selecciona</item>
+        <item>ADMINISTRADOR</item>
+        <item>EMPLEADO</item>
+    </string-array>
+
+    <string-array name="tipo_solicitud">
+        <item>Selecciona</item>
+        <item>PERMISO LABORAL</item>
+        <item>VACACIONES</item>
+    </string-array>
+
+    <string-array name="tipo_actividad">
+        <item>Selecciona</item>
+        <item>RECOLECCIÓN</item>
+        <item>ATENCIÓN</item>
+    </string-array>
 
 </resources>

@@ -50,7 +50,7 @@ public class Principal extends AppCompatActivity {
             databaseReference = MainActivity.DB.getReference();
 
             setSupportActionBar(binding.appBarPrincipal.toolbar);
-            binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "Mi Accion", Snackbar.LENGTH_LONG)
+            binding.appBarPrincipal.fab.setOnClickListener(view -> Snackbar.make(view, "jhon.jonathan360@gmail.com", Snackbar.LENGTH_LONG)
                     .setAction("Accion", null).show());
             DrawerLayout drawer = binding.drawerLayout;
             NavigationView navigationView = binding.navView;
@@ -89,7 +89,7 @@ public class Principal extends AppCompatActivity {
 
 
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_schedules, R.id.nav_profile)
+                    R.id.nav_home, R.id.nav_schedules, R.id.nav_users , R.id.nav_profile)
                     .setOpenableLayout(drawer)
                     .build();
 
