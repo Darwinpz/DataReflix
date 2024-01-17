@@ -24,7 +24,7 @@ public class Ver_solicitudes extends AppCompatActivity {
     ProgressBar progressBar;
     TextView txt_sinresultados, txt_contador, txt_nombre;
     Adapter_solicitud adapterSolicitud;
-    Ctl_solicitud ctlSolicitud;
+    public static Ctl_solicitud ctlSolicitud;
     CardView cardview_nombre;
     Button btn_add;
     @Override

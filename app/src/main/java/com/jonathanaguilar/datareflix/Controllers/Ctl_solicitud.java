@@ -14,7 +14,10 @@ import com.jonathanaguilar.datareflix.Adaptadores.Adapter_solicitud;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_solicitud;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
+import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Ctl_solicitud {
@@ -25,9 +28,25 @@ public class Ctl_solicitud {
         this.dbref = dbref;
     }
 
-    public void crear_solicitud(Ob_solicitud obSolicitud){
+    public void crear_solicitud(String uid_user,Ob_solicitud obSolicitud){
 
-        dbref.child("solicitudes").setValue(obSolicitud);
+        dbref.child("usuarios").child(uid_user).child("solicitudes").push().setValue(obSolicitud);
+
+    }
+
+    public void eliminar_solicitud(String uid_user, String uid_solicitud){
+        dbref.child("usuarios").child(uid_user).child("solicitudes").child(uid_solicitud).removeValue();
+    }
+
+    public void update_solicitud(String uid_user, Ob_solicitud solicitud) {
+
+        if(solicitud.uid != null) {
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("motivo", solicitud.motivo);
+            datos.put("tipo", solicitud.tipo);
+            datos.put("estado", solicitud.estado);
+            dbref.child("usuarios").child(uid_user).child("solicitudes").child(solicitud.uid).updateChildren(datos);
+        }
 
     }
 
@@ -64,12 +83,14 @@ public class Ctl_solicitud {
                             if (snapshot.child("tipo").exists()) {
                                 solicitud.tipo = Objects.requireNonNull(snapshot.child("tipo").getValue()).toString();
                             }
-                            if (snapshot.child("mensaje").exists()) {
-                                solicitud.mensaje = Objects.requireNonNull(snapshot.child("mensaje").getValue()).toString();
+                            if (snapshot.child("motivo").exists()) {
+                                solicitud.motivo = Objects.requireNonNull(snapshot.child("motivo").getValue()).toString();
                             }
                             if (dataSnapshot.child("nombre").exists()) {
-                                solicitud.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
+                                solicitud.nombre_empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                             }
+
+                            solicitud.uid_empleado = dataSnapshot.getKey();
 
                             list_solicitud.AddSolicitud(solicitud);
                             contador++;

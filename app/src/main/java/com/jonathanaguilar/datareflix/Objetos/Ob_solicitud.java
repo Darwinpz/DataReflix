@@ -7,8 +7,9 @@ public class Ob_solicitud {
     public String fecha_respuesta;
     public String estado;
     public String tipo;
-    public String mensaje;
-    public String empleado;
+    public String motivo;
+    public String uid_empleado;
+    public String nombre_empleado;
     public Ob_solicitud(){
 
     }

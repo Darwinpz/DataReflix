@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.jonathanaguilar.datareflix.Holders.Holder_solicitud;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
+import com.jonathanaguilar.datareflix.Solicitudes.Det_solicitud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +52,21 @@ public class Adapter_solicitud extends RecyclerView.Adapter<Holder_solicitud> {
 
         if(Principal.rol.equals("Administrador")) {
             holder.card_empleado.setVisibility(View.VISIBLE);
-            holder.card_empleado.setText(list_solicitud.get(position).empleado);
+            holder.card_empleado.setText(list_solicitud.get(position).nombre_empleado);
         }else{
             holder.card_empleado.setVisibility(View.GONE);
             holder.card_empleado.setText("");
         }
+
+        holder.cardView.setOnClickListener(view -> {
+
+            Intent i = new Intent();
+            i.setClass(context, Det_solicitud.class);
+            i.putExtra("uid",list_solicitud.get(position).uid);
+            i.putExtra("uid_empleado",list_solicitud.get(position).uid_empleado);
+            context.startActivity(i);
+
+        });
 
     }
 

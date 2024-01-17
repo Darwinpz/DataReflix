@@ -43,6 +43,14 @@
         <item>Empleado</item>
     </string-array>
 
+    <string-array name="estado">
+        <item>Selecciona</item>
+        <item>Pendiente</item>
+        <item>Revisión</item>
+        <item>Aprobado</item>
+        <item>Rechazado</item>
+    </string-array>
+
     <string-array name="tipo_solicitud">
         <item>Selecciona</item>
         <item>Permiso Laboral</item>
