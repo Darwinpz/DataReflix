@@ -103,34 +103,40 @@ public class MainActivity extends AppCompatActivity {
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
 
-                    String id = preferences.getString("uid_biometric","");
+                    String id = preferences.getString("uid_biometric","").toString();
 
-                    databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!id.isEmpty()) {
 
-                            if(snapshot.exists()){
+                        databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                                if(preferences.getString("uid","").isEmpty()){
+                                if (snapshot.exists()) {
 
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                    editor.putString("uid", snapshot.getKey());
-                                    editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
-                                    editor.apply();
-                                    finish();
-                                    startActivity(new Intent(getBaseContext(), Principal.class));
+                                    if (preferences.getString("uid", "").isEmpty()) {
+
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.putString("uid", snapshot.getKey());
+                                        editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                        editor.apply();
+                                        finish();
+                                        startActivity(new Intent(getBaseContext(), Principal.class));
+
+                                    }
 
                                 }
 
                             }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
 
-                        }
-                    });
+                    }else{
+                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
