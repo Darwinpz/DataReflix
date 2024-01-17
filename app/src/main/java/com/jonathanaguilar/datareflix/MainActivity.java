@@ -102,7 +102,36 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-                    Login(preferences.getString("biometrico_user",""),preferences.getString("biometrico_password",""));
+
+                    String id = preferences.getString("uid_biometric","");
+
+                    databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            if(snapshot.exists()){
+
+                                if(preferences.getString("uid","").isEmpty()){
+
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("uid", snapshot.getKey());
+                                    editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                    editor.apply();
+                                    finish();
+                                    startActivity(new Intent(getBaseContext(), Principal.class));
+
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
 
                 @Override
@@ -159,10 +188,10 @@ public class MainActivity extends AppCompatActivity {
                                         SharedPreferences.Editor editor = preferences.edit();
 
                                         if(preferences.getString("uid_biometric","").isEmpty()){
+                                            dialog.ocultar_mensaje();
                                             alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
                                                 builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                                                    editor.putString("biometrico_user", usuario);
-                                                    editor.putString("biometrico_password", clave);
+                                                    editor.putString("uid_biometric", snapshot.getKey());
                                                     Toast.makeText(getApplicationContext(),"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
 
                                                 });
@@ -172,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                                             });
 
                                         }
+                                        dialog.mostrar_mensaje("Iniciando sesión...");
 
                                         editor.putString("uid", snapshot.getKey());
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
