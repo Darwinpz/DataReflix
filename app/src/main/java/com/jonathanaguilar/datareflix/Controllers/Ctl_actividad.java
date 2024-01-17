@@ -44,9 +44,9 @@ public class Ctl_actividad {
                     list_actividad.ClearActividad();
                     int contador = 0;
 
-                    if (dataSnapshot.child("solicitudes").exists()) {
+                    if (dataSnapshot.child("actividades").exists()) {
 
-                        for (DataSnapshot snapshot : dataSnapshot.child("solicitudes").getChildren()) {
+                        for (DataSnapshot snapshot : dataSnapshot.child("actividades").getChildren()) {
 
                             Ob_actividad actividad = new Ob_actividad();
                             actividad.uid = snapshot.getKey();
@@ -77,7 +77,7 @@ public class Ctl_actividad {
 
                     }
 
-                    txt_contador.setText(contador + " Solicitudes");
+                    txt_contador.setText(contador + " Actividades");
                     progressBar.setVisibility(View.GONE);
 
                     if (list_actividad.getItemCount() == 0) {

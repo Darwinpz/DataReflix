@@ -51,7 +51,7 @@ public class Ctl_marcacion {
 
                             for (DataSnapshot datos : snapshot.child("marcaciones").getChildren()) {
 
-                                if (datos.child("fecha").exists() && datos.child("hora").exists()) {
+                                if (datos.child("fecha_hora").exists()) {
 
                                     Ob_marcacion marcacion = new Ob_marcacion();
                                     marcacion.uid = snapshot.getKey();
@@ -114,7 +114,7 @@ public class Ctl_marcacion {
 
                         for (DataSnapshot snapshot : dataSnapshot.child("marcaciones").getChildren()) {
 
-                            if (snapshot.child("fecha").exists() && snapshot.child("hora").exists()) {
+                            if (snapshot.child("fecha_hora").exists()) {
 
                                 Ob_marcacion marcacion = new Ob_marcacion();
                                 marcacion.uid = snapshot.getKey();

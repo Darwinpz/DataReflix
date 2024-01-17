@@ -139,6 +139,8 @@ public class Det_solicitud extends AppCompatActivity {
                         }
                         if(snapshot.child("fecha_respuesta").exists()) {
                             fecha_respuesta.setText(Objects.requireNonNull(snapshot.child("fecha_respuesta").getValue()).toString());
+                        }else{
+                            fecha_respuesta.setText("-");
                         }
 
                         if(snapshot.child("motivo").exists()){

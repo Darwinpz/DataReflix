@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
     public Activity activity;
     Alert_dialog alertDialog;
     Button btn_ingresar_huella;
-    BiometricPrompt.PromptInfo promptInfo;
-    BiometricPrompt biometricPrompt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         btn_ingresar_huella.setOnClickListener(view -> {
 
             Executor executor = ContextCompat.getMainExecutor(this);
-            biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
+            BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
                 @Override
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
@@ -103,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
                     super.onAuthenticationSucceeded(result);
 
                     String uid_biometric = preferences.getString("uid_biometric","");
-                    Log.e("PRUEBA",uid_biometric);
 
                     if(!uid_biometric.isEmpty()) {
                         databaseReference.child("usuarios").child(uid_biometric).addValueEventListener(new ValueEventListener() {
@@ -146,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Verificación de Huella DataReflix")
+            BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Verificación DataReflix")
                     .setSubtitle("Ingresa tu huella para iniciar sesión")
                     .setNegativeButtonText("Cancelar")
                     .setConfirmationRequired(false)
