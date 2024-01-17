@@ -40,21 +40,12 @@
             >
 
             <TextView
-                android:id="@+id/card_fecha"
+                android:id="@+id/card_fecha_hora"
                 android:layout_marginEnd="5dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dd/mm/yyyy"
+                android:text="dd/mm/yyyy hh:mm:ss"
                 android:textSize="15sp"
-                />
-
-            <TextView
-                android:id="@+id/card_hora"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="hh:mm:ss"
-                android:textSize="15sp"
-                android:layout_weight="1"
                 />
 
         </LinearLayout>

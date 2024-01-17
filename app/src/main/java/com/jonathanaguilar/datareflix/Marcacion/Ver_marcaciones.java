@@ -24,7 +24,7 @@ public class Ver_marcaciones extends AppCompatActivity {
     ProgressBar progressBar;
     TextView txt_sinresultados, txt_contador, txt_nombre;
     Adapter_marcacion adapterMarcacion;
-    Ctl_marcacion ctlMarcacion;
+    public static Ctl_marcacion ctlMarcacion;
     CardView cardview_nombre;
     Button btn_add;
 

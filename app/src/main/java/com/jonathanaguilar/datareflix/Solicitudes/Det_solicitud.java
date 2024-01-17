@@ -12,15 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
-import com.jonathanaguilar.datareflix.Fragments.Fragment_Usuarios;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
-import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 

@@ -54,5 +54,9 @@ dependencies {
     implementation ("com.github.chrisbanes:PhotoView:2.1.3")
 
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-storage")
+
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
 }

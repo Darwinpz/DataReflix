@@ -55,8 +55,7 @@ public class Ctl_marcacion {
 
                                     Ob_marcacion marcacion = new Ob_marcacion();
                                     marcacion.uid = snapshot.getKey();
-                                    marcacion.fecha = Objects.requireNonNull(datos.child("fecha").getValue()).toString();
-                                    marcacion.hora = Objects.requireNonNull(datos.child("hora").getValue()).toString();
+                                    marcacion.fecha_hora = Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString();
                                     marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
 
                                     list_marcacion.AddMarcacion(marcacion);
@@ -119,8 +118,7 @@ public class Ctl_marcacion {
 
                                 Ob_marcacion marcacion = new Ob_marcacion();
                                 marcacion.uid = snapshot.getKey();
-                                marcacion.fecha = Objects.requireNonNull(snapshot.child("fecha").getValue()).toString();
-                                marcacion.hora = Objects.requireNonNull(snapshot.child("hora").getValue()).toString();
+                                marcacion.fecha_hora = Objects.requireNonNull(snapshot.child("fecha_hora").getValue()).toString();
                                 marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
 
                                 list_marcacion.AddMarcacion(marcacion);
