@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -161,7 +162,12 @@ public class Fragment_Perfil extends Fragment {
         btn_salir.setOnClickListener(view -> {
 
             dialog.mostrar_mensaje("Cerrando Sesión...");
-            MainActivity.preferences.edit().clear().apply();
+
+            SharedPreferences.Editor editor = MainActivity.preferences.edit();
+            editor.putString("uid", "");
+            editor.putString("rol", "");
+            editor.apply();
+            //MainActivity.preferences.edit().clear().apply();
             dialog.ocultar_mensaje();
 
             requireActivity().finish();

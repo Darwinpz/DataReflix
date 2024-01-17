@@ -58,20 +58,18 @@ public class MainActivity extends AppCompatActivity {
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
-                btn_ingresar_huella.setVisibility(View.VISIBLE);
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                if(preferences.getString("uid_biometric","").isEmpty()){
+                    btn_ingresar_huella.setVisibility(View.GONE);
+                }else{
+                    btn_ingresar_huella.setVisibility(View.VISIBLE);
+                }
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 btn_ingresar_huella.setVisibility(View.GONE);
                 break;
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 btn_ingresar_huella.setVisibility(View.GONE);
-                break;
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                if(preferences.getString("biometrico_user","").isEmpty()){
-                    btn_ingresar_huella.setVisibility(View.GONE);
-                }else{
-                    btn_ingresar_huella.setVisibility(View.VISIBLE);
-                }
                 break;
         }
 
@@ -104,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
 
-                    String id = preferences.getString("uid_biometric","");
+                    String uid_biometric = preferences.getString("uid_biometric","");
+                    Log.e("PRUEBA",uid_biometric);
 
-                    if(!id.isEmpty()) {
-                        databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+                    if(!uid_biometric.isEmpty()) {
+                        databaseReference.child("usuarios").child(uid_biometric).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -192,24 +191,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (preferences.getString("uid", "").isEmpty()) {
                                         SharedPreferences.Editor editor = preferences.edit();
-
-                                        if(preferences.getString("uid_biometric","").isEmpty()){
-                                            Log.e("PRUEBA","ENTRAAA");
-                                            dialog.ocultar_mensaje();
-                                            alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
-                                                builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                                                    editor.putString("uid_biometric", snapshot.getKey());
-                                                    Toast.makeText(getApplicationContext(),"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
-
-                                                });
-                                                builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
-                                                builder.setCancelable(false);
-                                                builder.create().show();
-                                            });
-
-                                        }
-                                        dialog.mostrar_mensaje("Iniciando sesión...");
-
                                         editor.putString("uid", snapshot.getKey());
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                         editor.apply();
