@@ -63,6 +63,9 @@ public class Ctl_marcacion {
                                 if (datos.child("tipo").exists()) {
                                     marcacion.tipo = Objects.requireNonNull(datos.child("tipo").getValue()).toString();
                                 }
+                                if (datos.child("estado").exists()) {
+                                    marcacion.estado = Objects.requireNonNull(datos.child("estado").getValue()).toString();
+                                }
                                 if (snapshot.child("nombre").exists()) {
                                     marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                                 }
@@ -129,6 +132,9 @@ public class Ctl_marcacion {
                             }
                             if (snapshot.child("tipo").exists()) {
                                 marcacion.tipo = Objects.requireNonNull(snapshot.child("tipo").getValue()).toString();
+                            }
+                            if (snapshot.child("estado").exists()) {
+                                marcacion.estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
                             }
                             if (dataSnapshot.child("nombre").exists()) {
                                 marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jonathanaguilar.datareflix.Holders.Holder_marcacion;
@@ -48,6 +49,19 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
 
         holder.card_fecha_hora.setText(list_marcacion.get(position).fecha_hora);
         holder.card_tipo.setText(list_marcacion.get(position).tipo);
+        holder.card_estado.setText(list_marcacion.get(position).estado);
+
+        switch (list_marcacion.get(position).estado.toLowerCase()){
+            case "asistencia":
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
+                break;
+            case "atraso":
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
+                break;
+            default:
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.proyecto_night));
+                break;
+        }
 
         if(Principal.rol.equals("Administrador")) {
             holder.card_empleado.setVisibility(View.VISIBLE);

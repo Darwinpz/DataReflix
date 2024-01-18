@@ -3,12 +3,11 @@ package com.jonathanaguilar.datareflix.Marcacion;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,14 +24,13 @@ import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
-import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
 
 import java.util.Objects;
 
 public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
-    TextView fecha_hora_marcacion, txt_nombre, tipo_marcacion;
+    TextView fecha_hora_marcacion, txt_nombre, tipo_marcacion, estado_marcacion;
     Button btn_del_marcacion;
     String uid = "", uid_empleado = "", empleado = "", fecha_hora;
     Alert_dialog alertDialog;
@@ -48,6 +46,7 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
         txt_nombre = findViewById(R.id.txt_nombre);
         tipo_marcacion = findViewById(R.id.tipo_marcacion);
+        estado_marcacion = findViewById(R.id.estado_marcacion);
         fecha_hora_marcacion = findViewById(R.id.fecha_hora_marcacion);
         btn_del_marcacion = findViewById(R.id.btn_del_marcacion);
 
@@ -125,7 +124,21 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
                     if(snapshot.child("tipo").exists()){
                         tipo_marcacion.setText(Objects.requireNonNull(snapshot.child("tipo").getValue()).toString());
                     }
+                    if(snapshot.child("estado").exists()){
+                        estado_marcacion.setText(Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
+                        switch (estado_marcacion.getText().toString().toLowerCase()){
+                            case "asistencia":
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.success));
+                                break;
+                            case "atraso":
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.danger));
+                                break;
+                            default:
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext() ,R.color.proyecto_night));
+                                break;
+                        }
 
+                    }
 
                 }
 

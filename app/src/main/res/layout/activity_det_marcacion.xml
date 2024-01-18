@@ -103,9 +103,11 @@
                 android:layout_marginRight="15dp">
 
                 <TextView
+                    android:id="@+id/estado_marcacion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Estado de GPS"
+                    android:text="Estado"
+                    android:textStyle="bold"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:padding="5dp">

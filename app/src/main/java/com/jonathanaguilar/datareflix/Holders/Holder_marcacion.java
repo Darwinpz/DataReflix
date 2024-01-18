@@ -12,7 +12,7 @@ import com.jonathanaguilar.datareflix.R;
 
 public class Holder_marcacion extends RecyclerView.ViewHolder{
 
-    public TextView card_fecha_hora, card_empleado, card_tipo;
+    public TextView card_fecha_hora, card_empleado, card_tipo,card_estado;
     public CardView cardView;
 
     public Holder_marcacion(@NonNull View itemView) {
@@ -20,6 +20,7 @@ public class Holder_marcacion extends RecyclerView.ViewHolder{
 
         card_fecha_hora = itemView.findViewById(R.id.card_fecha_hora);
         card_empleado = itemView.findViewById(R.id.card_empleado);
+        card_estado = itemView.findViewById(R.id.card_estado);
         card_tipo = itemView.findViewById(R.id.card_tipo);
         cardView =  itemView.findViewById(R.id.cardview_marcacion);
 
