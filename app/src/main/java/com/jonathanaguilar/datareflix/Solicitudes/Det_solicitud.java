@@ -58,8 +58,8 @@ public class Det_solicitud extends AppCompatActivity {
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
 
-        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid");
-        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado");
+        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado","");
 
         adapterspinner_tipo = ArrayAdapter.createFromResource(this, R.array.tipo_solicitud, android.R.layout.simple_spinner_item);
         adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -69,6 +69,7 @@ public class Det_solicitud extends AppCompatActivity {
         adapterspinner_estado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterspinner_estado);
 
+        assert uid != null;
         if(!uid.isEmpty() && !uid_empleado.isEmpty() ) {
 
             if(Principal.rol.equals("Administrador")){

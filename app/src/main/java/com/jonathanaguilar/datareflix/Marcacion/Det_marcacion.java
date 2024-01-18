@@ -53,11 +53,12 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
 
-        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid");
-        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado");
-        empleado = Objects.requireNonNull(getIntent().getExtras()).getString("empleado");
-        fecha_hora = Objects.requireNonNull(getIntent().getExtras()).getString("fecha_hora");
+        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado","");
+        empleado = Objects.requireNonNull(getIntent().getExtras()).getString("empleado","");
+        fecha_hora = Objects.requireNonNull(getIntent().getExtras()).getString("fecha_hora","");
 
+        assert uid!=null;
         if(!uid.isEmpty() && ! uid_empleado.isEmpty()) {
 
             initMap();

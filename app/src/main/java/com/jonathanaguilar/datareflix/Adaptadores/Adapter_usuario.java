@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -54,6 +55,22 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
         holder.card_cedula.setText(" C.I. "+list_usuario.get(position).cedula);
         holder.card_nombre.setText(list_usuario.get(position).nombre);
         holder.card_telefono.setText(list_usuario.get(position).telefono);
+        holder.card_estado.setText(list_usuario.get(position).estado);
+
+        if(list_usuario.get(position).estado!=null){
+            switch (list_usuario.get(position).estado.toLowerCase()){
+                case "activo":
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
+                    break;
+                case "inactivo":
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
+                    break;
+                default:
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.proyecto_night));
+                    break;
+            }
+        }
+
         holder.card_rol.setText(list_usuario.get(position).rol);
 
         if(list_usuario.get(position).url_foto != null){

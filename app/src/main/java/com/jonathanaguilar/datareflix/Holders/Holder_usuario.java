@@ -13,7 +13,7 @@ import com.jonathanaguilar.datareflix.R;
 
 public class Holder_usuario extends RecyclerView.ViewHolder{
 
-    public TextView card_cedula,card_nombre, card_telefono, card_rol;
+    public TextView card_cedula,card_nombre, card_telefono, card_rol, card_estado;
     public CardView cardView;
     public ImageView foto;
 
@@ -22,6 +22,7 @@ public class Holder_usuario extends RecyclerView.ViewHolder{
 
         card_cedula = itemView.findViewById(R.id.card_cedula);
         card_nombre = itemView.findViewById(R.id.card_nombre);
+        card_estado = itemView.findViewById(R.id.card_estado);
         card_telefono = itemView.findViewById(R.id.card_telefono);
         card_rol = itemView.findViewById(R.id.card_rol);
         foto = itemView.findViewById(R.id.card_foto);

@@ -21,6 +21,7 @@ import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -80,10 +81,16 @@ public class Add_actividad extends AppCompatActivity {
         hora_time_fin = String.format("%02d:%02d",dia.getHours()+1,dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
 
         cal_inicio.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year,month,dayOfMonth);
+            view.setDate(calendar.getTimeInMillis());
             fecha_cal_ini = view.getDate();
         });
 
         cal_fin.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year,month,dayOfMonth);
+            view.setDate(calendar.getTimeInMillis());
             fecha_cal_fin = view.getDate();
         });
 

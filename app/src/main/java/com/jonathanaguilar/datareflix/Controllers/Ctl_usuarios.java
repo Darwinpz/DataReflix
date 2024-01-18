@@ -44,6 +44,18 @@ public class Ctl_usuarios {
             datos.put("email", usuario.email.toLowerCase());
             datos.put("telefono", usuario.telefono);
             datos.put("rol", usuario.rol);
+            String estado = usuario.estado;
+            if(usuario.fecha_ini_contrato != null){
+                datos.put("fecha_ini_contrato", usuario.fecha_ini_contrato);
+            }
+            if(usuario.fecha_fin_contrato != null){
+                datos.put("fecha_fin_contrato", usuario.fecha_fin_contrato);
+                estado = "Inactivo";
+            }else{
+                estado = usuario.estado;
+            }
+            datos.put("estado", estado);
+
             dbref.child("usuarios").child(usuario.uid).updateChildren(datos);
         }
 
@@ -73,6 +85,9 @@ public class Ctl_usuarios {
 
                             if (snapshot.child("cedula").exists()) {
                                 usuario.cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
+                            }
+                            if (snapshot.child("estado").exists()) {
+                                usuario.estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
                             }
                             if (snapshot.child("nombre").exists()) {
                                 usuario.nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();

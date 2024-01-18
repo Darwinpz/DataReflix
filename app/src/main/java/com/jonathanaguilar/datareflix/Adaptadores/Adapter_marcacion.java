@@ -51,16 +51,18 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
         holder.card_tipo.setText(list_marcacion.get(position).tipo);
         holder.card_estado.setText(list_marcacion.get(position).estado);
 
-        switch (list_marcacion.get(position).estado.toLowerCase()){
-            case "asistencia":
-                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
-                break;
-            case "atraso":
-                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
-                break;
-            default:
-                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.proyecto_night));
-                break;
+        if(list_marcacion.get(position).estado!=null){
+            switch (list_marcacion.get(position).estado.toLowerCase()){
+                case "asistencia":
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
+                    break;
+                case "atraso":
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
+                    break;
+                default:
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.proyecto_night));
+                    break;
+            }
         }
 
         if(Principal.rol.equals("Administrador")) {

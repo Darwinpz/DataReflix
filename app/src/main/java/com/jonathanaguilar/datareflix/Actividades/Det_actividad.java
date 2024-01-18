@@ -26,6 +26,7 @@ import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -66,10 +67,10 @@ public class Det_actividad extends AppCompatActivity {
         btn_edit_actividad = findViewById(R.id.btn_edit_actividad);
         btn_del_actividad = findViewById(R.id.btn_del_actividad);
 
-        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid");
-        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado");
-        ced_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("ced_empleado");
-        nom_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("nom_empleado");
+        uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
+        uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado","");
+        ced_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("ced_empleado","");
+        nom_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("nom_empleado","");
 
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
@@ -78,11 +79,19 @@ public class Det_actividad extends AppCompatActivity {
         adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_tipo.setAdapter(adapterspinner_tipo);
 
-        adapterspinner_estado = ArrayAdapter.createFromResource(this, R.array.estado, android.R.layout.simple_spinner_item);
+        adapterspinner_estado = ArrayAdapter.createFromResource(this, R.array.estado_actividad, android.R.layout.simple_spinner_item);
         adapterspinner_estado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterspinner_estado);
 
+        Date dia = new Date();
 
+        fecha_cal_ini = dia.getTime();
+        fecha_cal_fin = dia.getTime();
+
+        hora_time_inicio = String.format("%02d:%02d",dia.getHours(),dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
+        hora_time_fin = String.format("%02d:%02d",dia.getHours()+1,dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
+
+        assert uid !=null;
         if(!uid.isEmpty() && !uid_empleado.isEmpty()) {
 
             card_cedula.setText(ced_empleado);
@@ -111,6 +120,7 @@ public class Det_actividad extends AppCompatActivity {
                 time_fin.setEnabled(false);
 
             }
+
 
             btn_del_actividad.setOnClickListener(view -> {
 
@@ -149,7 +159,7 @@ public class Det_actividad extends AppCompatActivity {
                     dialog.ocultar_mensaje();
                     alertDialog.crear_mensaje("Correcto", "Actividad Actualizada Correctamente", builder -> {
                         builder.setCancelable(false);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                         builder.create().show();
                     });
 
@@ -189,7 +199,7 @@ public class Det_actividad extends AppCompatActivity {
                             Calendar calendar2 = Calendar.getInstance();
                             calendar2.set(anio2,mes2,dia2);
                             cal_fin.setDate(calendar2.getTimeInMillis());
-                            cal_fin.setMinDate(calendar2.getTimeInMillis());
+                            cal_fin.setMinDate(cal_inicio.getMinDate());
                             fecha_cal_fin = calendar2.getTimeInMillis();
                         }
 
@@ -248,10 +258,16 @@ public class Det_actividad extends AppCompatActivity {
             });
 
             cal_inicio.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year,month,dayOfMonth);
+                view.setDate(calendar.getTimeInMillis());
                 fecha_cal_ini = view.getDate();
             });
 
             cal_fin.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year,month,dayOfMonth);
+                view.setDate(calendar.getTimeInMillis());
                 fecha_cal_fin = view.getDate();
             });
 

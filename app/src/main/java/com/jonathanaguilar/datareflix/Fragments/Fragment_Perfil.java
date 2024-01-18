@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +35,7 @@ import java.util.Objects;
 public class Fragment_Perfil extends Fragment {
 
     Button btn_salir, btn_update_profile;
-    TextView txt_nombre, txt_cedula, txt_rol;
+    TextView txt_nombre, txt_cedula,txt_estado, txt_rol, cant_marcaciones, cant_solicitudes, txtfecha_ini_contrato,txtfecha_fin_contrato;
     EditText editTextEmail, editTextTextPhone;
     Progress_dialog dialog;
     ImageView img_perfil;
@@ -49,6 +50,7 @@ public class Fragment_Perfil extends Fragment {
 
         txt_nombre = vista.findViewById(R.id.txt_nombre);
         txt_cedula = vista.findViewById(R.id.txt_cedula);
+        txt_estado = vista.findViewById(R.id.txt_estado);
         txt_rol = vista.findViewById(R.id.txt_rol);
         editTextEmail = vista.findViewById(R.id.editTextTextEmailAddress);
         editTextTextPhone = vista.findViewById(R.id.editTextTextPhone);
@@ -56,6 +58,11 @@ public class Fragment_Perfil extends Fragment {
         img_perfil = vista.findViewById(R.id.img_perfil);
         dialog = new Progress_dialog(vista.getContext());
         alertDialog = new Alert_dialog(vista.getContext());
+
+        cant_marcaciones = vista.findViewById(R.id.cant_marcaciones);
+        cant_solicitudes = vista.findViewById(R.id.cant_solicitudes);
+        txtfecha_ini_contrato = vista.findViewById(R.id.txtfecha_ini_contrato);
+        txtfecha_fin_contrato = vista.findViewById(R.id.txtfecha_fin_contrato);
 
         btn_update_profile = vista.findViewById(R.id.btn_update_profile);
 
@@ -100,6 +107,20 @@ public class Fragment_Perfil extends Fragment {
                         if(snapshot.child("cedula").exists()) {
                             txt_cedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
                         }
+                        if(snapshot.child("estado").exists()) {
+                            txt_estado.setText(Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
+                            switch (txt_estado.getText().toString().toLowerCase()){
+                                case "activo":
+                                    txt_estado.setTextColor(ContextCompat.getColor(vista.getContext(),R.color.success));
+                                    break;
+                                case "inactivo":
+                                    txt_estado.setTextColor(ContextCompat.getColor(vista.getContext(),R.color.danger));
+                                    break;
+                                default:
+                                    txt_estado.setTextColor(ContextCompat.getColor(vista.getContext(),R.color.proyecto_night));
+                                    break;
+                            }
+                        }
                         if(snapshot.child("nombre").exists()) {
                             NOMBRE = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                             txt_nombre.setText(NOMBRE);
@@ -117,6 +138,20 @@ public class Fragment_Perfil extends Fragment {
                             editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString());
                         }
 
+                        if(snapshot.child("fecha_ini_contrato").exists()){
+                            txtfecha_ini_contrato.setText(Objects.requireNonNull(snapshot.child("fecha_ini_contrato").getValue()).toString());
+                        }
+                        if(snapshot.child("fecha_fin_contrato").exists()){
+                            txtfecha_fin_contrato.setText(Objects.requireNonNull(snapshot.child("fecha_fin_contrato").getValue()).toString());
+                        }
+
+                        if(snapshot.child("solicitudes").exists()){
+                            cant_solicitudes.setText(snapshot.child("solicitudes").getChildrenCount()+" Solicitudes");
+                        }
+                        if(snapshot.child("marcaciones").exists()){
+                            cant_marcaciones.setText(snapshot.child("marcaciones").getChildrenCount()+" Marcaciones");
+                        }
+
                     }
 
                 }
@@ -132,7 +167,7 @@ public class Fragment_Perfil extends Fragment {
 
             alertDialog.crear_mensaje("Información", "Selecciona una opción", builder -> {
 
-                if(URL_FOTO != null) {
+                if(!URL_FOTO.isEmpty()) {
 
                     builder.setPositiveButton("Ver Foto", (dialogInterface, i) -> {
 

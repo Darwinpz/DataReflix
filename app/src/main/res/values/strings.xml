@@ -51,6 +51,19 @@
         <item>Rechazado</item>
     </string-array>
 
+    <string-array name="estado_actividad">
+        <item>Selecciona</item>
+        <item>Pendiente</item>
+        <item>Revisión</item>
+        <item>Finalizado</item>
+    </string-array>
+
+    <string-array name="estado_user">
+        <item>Selecciona</item>
+        <item>Activo</item>
+        <item>Inactivo</item>
+    </string-array>
+
     <string-array name="tipo_marcacion">
         <item>Selecciona</item>
         <item>Inicio de Jornada</item>
