@@ -170,7 +170,6 @@ public class Fragment_Perfil extends Fragment {
             //MainActivity.preferences.edit().clear().apply();
             dialog.ocultar_mensaje();
 
-            requireActivity().finish();
             startActivity(new Intent(vista.getContext(), MainActivity.class));
 
         });

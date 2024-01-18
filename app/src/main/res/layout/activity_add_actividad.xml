@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:ems="10"
-                        android:hint="Ingrese el motivo de la solicitud"
+                        android:hint="Ingrese el detalle de la actividad"
                         android:inputType="textMultiLine"
                         android:textSize="15sp"
                         tools:ignore="TextFields" />

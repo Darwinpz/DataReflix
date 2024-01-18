@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -111,17 +112,26 @@ public class Principal extends AppCompatActivity {
             });
 
 
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_schedules, R.id.nav_users , R.id.nav_profile)
-                    .setOpenableLayout(drawer)
-                    .build();
+            if(rol.equals("Administrador")){
+
+                mAppBarConfiguration = new AppBarConfiguration.Builder(
+                        R.id.nav_home, R.id.nav_schedules, R.id.nav_users , R.id.nav_profile)
+                        .setOpenableLayout(drawer)
+                        .build();
+            }else{
+                mAppBarConfiguration = new AppBarConfiguration.Builder(
+                        R.id.nav_home, R.id.nav_profile)
+                        .setOpenableLayout(drawer)
+                        .build();
+                binding.navView.getMenu().findItem(R.id.nav_schedules).setVisible(false);
+                binding.navView.getMenu().findItem(R.id.nav_users).setVisible(false);
+            }
 
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_principal);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
 
         }else{
-            MainActivity.preferences.edit().clear().apply();
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }

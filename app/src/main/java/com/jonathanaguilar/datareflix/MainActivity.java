@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.mostrar_mensaje("Iniciando sesión...");
 
-        if (!usuario.isEmpty()&&!clave.isEmpty()) {
+        if (!usuario.isEmpty() && !clave.isEmpty()) {
             databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot datasnapshot) {
@@ -193,9 +193,10 @@ public class MainActivity extends AppCompatActivity {
                                         editor.apply();
                                         dialog.ocultar_mensaje();
                                         finish();
-                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                        startActivity(new Intent(getApplicationContext(), Principal.class));
 
                                     }
+                                    break;
                                 }
                             }
                         }
@@ -239,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty()) {
             finish();
-            startActivity(new Intent(getBaseContext(), Principal.class));
+            startActivity(new Intent(getApplicationContext(), Principal.class));
         }
 
     }
