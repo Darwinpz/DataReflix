@@ -31,6 +31,10 @@ public class Ctl_marcacion {
 
     }
 
+    public void eliminar_marcacion(String uid_user, String uid_marcacion){
+        dbref.child("usuarios").child(uid_user).child("marcaciones").child(uid_marcacion).removeValue();
+    }
+
     public void VerMarcaciones(Adapter_marcacion list_marcacion, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
@@ -51,17 +55,18 @@ public class Ctl_marcacion {
 
                             for (DataSnapshot datos : snapshot.child("marcaciones").getChildren()) {
 
+                                Ob_marcacion marcacion = new Ob_marcacion();
+                                marcacion.uid = datos.getKey();
                                 if (datos.child("fecha_hora").exists()) {
-
-                                    Ob_marcacion marcacion = new Ob_marcacion();
-                                    marcacion.uid = snapshot.getKey();
                                     marcacion.fecha_hora = Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString();
-                                    marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
-
-                                    list_marcacion.AddMarcacion(marcacion);
-                                    contador++;
-
                                 }
+                                if (snapshot.child("nombre").exists()) {
+                                    marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                                }
+                                marcacion.uid_empleado = snapshot.getKey();
+
+                                list_marcacion.AddMarcacion(marcacion);
+                                contador++;
                             }
                         }
 
@@ -114,17 +119,19 @@ public class Ctl_marcacion {
 
                         for (DataSnapshot snapshot : dataSnapshot.child("marcaciones").getChildren()) {
 
+                            Ob_marcacion marcacion = new Ob_marcacion();
+                            marcacion.uid = snapshot.getKey();
                             if (snapshot.child("fecha_hora").exists()) {
-
-                                Ob_marcacion marcacion = new Ob_marcacion();
-                                marcacion.uid = snapshot.getKey();
                                 marcacion.fecha_hora = Objects.requireNonNull(snapshot.child("fecha_hora").getValue()).toString();
-                                marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
-
-                                list_marcacion.AddMarcacion(marcacion);
-                                contador++;
-
                             }
+                            if (dataSnapshot.child("nombre").exists()) {
+                                marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
+                            }
+                            marcacion.uid_empleado = dataSnapshot.getKey();
+
+                            list_marcacion.AddMarcacion(marcacion);
+                            contador++;
+
                         }
 
                     }

@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jonathanaguilar.datareflix.Holders.Holder_marcacion;
+import com.jonathanaguilar.datareflix.Marcacion.Det_marcacion;
 import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
@@ -53,6 +55,18 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
             holder.card_empleado.setVisibility(View.GONE);
             holder.card_empleado.setText("");
         }
+
+        holder.cardView.setOnClickListener(view -> {
+            Intent i = new Intent();
+            i.setClass(context, Det_marcacion.class);
+            i.putExtra("uid",list_marcacion.get(position).uid);
+            i.putExtra("uid_empleado",list_marcacion.get(position).uid_empleado);
+            i.putExtra("empleado",list_marcacion.get(position).empleado);
+            i.putExtra("fecha_hora",list_marcacion.get(position).fecha_hora);
+            context.startActivity(i);
+
+
+        });
 
     }
 

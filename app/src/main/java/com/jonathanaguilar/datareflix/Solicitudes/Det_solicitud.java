@@ -21,6 +21,9 @@ import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Det_solicitud extends AppCompatActivity {
@@ -102,11 +105,20 @@ public class Det_solicitud extends AppCompatActivity {
 
                 if(!editTextMotivo.getText().toString().isEmpty() && !spinner_tipo.getSelectedItem().toString().equals("Selecciona") && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
+                    Date dia = new Date();
+                    String hora = String.format("%02d:%02d", dia.getHours(), dia.getMinutes())+ " "+ ((dia.getHours()<12) ? "am":"pm");
+
                     Ob_solicitud solicitud = new Ob_solicitud();
                     solicitud.uid = uid;
                     solicitud.motivo = editTextMotivo.getText().toString();
                     solicitud.tipo = spinner_tipo.getSelectedItem().toString();
                     solicitud.estado = spinner_estado.getSelectedItem().toString();
+
+                    if(solicitud.estado.equals("Aprobado") || solicitud.estado.equals("Rechazado")){
+                        solicitud.fecha_respuesta = (new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dia.getTime())) + " - "+ hora;
+                    }else{
+                        solicitud.fecha_respuesta = "";
+                    }
 
                     Ver_solicitudes.ctlSolicitud.update_solicitud(uid_empleado,solicitud);
 
