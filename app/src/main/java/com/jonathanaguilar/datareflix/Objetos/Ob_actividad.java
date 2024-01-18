@@ -10,7 +10,8 @@ public class Ob_actividad {
     public String estado;
     public String tipo;
     public String mensaje;
-
+    public String uid_empleado;
+    public String ced_empleado;
     public String empleado;
     public Ob_actividad(){
 

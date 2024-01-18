@@ -74,8 +74,10 @@ public class Add_actividad extends AppCompatActivity {
         cal_fin.setMinDate(dia.getTime());
 
         fecha_cal_ini = dia.getTime();
+        fecha_cal_fin = dia.getTime();
+
         hora_time_inicio = String.format("%02d:%02d",dia.getHours(),dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
-        hora_time_fin = String.format("%02d:%02d",dia.getHours(),dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
+        hora_time_fin = String.format("%02d:%02d",dia.getHours()+1,dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
 
         cal_inicio.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             fecha_cal_ini = view.getDate();

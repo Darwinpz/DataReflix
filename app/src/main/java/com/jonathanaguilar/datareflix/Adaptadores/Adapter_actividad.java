@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jonathanaguilar.datareflix.Actividades.Det_actividad;
 import com.jonathanaguilar.datareflix.Holders.Holder_actividad;
 import com.jonathanaguilar.datareflix.Objetos.Ob_actividad;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
+import com.jonathanaguilar.datareflix.Solicitudes.Det_solicitud;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +74,18 @@ public class Adapter_actividad extends RecyclerView.Adapter<Holder_actividad> {
             holder.card_empleado.setVisibility(View.GONE);
             holder.card_empleado.setText("");
         }
+
+        holder.cardView.setOnClickListener(view -> {
+
+            Intent i = new Intent();
+            i.setClass(context, Det_actividad.class);
+            i.putExtra("uid",list_actividad.get(position).uid);
+            i.putExtra("uid_empleado",list_actividad.get(position).uid_empleado);
+            i.putExtra("ced_empleado",list_actividad.get(position).ced_empleado);
+            i.putExtra("nom_empleado",list_actividad.get(position).empleado);
+            context.startActivity(i);
+
+        });
 
     }
 
