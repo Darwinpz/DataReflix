@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jonathanaguilar.datareflix.Holders.Holder_actividad;
@@ -47,6 +48,21 @@ public class Adapter_actividad extends RecyclerView.Adapter<Holder_actividad> {
         holder.card_fecha.setText(list_actividad.get(position).fecha_inicio);
         holder.card_tipo.setText(list_actividad.get(position).tipo);
         holder.card_estado.setText(list_actividad.get(position).estado);
+
+        switch (list_actividad.get(position).estado.toLowerCase()){
+            case "pendiente":
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.warning));
+                break;
+            case "aprobado":
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
+                break;
+            case "rechazado":
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
+                break;
+            default:
+                holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.proyecto_night));
+                break;
+        }
 
         if(Principal.rol.equals("Administrador")) {
             holder.card_empleado.setVisibility(View.VISIBLE);

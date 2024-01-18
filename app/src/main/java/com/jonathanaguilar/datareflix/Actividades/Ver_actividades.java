@@ -24,7 +24,7 @@ public class Ver_actividades extends AppCompatActivity {
     ProgressBar progressBar;
     TextView txt_sinresultados, txt_contador, txt_nombre;
     Adapter_actividad adapterActividad;
-    Ctl_actividad ctlActividad;
+    public static Ctl_actividad ctlActividad;
     CardView cardview_nombre;
     Button btn_add;
 

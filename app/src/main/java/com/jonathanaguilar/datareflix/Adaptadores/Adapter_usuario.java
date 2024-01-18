@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.jonathanaguilar.datareflix.Actividades.Add_actividad;
+import com.jonathanaguilar.datareflix.Fragments.Dialog_Fragment_Usuarios;
 import com.jonathanaguilar.datareflix.Holders.Holder_usuario;
 import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.R;
@@ -62,10 +64,21 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
 
         holder.cardView.setOnClickListener(view -> {
 
-            Intent i = new Intent();
-            i.setClass(context, Det_usuario.class);
-            i.putExtra("uid",list_usuario.get(position).uid);
-            context.startActivity(i);
+            if(Dialog_Fragment_Usuarios.dialogFragment != null){
+
+                Add_actividad.card_cedula.setText(list_usuario.get(position).cedula);
+                Add_actividad.card_nombre.setText(list_usuario.get(position).nombre);
+                Add_actividad.UID_EMPLEADO = list_usuario.get(position).uid;
+                Dialog_Fragment_Usuarios.dialogFragment.dismiss();
+
+            }else{
+
+                Intent i = new Intent();
+                i.setClass(context, Det_usuario.class);
+                i.putExtra("uid",list_usuario.get(position).uid);
+                context.startActivity(i);
+
+            }
 
         });
 

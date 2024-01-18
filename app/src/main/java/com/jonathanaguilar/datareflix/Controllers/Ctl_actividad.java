@@ -24,11 +24,12 @@ public class Ctl_actividad {
     }
 
 
-    public void crear_actividad(Ob_actividad obActividad){
+    public void crear_actividad(String uid_user, Ob_actividad obActividad){
 
-        dbref.child("actividades").setValue(obActividad);
+        dbref.child("usuarios").child(uid_user).child("actividades").push().setValue(obActividad);
 
     }
+
 
     public void Ver_my_Actividades(Adapter_actividad list_actividad, String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
