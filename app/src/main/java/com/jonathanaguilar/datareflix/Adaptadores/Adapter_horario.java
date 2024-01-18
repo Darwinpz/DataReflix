@@ -1,7 +1,6 @@
 package com.jonathanaguilar.datareflix.Adaptadores;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jonathanaguilar.datareflix.Fragments.Fragment_Horario;
 import com.jonathanaguilar.datareflix.Holders.Holder_horario;
-import com.jonathanaguilar.datareflix.Marcacion.Det_marcacion;
-import com.jonathanaguilar.datareflix.Marcacion.Ver_marcaciones;
 import com.jonathanaguilar.datareflix.Objetos.Ob_horario;
-import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
-import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +44,8 @@ public class Adapter_horario extends RecyclerView.Adapter<Holder_horario> {
     @Override
     public void onBindViewHolder(@NonNull Holder_horario holder, int position) {
 
-        holder.card_fecha_hora_inicio.setText(list_horario.get(position).fecha_inicio + " - "+ list_horario.get(position).hora_inicio);
-        holder.card_fecha_hora_fin.setText(list_horario.get(position).fecha_fin+ " - "+ list_horario.get(position).hora_fin );
+        holder.card_fecha_hora_inicio.setText(list_horario.get(position).fecha + " - "+ list_horario.get(position).hora_inicio);
+        holder.card_fecha_hora_fin.setText(list_horario.get(position).fecha+ " - "+ list_horario.get(position).hora_fin );
 
         holder.cardView.setOnLongClickListener(view -> {
 

@@ -63,7 +63,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -100,22 +101,6 @@
                         >
 
                     </TimePicker>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Fecha de Fin:"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="5dp"
-                        />
-
-                    <CalendarView
-                        android:id="@+id/fecha_fin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
-
-                    </CalendarView>
 
                     <TextView
                         android:layout_width="match_parent"

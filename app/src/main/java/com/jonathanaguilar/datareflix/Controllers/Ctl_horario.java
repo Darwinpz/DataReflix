@@ -52,11 +52,8 @@ public class Ctl_horario {
 
                         Ob_horario horario = new Ob_horario();
                         horario.uid = snapshot.getKey();
-                        if (snapshot.child("fecha_inicio").exists()) {
-                            horario.fecha_inicio = Objects.requireNonNull(snapshot.child("fecha_inicio").getValue()).toString();
-                        }
-                        if (snapshot.child("fecha_fin").exists()) {
-                            horario.fecha_fin = Objects.requireNonNull(snapshot.child("fecha_fin").getValue()).toString();
+                        if (snapshot.child("fecha").exists()) {
+                            horario.fecha = Objects.requireNonNull(snapshot.child("fecha").getValue()).toString();
                         }
                         if (snapshot.child("hora_inicio").exists()) {
                             horario.hora_inicio = Objects.requireNonNull(snapshot.child("hora_inicio").getValue()).toString();

@@ -23,11 +23,11 @@ import java.util.Locale;
 
 public class Add_horario extends AppCompatActivity {
 
-    CalendarView cal_inicio, cal_fin;
+    CalendarView cal_inicio;
     TimePicker time_inicio, time_fin;
     Alert_dialog alertDialog;
     Progress_dialog dialog;
-    long fecha_cal_ini, fecha_cal_fin;
+    long fecha_cal_ini;
     String hora_time_inicio, hora_time_fin;
     Button btn_add_horario;
     @Override
@@ -41,7 +41,6 @@ public class Add_horario extends AppCompatActivity {
         btn_add_horario = findViewById(R.id.btn_add_horario);
 
         cal_inicio = findViewById(R.id.fecha_inicio);
-        cal_fin = findViewById(R.id.fecha_fin);
         time_inicio = findViewById(R.id.hora_inicio);
         time_fin = findViewById(R.id.hora_fin);
 
@@ -50,17 +49,12 @@ public class Add_horario extends AppCompatActivity {
 
         Date dia = new Date();
         fecha_cal_ini = dia.getTime();
-        fecha_cal_fin = dia.getTime();
 
         hora_time_inicio = String.format("%02d:%02d",dia.getHours(),dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
         hora_time_fin = String.format("%02d:%02d",dia.getHours()+1,dia.getMinutes()) + " "+ ((dia.getHours()<12) ? "am":"pm");
 
         cal_inicio.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             fecha_cal_ini = view.getDate();
-        });
-
-        cal_fin.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            fecha_cal_fin = view.getDate();
         });
 
         time_inicio.setOnTimeChangedListener((view, hourOfDay, minute) -> {
@@ -77,15 +71,14 @@ public class Add_horario extends AppCompatActivity {
             dialog.mostrar_mensaje("Creando Horario...");
 
             Ob_horario obHorario = new Ob_horario();
-            obHorario.fecha_inicio = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
-            obHorario.fecha_fin = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_fin);
+            obHorario.fecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
             obHorario.hora_inicio = hora_time_inicio;
             obHorario.hora_fin = hora_time_fin;
 
             Fragment_Horario.ctlHorario.crear_horario(obHorario);
 
             dialog.ocultar_mensaje();
-            alertDialog.crear_mensaje("Correcto", "Actividad Creada Correctamente", builder -> {
+            alertDialog.crear_mensaje("Correcto", "Horario Creado Correctamente", builder -> {
                 builder.setCancelable(false);
                 builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
                 builder.create().show();

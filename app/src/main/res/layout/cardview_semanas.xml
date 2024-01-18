@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:id="@+id/cardview_semanas"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/card_fecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy "
+            android:textSize="15sp"
+            android:layout_weight="1"
+            android:textStyle="italic|bold"
+            android:textColor="@color/proyecto_night"
+            />
+
+        <TextView
+            android:id="@+id/card_horas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hh:mm:ss - hh:mm:ss"
+            android:gravity="end"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
