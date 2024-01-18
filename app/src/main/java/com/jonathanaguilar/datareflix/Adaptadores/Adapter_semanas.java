@@ -44,7 +44,13 @@ public class Adapter_semanas extends RecyclerView.Adapter<Holder_semanas> {
     public void onBindViewHolder(@NonNull Holder_semanas holder, int position) {
 
         holder.card_fecha.setText(list_semana.get(position).fecha);
-        holder.card_horas.setText(list_semana.get(position).hora_inicio+ " - "+ list_semana.get(position).hora_fin);
+
+        if(list_semana.get(position).hora_inicio !=null && list_semana.get(position).hora_fin !=null ){
+            holder.card_horas.setText(list_semana.get(position).hora_inicio+ " - "+ list_semana.get(position).hora_fin);
+        }else{
+            holder.card_horas.setText("No Programado");
+        }
+
 
     }
 
