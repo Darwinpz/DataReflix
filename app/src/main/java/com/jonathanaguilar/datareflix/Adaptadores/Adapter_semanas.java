@@ -60,5 +60,7 @@ public class Adapter_semanas extends RecyclerView.Adapter<Holder_semanas> {
     }
 
 
-
+    public Ob_semana getSemana(int position) {
+        return list_semana.get(position);
+    }
 }
