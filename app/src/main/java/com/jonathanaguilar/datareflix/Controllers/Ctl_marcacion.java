@@ -60,6 +60,9 @@ public class Ctl_marcacion {
                                 if (datos.child("fecha_hora").exists()) {
                                     marcacion.fecha_hora = Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString();
                                 }
+                                if (datos.child("tipo").exists()) {
+                                    marcacion.tipo = Objects.requireNonNull(datos.child("tipo").getValue()).toString();
+                                }
                                 if (snapshot.child("nombre").exists()) {
                                     marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                                 }
@@ -123,6 +126,9 @@ public class Ctl_marcacion {
                             marcacion.uid = snapshot.getKey();
                             if (snapshot.child("fecha_hora").exists()) {
                                 marcacion.fecha_hora = Objects.requireNonNull(snapshot.child("fecha_hora").getValue()).toString();
+                            }
+                            if (snapshot.child("tipo").exists()) {
+                                marcacion.tipo = Objects.requireNonNull(snapshot.child("tipo").getValue()).toString();
                             }
                             if (dataSnapshot.child("nombre").exists()) {
                                 marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();

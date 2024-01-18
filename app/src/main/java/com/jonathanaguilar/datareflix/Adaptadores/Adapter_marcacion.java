@@ -47,6 +47,7 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
     public void onBindViewHolder(@NonNull Holder_marcacion holder, int position) {
 
         holder.card_fecha_hora.setText(list_marcacion.get(position).fecha_hora);
+        holder.card_tipo.setText(list_marcacion.get(position).tipo);
 
         if(Principal.rol.equals("Administrador")) {
             holder.card_empleado.setVisibility(View.VISIBLE);

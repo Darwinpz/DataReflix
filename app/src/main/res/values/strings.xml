@@ -51,6 +51,14 @@
         <item>Rechazado</item>
     </string-array>
 
+    <string-array name="tipo_marcacion">
+        <item>Selecciona</item>
+        <item>Inicio de Jornada</item>
+        <item>Inicio de Almuerzo</item>
+        <item>Fin de Almuerzo</item>
+        <item>Fin de Jornada</item>
+    </string-array>
+
     <string-array name="tipo_solicitud">
         <item>Selecciona</item>
         <item>Permiso Laboral</item>

@@ -25,6 +25,16 @@
             />
 
         <TextView
+            android:id="@+id/card_tipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tipo"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/proyecto_night"
+            />
+
+        <TextView
             android:id="@+id/card_empleado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

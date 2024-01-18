@@ -20,7 +20,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -61,7 +63,8 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     Progress_dialog dialog;
     Button btn_marcar_manual;
     Button btn_marcar_huella;
-
+    ArrayAdapter<CharSequence> adapterspinner_tipo;
+    Spinner spinner_tipo;
     String uid_biometric = MainActivity.preferences.getString("uid_biometric","");
 
     @Override
@@ -77,6 +80,11 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
         btn_marcar_manual.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
         btn_marcar_huella.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+
+        spinner_tipo = findViewById(R.id.spinner_tipo);
+        adapterspinner_tipo = ArrayAdapter.createFromResource(this, R.array.tipo_marcacion, android.R.layout.simple_spinner_item);
+        adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_tipo.setAdapter(adapterspinner_tipo);
 
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
@@ -260,19 +268,31 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                             dialog.mostrar_mensaje("Guardando Marcación...");
 
-                            Ob_marcacion marcacion = new Ob_marcacion();
-                            marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-                            marcacion.latitud = LATITUD;
-                            marcacion.longitud =  LONGITUD;
+                            if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
 
-                            Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
+                                Ob_marcacion marcacion = new Ob_marcacion();
+                                marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                                marcacion.latitud = LATITUD;
+                                marcacion.longitud =  LONGITUD;
+                                marcacion.tipo = spinner_tipo.getSelectedItem().toString();
 
-                            dialog.ocultar_mensaje();
-                            alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
-                                builder.setCancelable(false);
-                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                                builder.create().show();
-                            });
+                                Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
+
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
+                                    builder.setCancelable(false);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                                    builder.create().show();
+                                });
+
+                            }else{
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
+                                    builder.setCancelable(true);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                                    builder.create().show();
+                                });
+                            }
 
                         });
 
@@ -310,19 +330,29 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                                         dialog.mostrar_mensaje("Guardando Marcación...");
 
-                                        Ob_marcacion marcacion = new Ob_marcacion();
-                                        marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-                                        marcacion.latitud = LATITUD;
-                                        marcacion.longitud =  LONGITUD;
+                                        if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
+                                            Ob_marcacion marcacion = new Ob_marcacion();
+                                            marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                                            marcacion.latitud = LATITUD;
+                                            marcacion.longitud =  LONGITUD;
+                                            marcacion.tipo = spinner_tipo.getSelectedItem().toString();
 
-                                        Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
+                                            Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
 
-                                        dialog.ocultar_mensaje();
-                                        alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
-                                            builder.setCancelable(false);
-                                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                                            builder.create().show();
-                                        });
+                                            dialog.ocultar_mensaje();
+                                            alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
+                                                builder.setCancelable(false);
+                                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                                                builder.create().show();
+                                            });
+                                        }else{
+                                            dialog.ocultar_mensaje();
+                                            alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
+                                                builder.setCancelable(true);
+                                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                                                builder.create().show();
+                                            });
+                                        }
 
                                     }else{
                                         Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();

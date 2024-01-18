@@ -143,6 +143,22 @@
                         android:layout_marginBottom="5dp"
                         />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tipo de marcación:"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tipo_marcacion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="-"
+                        android:layout_marginBottom="5dp"
+                        />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

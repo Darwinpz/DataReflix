@@ -6,7 +6,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,11 +32,12 @@ import java.util.Objects;
 public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
-    TextView fecha_hora_marcacion, txt_nombre;
+    TextView fecha_hora_marcacion, txt_nombre, tipo_marcacion;
     Button btn_del_marcacion;
     String uid = "", uid_empleado = "", empleado = "", fecha_hora;
     Alert_dialog alertDialog;
     Progress_dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
         toolbar.setOnClickListener(view -> finish());
 
         txt_nombre = findViewById(R.id.txt_nombre);
+        tipo_marcacion = findViewById(R.id.tipo_marcacion);
         fecha_hora_marcacion = findViewById(R.id.fecha_hora_marcacion);
         btn_del_marcacion = findViewById(R.id.btn_del_marcacion);
 
@@ -116,6 +120,10 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
                         ubi.position(new LatLng(latitud,longitud)).title("Ubicación de Marcación").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).draggable(false);
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitud,longitud),15f));
                         Objects.requireNonNull(mMap.addMarker(ubi)).showInfoWindow();
+                    }
+
+                    if(snapshot.child("tipo").exists()){
+                        tipo_marcacion.setText(Objects.requireNonNull(snapshot.child("tipo").getValue()).toString());
                     }
 
 
