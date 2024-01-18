@@ -93,11 +93,23 @@ public class Det_actividad extends AppCompatActivity {
                 btn_edit_actividad.setVisibility(View.VISIBLE);
                 spinner_estado.setEnabled(true);
                 spinner_tipo.setEnabled(true);
+                editTextActividad.setEnabled(true);
+                cal_inicio.setEnabled(true);
+                cal_fin.setEnabled(true);
+                time_inicio.setEnabled(true);
+                time_fin.setEnabled(true);
+
             }else{
                 btn_del_actividad.setVisibility(View.GONE);
                 btn_edit_actividad.setVisibility(View.GONE);
                 spinner_estado.setEnabled(false);
                 spinner_tipo.setEnabled(false);
+                editTextActividad.setEnabled(false);
+                cal_inicio.setEnabled(false);
+                cal_fin.setEnabled(false);
+                time_inicio.setEnabled(false);
+                time_fin.setEnabled(false);
+
             }
 
             btn_del_actividad.setOnClickListener(view -> {

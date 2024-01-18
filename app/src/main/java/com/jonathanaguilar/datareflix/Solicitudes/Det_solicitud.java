@@ -76,11 +76,13 @@ public class Det_solicitud extends AppCompatActivity {
                 btn_edit_solicitud.setVisibility(View.VISIBLE);
                 spinner_estado.setEnabled(true);
                 spinner_tipo.setEnabled(true);
+                editTextMotivo.setEnabled(true);
             }else{
                 btn_del_solicitud.setVisibility(View.GONE);
                 btn_edit_solicitud.setVisibility(View.GONE);
                 spinner_estado.setEnabled(false);
                 spinner_tipo.setEnabled(false);
+                editTextMotivo.setEnabled(false);
             }
 
             btn_del_solicitud.setOnClickListener(view -> {

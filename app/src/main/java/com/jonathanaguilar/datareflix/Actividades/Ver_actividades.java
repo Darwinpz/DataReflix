@@ -61,7 +61,7 @@ public class Ver_actividades extends AppCompatActivity {
             if(Principal.rol.equals("Administrador")){
                 cardview_nombre.setVisibility(View.GONE);
                 txt_nombre.setText("");
-                ctlActividad.Ver_my_Actividades(adapterActividad, Principal.id, txt_sinresultados, progressBar, txt_contador);
+                ctlActividad.VerActividades(adapterActividad, txt_sinresultados, progressBar, txt_contador);
                 //ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
             }else{
                 cardview_nombre.setVisibility(View.VISIBLE);
