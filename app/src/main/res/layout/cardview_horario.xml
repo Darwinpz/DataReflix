@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:id="@+id/cardview_horario"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha y Hora de inicio:"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/success"
+            />
+
+        <TextView
+            android:id="@+id/card_fecha_hora_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy hh:mm:ss"
+            android:textSize="15sp"
+            />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha y Hora de Fin:"
+            android:textSize="15sp"
+            android:textStyle="italic|bold"
+            android:textColor="@color/danger"
+            />
+
+        <TextView
+            android:id="@+id/card_fecha_hora_fin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dd/mm/yyyy hh:mm:ss"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
