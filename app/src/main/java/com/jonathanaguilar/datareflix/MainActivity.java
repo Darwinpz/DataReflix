@@ -57,11 +57,7 @@ public class MainActivity extends AppCompatActivity {
         switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                if(preferences.getString("uid_biometric","").isEmpty()){
-                    btn_ingresar_huella.setVisibility(View.GONE);
-                }else{
-                    btn_ingresar_huella.setVisibility(View.VISIBLE);
-                }
+                btn_ingresar_huella.setVisibility(View.VISIBLE);
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 btn_ingresar_huella.setVisibility(View.GONE);
@@ -131,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                     }else{
-                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado, Inicia Sesión Manualmente",Toast.LENGTH_SHORT).show();
                     }
 
                 }
