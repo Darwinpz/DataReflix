@@ -24,7 +24,7 @@ public class Ver_actividades extends AppCompatActivity {
     ProgressBar progressBar;
     TextView txt_sinresultados, txt_contador, txt_nombre;
     Adapter_actividad adapterActividad;
-    Ctl_actividad ctlActividad;
+    public static Ctl_actividad ctlActividad;
     CardView cardview_nombre;
     Button btn_add;
 
@@ -61,7 +61,7 @@ public class Ver_actividades extends AppCompatActivity {
             if(Principal.rol.equals("Administrador")){
                 cardview_nombre.setVisibility(View.GONE);
                 txt_nombre.setText("");
-                ctlActividad.Ver_my_Actividades(adapterActividad, Principal.id, txt_sinresultados, progressBar, txt_contador);
+                ctlActividad.VerActividades(adapterActividad, txt_sinresultados, progressBar, txt_contador);
                 //ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
             }else{
                 cardview_nombre.setVisibility(View.VISIBLE);

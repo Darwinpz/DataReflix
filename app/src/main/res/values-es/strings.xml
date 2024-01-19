@@ -34,26 +34,57 @@
     <string name="home_op2">Horario</string>
     <string name="home_op3">Actividades</string>
     <string name="home_op4">Solicitudes</string>
-    <string name="home_op5">Horario de Tienda</string>
+    <string name="home_op5">Horario de Empresa</string>
 
     <string name="btn_add">Crear</string>
 
+
     <string-array name="rol">
         <item>Selecciona</item>
-        <item>ADMINISTRADOR</item>
-        <item>EMPLEADO</item>
+        <item>Administrador</item>
+        <item>Empleado</item>
+    </string-array>
+
+    <string-array name="estado">
+        <item>Selecciona</item>
+        <item>Pendiente</item>
+        <item>Revisión</item>
+        <item>Aprobado</item>
+        <item>Rechazado</item>
+    </string-array>
+
+    <string-array name="estado_actividad">
+        <item>Selecciona</item>
+        <item>Pendiente</item>
+        <item>Revisión</item>
+        <item>Finalizado</item>
+    </string-array>
+
+    <string-array name="estado_user">
+        <item>Selecciona</item>
+        <item>Activo</item>
+        <item>Inactivo</item>
+    </string-array>
+
+    <string-array name="tipo_marcacion">
+        <item>Selecciona</item>
+        <item>Inicio de Jornada</item>
+        <item>Inicio de Almuerzo</item>
+        <item>Fin de Almuerzo</item>
+        <item>Fin de Jornada</item>
     </string-array>
 
     <string-array name="tipo_solicitud">
         <item>Selecciona</item>
-        <item>PERMISO LABORAL</item>
-        <item>VACACIONES</item>
+        <item>Permiso Laboral</item>
+        <item>Vacaciones</item>
     </string-array>
 
     <string-array name="tipo_actividad">
         <item>Selecciona</item>
-        <item>RECOLECCIÓN</item>
-        <item>ATENCIÓN</item>
+        <item>Recolección</item>
+        <item>Atención</item>
     </string-array>
+
 
 </resources>

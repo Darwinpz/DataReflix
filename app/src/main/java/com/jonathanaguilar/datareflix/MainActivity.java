@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     public Activity activity;
     Alert_dialog alertDialog;
     Button btn_ingresar_huella;
-    BiometricPrompt.PromptInfo promptInfo;
-    BiometricPrompt biometricPrompt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 btn_ingresar_huella.setVisibility(View.VISIBLE);
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
@@ -66,19 +64,12 @@ public class MainActivity extends AppCompatActivity {
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 btn_ingresar_huella.setVisibility(View.GONE);
                 break;
-            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
-                if(preferences.getString("biometrico_user","").isEmpty()){
-                    btn_ingresar_huella.setVisibility(View.GONE);
-                }else{
-                    btn_ingresar_huella.setVisibility(View.VISIBLE);
-                }
-                break;
         }
 
         btn_ingresar_huella.setOnClickListener(view -> {
 
             Executor executor = ContextCompat.getMainExecutor(this);
-            biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
+            BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
                 @Override
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
@@ -104,10 +95,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
 
-                    String id = preferences.getString("uid_biometric","");
+                    String uid_biometric = preferences.getString("uid_biometric","");
 
-                    if(!id.isEmpty()) {
-                        databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
+                    if(!uid_biometric.isEmpty()) {
+                        databaseReference.child("usuarios").child(uid_biometric).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -135,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                     }else{
-                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado, Inicia Sesión Manualmente",Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -147,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Verificación de Huella DataReflix")
+            BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                    .setTitle("Verificación DataReflix")
                     .setSubtitle("Ingresa tu huella para iniciar sesión")
                     .setNegativeButtonText("Cancelar")
                     .setConfirmationRequired(false)
@@ -174,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.mostrar_mensaje("Iniciando sesión...");
 
-        if (!usuario.isEmpty()&&!clave.isEmpty()) {
+        if (!usuario.isEmpty() && !clave.isEmpty()) {
             databaseReference.child("usuarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot datasnapshot) {
@@ -192,32 +183,15 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (preferences.getString("uid", "").isEmpty()) {
                                         SharedPreferences.Editor editor = preferences.edit();
-
-                                        if(preferences.getString("uid_biometric","").isEmpty()){
-                                            Log.e("PRUEBA","ENTRAAA");
-                                            dialog.ocultar_mensaje();
-                                            alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
-                                                builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                                                    editor.putString("uid_biometric", snapshot.getKey());
-                                                    Toast.makeText(getApplicationContext(),"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
-
-                                                });
-                                                builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
-                                                builder.setCancelable(false);
-                                                builder.create().show();
-                                            });
-
-                                        }
-                                        dialog.mostrar_mensaje("Iniciando sesión...");
-
                                         editor.putString("uid", snapshot.getKey());
                                         editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                         editor.apply();
                                         dialog.ocultar_mensaje();
                                         finish();
-                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                        startActivity(new Intent(getApplicationContext(), Principal.class));
 
                                     }
+                                    break;
                                 }
                             }
                         }
@@ -261,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty()) {
             finish();
-            startActivity(new Intent(getBaseContext(), Principal.class));
+            startActivity(new Intent(getApplicationContext(), Principal.class));
         }
 
     }

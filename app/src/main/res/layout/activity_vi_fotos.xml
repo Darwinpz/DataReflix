@@ -10,11 +10,12 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/proyecto_light"
+        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="@string/text_image"
-        app:titleTextColor="@color/white"
+        app:titleTextColor="#FFFFFF"
+        app:navigationIcon="@drawable/baseline_chevron_left_24"
         />
 
     <com.github.chrisbanes.photoview.PhotoView

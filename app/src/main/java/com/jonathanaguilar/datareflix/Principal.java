@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.databinding.ActivityPrincipalBinding;
 
 import java.util.Objects;
@@ -35,6 +37,7 @@ public class Principal extends AppCompatActivity {
     public static String rol = MainActivity.preferences.getString("rol","");
     public static DatabaseReference databaseReference;
     public static String Nombre = "";
+    Alert_dialog alertDialog;
     private boolean doubleBackToExitPressedOnce = false;
     private static final int DOUBLE_CLICK_INTERVAL = 2000;
 
@@ -58,6 +61,24 @@ public class Principal extends AppCompatActivity {
             View headerView = navigationView.getHeaderView(0);
             TextView headerTextView = headerView.findViewById(R.id.header_username);
             ImageView headerImageView = headerView.findViewById(R.id.header_imagen);
+
+            alertDialog = new Alert_dialog(this);
+
+            if(MainActivity.preferences.getString("uid_biometric","").isEmpty()){
+                alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
+                    builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
+                        SharedPreferences.Editor editor = MainActivity.preferences.edit();
+                        editor.putString("uid_biometric", id);
+                        editor.apply();
+                        Toast.makeText(this,"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
+
+                    });
+                    builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
+                    builder.setCancelable(false);
+                    builder.create().show();
+                });
+
+            }
 
             databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -88,17 +109,26 @@ public class Principal extends AppCompatActivity {
             });
 
 
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_schedules, R.id.nav_users , R.id.nav_profile)
-                    .setOpenableLayout(drawer)
-                    .build();
+            if(rol.equals("Administrador")){
+
+                mAppBarConfiguration = new AppBarConfiguration.Builder(
+                        R.id.nav_home, R.id.nav_schedules, R.id.nav_users , R.id.nav_profile)
+                        .setOpenableLayout(drawer)
+                        .build();
+            }else{
+                mAppBarConfiguration = new AppBarConfiguration.Builder(
+                        R.id.nav_home, R.id.nav_profile)
+                        .setOpenableLayout(drawer)
+                        .build();
+                binding.navView.getMenu().findItem(R.id.nav_schedules).setVisible(false);
+                binding.navView.getMenu().findItem(R.id.nav_users).setVisible(false);
+            }
 
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_principal);
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
 
         }else{
-            MainActivity.preferences.edit().clear().apply();
             finish();
             startActivity(new Intent(this, MainActivity.class));
         }

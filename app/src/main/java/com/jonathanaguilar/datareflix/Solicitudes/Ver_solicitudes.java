@@ -60,8 +60,7 @@ public class Ver_solicitudes extends AppCompatActivity {
             if(Principal.rol.equals("Administrador")){
                 cardview_nombre.setVisibility(View.GONE);
                 txt_nombre.setText("");
-                ctlSolicitud.Ver_my_Solicitudes(adapterSolicitud, Principal.id, txt_sinresultados, progressBar, txt_contador);
-                //ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
+                ctlSolicitud.VerSolicitudes(adapterSolicitud, txt_sinresultados, progressBar, txt_contador);
             }else{
                 cardview_nombre.setVisibility(View.VISIBLE);
                 txt_nombre.setText(Principal.Nombre);
