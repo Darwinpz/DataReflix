@@ -15,11 +15,12 @@ import com.jonathanaguilar.datareflix.Actividades.Ver_actividades;
 import com.jonathanaguilar.datareflix.Horarios.Ver_horarios;
 import com.jonathanaguilar.datareflix.Marcacion.Ver_marcaciones;
 import com.jonathanaguilar.datareflix.R;
+import com.jonathanaguilar.datareflix.Reportes.Ver_reportes;
 import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
 
 public class Fragment_Home extends Fragment {
 
-    CardView card_marcacion, card_horario, card_actividades, card_solicitudes, card_tienda;
+    CardView card_marcacion, card_horario, card_actividades, card_solicitudes, card_tienda, card_reportes;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class Fragment_Home extends Fragment {
         card_actividades = vista.findViewById(R.id.card_actividades);
         card_solicitudes = vista.findViewById(R.id.card_solicitudes);
         card_tienda = vista.findViewById(R.id.card_tienda);
+        card_reportes = vista.findViewById(R.id.card_reportes);
 
         card_marcacion.setOnClickListener(view -> {
             startActivity(new Intent(vista.getContext(), Ver_marcaciones.class));
@@ -46,6 +48,10 @@ public class Fragment_Home extends Fragment {
 
         card_solicitudes.setOnClickListener(view -> {
             startActivity(new Intent(vista.getContext(), Ver_solicitudes.class));
+        });
+
+        card_reportes.setOnClickListener(view -> {
+            startActivity(new Intent(vista.getContext(), Ver_reportes.class));
         });
 
         return vista;

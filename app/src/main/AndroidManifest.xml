@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -23,6 +22,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DataReflix"
         tools:targetApi="31">
+        <activity
+            android:name=".Reportes.Rpt_marcacion"
+            android:exported="false" />
+        <activity
+            android:name=".Reportes.Ver_reportes"
+            android:exported="false" />
         <activity
             android:name=".Horarios.Ver_horarios"
             android:exported="false" />
@@ -82,8 +87,8 @@
         </activity>
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"
-            />
+            android:theme="@style/Base.Theme.AppCompat" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDnnPJ51BnlHT05d7I9ALDb-QRwN_BBbfU" />

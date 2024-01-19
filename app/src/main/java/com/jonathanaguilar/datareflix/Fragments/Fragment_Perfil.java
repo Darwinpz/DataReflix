@@ -1,21 +1,8 @@
 package com.jonathanaguilar.datareflix.Fragments;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,20 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.canhub.cropper.CropImage;
-import com.canhub.cropper.CropImageContract;
-import com.canhub.cropper.CropImageContractOptions;
-import com.canhub.cropper.CropImageOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -48,11 +28,6 @@ import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 import com.jonathanaguilar.datareflix.Vi_fotos;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -203,6 +178,7 @@ public class Fragment_Perfil extends Fragment {
                     });
                     builder.setNeutralButton("Subir Foto", (dialogInterface, i) -> {
 
+
                     });
 
                     builder.setCancelable(true);
@@ -210,15 +186,8 @@ public class Fragment_Perfil extends Fragment {
 
                 }else{
 
-                    if (isPermitted()) {
-                        getImageFile();
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            requestAndroid11StoragePermission();
-                        } else {
-                            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                        }
-                    }
+
+
 
                 }
 
@@ -256,118 +225,5 @@ public class Fragment_Perfil extends Fragment {
 
     }
 
-    private final ActivityResultLauncher<String> requestPermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-        if (isGranted) {
-            getImageFile();
-        } else {
-            permissionDenied();
-        }
-    });
-
-    @TargetApi(Build.VERSION_CODES.R)
-    private void requestAndroid11StoragePermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-        intent.addCategory("android.intent.category.DEFAULT");
-        intent.setData(Uri.parse(String.format("package:%s", getContext().getPackageName())));
-        android11StoragePermission.launch(intent);
-    }
-
-    ActivityResultLauncher<Intent> android11StoragePermission = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (isPermitted()) {
-            getImageFile();
-        } else {
-            permissionDenied();
-        }
-    });
-    private boolean isPermitted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            return Environment.isExternalStorageManager();
-        } else {
-            return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-        }
-    }
-
-    ActivityResultLauncher<Intent> getImage = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-        if (result.getResultCode() == Activity.RESULT_OK) {
-            Intent data = result.getData();
-            if (data != null && data.getData() != null) {
-                Uri imageUri = data.getData();
-                launchImageCropper(imageUri);
-            }
-        }
-    });
-
-    private void launchImageCropper(Uri uri) {
-        CropImageOptions cropImageOptions = new CropImageOptions();
-        cropImageOptions.imageSourceIncludeGallery = false;
-        cropImageOptions.imageSourceIncludeCamera = true;
-        CropImageContractOptions cropImageContractOptions = new CropImageContractOptions(uri, cropImageOptions);
-        cropImage.launch(cropImageContractOptions);
-    }
-
-    ActivityResultLauncher<CropImageContractOptions> cropImage = registerForActivityResult(new CropImageContract(), result -> {
-        if (result.isSuccessful()) {
-            Bitmap cropped = BitmapFactory.decodeFile(result.getUriFilePath(getContext(), true));
-            saveCroppedImage(cropped);
-        }
-    });
-
-    private void saveCroppedImage(Bitmap bitmap) {
-        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-        File myDir = new File(root + "/Cropped Images");
-
-        if (!myDir.exists()) {
-            myDir.mkdirs();
-        }
-
-        // Generate a unique file name
-        String imageName = "Image_" + new Date().getTime() + ".jpg";
-
-        File file = new File(myDir, imageName);
-        if (file.exists()) file.delete();
-
-        try {
-            // Save the Bitmap to the file
-            OutputStream outputStream;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                outputStream = Files.newOutputStream(file.toPath());
-            } else {
-                outputStream = new FileOutputStream(file);
-            }
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-            // Add the image to the MediaStore
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
-            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-            getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-            // Trigger a media scan to update the gallery
-            MediaScannerConnection.scanFile(getContext(), new String[]{file.getAbsolutePath()}, null, null);
-            showSuccessMessage();
-        } catch (Exception e) {
-            showFailureMessage();
-        }
-    }
-
-    private void showFailureMessage() {
-        Toast.makeText(getContext(), "Cropped image not saved something went wrong", Toast.LENGTH_LONG).show();
-    }
-    private void permissionDenied() {
-        Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_LONG).show();
-    }
-    private void showSuccessMessage() {
-        Toast.makeText(getContext(), "Image Saved", Toast.LENGTH_LONG).show();
-    }
-
-    private void getImageFile() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        getImage.launch(intent);
-    }
 
 }
