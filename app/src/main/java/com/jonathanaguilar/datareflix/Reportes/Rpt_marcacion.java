@@ -27,6 +27,7 @@ public class Rpt_marcacion extends AppCompatActivity {
     CardView card_filtro;
     Adapter_marcacion adapterMarcacion;
     Ctl_marcacion ctlMarcacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +60,7 @@ public class Rpt_marcacion extends AppCompatActivity {
         });
 
 
-        if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
-
-            ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
-
-        }
+        ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
 
     }
 }

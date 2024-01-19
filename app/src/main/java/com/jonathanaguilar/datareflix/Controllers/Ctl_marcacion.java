@@ -31,9 +31,6 @@ public class Ctl_marcacion {
 
     }
 
-    public void eliminar_marcacion(String uid_user, String uid_marcacion){
-        dbref.child("usuarios").child(uid_user).child("marcaciones").child(uid_marcacion).removeValue();
-    }
 
     public void VerMarcaciones(Adapter_marcacion list_marcacion, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 

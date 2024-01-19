@@ -77,7 +77,7 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
                 alertDialog.crear_mensaje("¿Estás Seguro de Eliminar la marcación?", "¡Esta acción no es reversible!", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
                         dialog.mostrar_mensaje("Eliminando Marcación...");
-                        Ver_marcaciones.ctlMarcacion.eliminar_marcacion(uid_empleado,uid);
+                        Principal.databaseReference.child("usuarios").child(uid_empleado).child("marcaciones").child(uid).removeValue();
                         dialog.ocultar_mensaje();
                         finish();
                     });
