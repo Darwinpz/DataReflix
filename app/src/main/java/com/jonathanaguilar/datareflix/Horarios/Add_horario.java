@@ -8,13 +8,10 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TimePicker;
 
-import com.jonathanaguilar.datareflix.Actividades.Ver_actividades;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.Fragments.Fragment_Horario;
-import com.jonathanaguilar.datareflix.Objetos.Ob_actividad;
 import com.jonathanaguilar.datareflix.Objetos.Ob_horario;
-import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
 import java.text.SimpleDateFormat;

@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;

@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -33,9 +32,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.MainActivity;

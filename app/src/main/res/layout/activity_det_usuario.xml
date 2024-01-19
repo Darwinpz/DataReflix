@@ -203,6 +203,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Agregar Fecha"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/proyecto_light"
                         >
 
                     </Button>
@@ -229,6 +231,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Agregar Fecha"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/proyecto_light"
                         >
 
                     </Button>
@@ -241,6 +245,17 @@
                         android:calendarViewShown="false">
 
                     </CalendarView>
+
+                    <Button
+                        android:id="@+id/btn_del_fecha_fin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Eliminar Fecha"
+                        android:textColor="@color/white"
+                        android:backgroundTint="@color/danger"
+                        >
+
+                    </Button>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -255,7 +270,7 @@
                         android:id="@+id/cant_solicitudes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 Marcaciones"
+                        android:text="0 Solicitudes"
                         />
 
                     <TextView

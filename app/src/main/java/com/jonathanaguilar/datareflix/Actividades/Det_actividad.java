@@ -22,7 +22,6 @@ import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.Objetos.Ob_actividad;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
-import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

@@ -34,6 +34,9 @@ public class Ctl_usuarios {
     public void eliminar_usuario(String uid){
         dbref.child("usuarios").child(uid).removeValue();
     }
+    public void eliminar_fecha_fin_contrato(String uid){
+        dbref.child("usuarios").child(uid).child("fecha_fin_contrato").removeValue();
+    }
 
     public void update_usuario(Ob_usuario usuario) {
 

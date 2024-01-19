@@ -15,7 +15,6 @@ import com.jonathanaguilar.datareflix.Holders.Holder_actividad;
 import com.jonathanaguilar.datareflix.Objetos.Ob_actividad;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
-import com.jonathanaguilar.datareflix.Solicitudes.Det_solicitud;
 
 import java.util.ArrayList;
 import java.util.List;

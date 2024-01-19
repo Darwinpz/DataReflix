@@ -4,14 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -24,11 +21,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.Fragments.Fragment_Usuarios;
-import com.jonathanaguilar.datareflix.MainActivity;
 import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
-import com.jonathanaguilar.datareflix.Vi_fotos;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,7 +40,7 @@ public class Det_usuario extends AppCompatActivity {
     ImageView img_perfil;
     Spinner spinner_tipo, spinner_estado;
     String uid = "";
-    Button btn_edit_usuario, btn_del_usuario, btn_add_fecha_fin, btn_add_fecha_inicio;
+    Button btn_edit_usuario, btn_del_usuario, btn_add_fecha_fin, btn_add_fecha_inicio, btn_del_fecha_fin;
     ArrayAdapter<CharSequence> adapterspinner_tipo, adapterspinner_estado;
     Alert_dialog alertDialog;
     Progress_dialog dialog;
@@ -68,6 +63,7 @@ public class Det_usuario extends AppCompatActivity {
         btn_del_usuario = findViewById(R.id.btn_del_usuario);
         btn_add_fecha_inicio = findViewById(R.id.btn_add_fecha_inicio);
         btn_add_fecha_fin = findViewById(R.id.btn_add_fecha_fin);
+        btn_del_fecha_fin = findViewById(R.id.btn_del_fecha_fin);
 
         cant_marcaciones = findViewById(R.id.cant_marcaciones);
         cant_solicitudes = findViewById(R.id.cant_solicitudes);
@@ -102,6 +98,11 @@ public class Det_usuario extends AppCompatActivity {
             btn_add_fecha_fin.setOnClickListener(v -> {
                 fecha_fin.setVisibility(View.VISIBLE);
                 btn_add_fecha_fin.setVisibility(View.GONE);
+            });
+
+            btn_del_fecha_fin.setOnClickListener(v -> {
+                Fragment_Usuarios.ctlUsuarios.eliminar_fecha_fin_contrato(uid);
+                btn_del_fecha_fin.setVisibility(View.GONE);
             });
 
             btn_del_usuario.setOnClickListener(view -> {
@@ -218,6 +219,7 @@ public class Det_usuario extends AppCompatActivity {
 
                         if(snapshot.child("fecha_fin_contrato").exists()){
                             btn_add_fecha_fin.setVisibility(View.GONE);
+                            btn_del_fecha_fin.setVisibility(View.VISIBLE);
                             String f_fin = Objects.requireNonNull(snapshot.child("fecha_fin_contrato").getValue()).toString();
                             int dia2 = Integer.parseInt(f_fin.split("/")[0]);
                             int mes2 = Integer.parseInt(f_fin.split("/")[1]) - 1;
@@ -228,6 +230,7 @@ public class Det_usuario extends AppCompatActivity {
                             fecha_cal_fin = calendar2.getTimeInMillis();
                         }else{
                             fecha_fin.setVisibility(View.GONE);
+                            btn_del_fecha_fin.setVisibility(View.GONE);
                         }
 
                         if(snapshot.child("estado").exists()){

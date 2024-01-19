@@ -11,10 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_solicitud;
-import com.jonathanaguilar.datareflix.Adaptadores.Adapter_solicitud;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
-import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
-import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 
 import java.util.HashMap;
 import java.util.Map;
