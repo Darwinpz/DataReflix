@@ -102,7 +102,52 @@
 
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0 Resultados"
+                android:gravity="end"
+                android:layout_below="@id/cardview_nombre"
+                android:id="@+id/txt_contador"
+                android:textColor="@color/danger"
+                android:layout_marginEnd="5dp"
+                >
+            </TextView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/layout_cargar"
+                android:layout_below="@id/txt_contador"
+                >
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/txt_sinresultados"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aún no hay Marcaciones..."
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/layout_cargar"
+                android:id="@+id/recyclerview_marcaciones"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 

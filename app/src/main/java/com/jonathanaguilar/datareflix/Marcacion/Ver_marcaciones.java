@@ -58,15 +58,10 @@ public class Ver_marcaciones extends AppCompatActivity {
 
         if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
 
-            if(Principal.rol.equals("Administrador")){
-                cardview_nombre.setVisibility(View.GONE);
-                txt_nombre.setText("");
-                ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
-            }else{
-                cardview_nombre.setVisibility(View.VISIBLE);
-                txt_nombre.setText(Principal.Nombre);
-                ctlMarcacion.Ver_my_Marcaciones(adapterMarcacion, Principal.id, txt_sinresultados, progressBar, txt_contador);
-            }
+//          ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
+
+            ctlMarcacion.Ver_my_Marcaciones(adapterMarcacion, Principal.id, txt_sinresultados, progressBar, txt_contador);
+
         }
 
     }
