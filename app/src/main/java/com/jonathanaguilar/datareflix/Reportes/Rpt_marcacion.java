@@ -1,6 +1,7 @@
 package com.jonathanaguilar.datareflix.Reportes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,9 @@ public class Rpt_marcacion extends AppCompatActivity {
         card_filtro = findViewById(R.id.card_filtro);
         fecha_busqueda = findViewById(R.id.fecha_busqueda);
         txt_buscador = findViewById(R.id.txt_buscador);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setOnClickListener(view -> finish());
 
         Date dia = new Date();
         fecha = dia.getTime();

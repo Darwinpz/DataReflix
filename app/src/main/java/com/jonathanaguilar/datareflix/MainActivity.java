@@ -106,12 +106,19 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (preferences.getString("uid", "").isEmpty()) {
 
-                                        SharedPreferences.Editor editor = preferences.edit();
-                                        editor.putString("uid", snapshot.getKey());
-                                        editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
-                                        editor.apply();
-                                        finish();
-                                        startActivity(new Intent(getBaseContext(), Principal.class));
+                                        if(Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo"))
+                                        {
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.putString("uid", snapshot.getKey());
+                                            editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                            editor.putString("estado", Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
+                                            editor.apply();
+                                            finish();
+                                            startActivity(new Intent(getBaseContext(), Principal.class));
+
+                                        }else{
+                                            Toast.makeText(getApplicationContext(),"El usuario no está activo",Toast.LENGTH_LONG).show();
+                                        }
 
                                     }
 
@@ -182,13 +189,21 @@ public class MainActivity extends AppCompatActivity {
                                     existe = true;
 
                                     if (preferences.getString("uid", "").isEmpty()) {
-                                        SharedPreferences.Editor editor = preferences.edit();
-                                        editor.putString("uid", snapshot.getKey());
-                                        editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
-                                        editor.apply();
-                                        dialog.ocultar_mensaje();
-                                        finish();
-                                        startActivity(new Intent(getApplicationContext(), Principal.class));
+
+                                        if(Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo"))
+                                        {
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.putString("uid", snapshot.getKey());
+                                            editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
+                                            editor.putString("estado", Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
+                                            editor.apply();
+                                            dialog.ocultar_mensaje();
+                                            finish();
+                                            startActivity(new Intent(getApplicationContext(), Principal.class));
+                                        }else{
+                                            dialog.ocultar_mensaje();
+                                            Toast.makeText(getApplicationContext(),"El usuario no está activo",Toast.LENGTH_LONG).show();
+                                        }
 
                                     }
                                     break;
@@ -233,9 +248,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (!preferences.getString("uid","").isEmpty()) {
-            finish();
-            startActivity(new Intent(getApplicationContext(), Principal.class));
+        if (!preferences.getString("uid","").isEmpty() && !preferences.getString("estado","").isEmpty()) {
+
+            if(preferences.getString("estado","").equalsIgnoreCase("activo")){
+                finish();
+                startActivity(new Intent(getApplicationContext(), Principal.class));
+            }else{
+                Toast.makeText(this,"El usuario no está activo",Toast.LENGTH_LONG).show();
+            }
+
         }
 
     }
