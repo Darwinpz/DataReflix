@@ -139,20 +139,14 @@ public class Det_usuario extends AppCompatActivity {
                     usuario.rol = spinner_tipo.getSelectedItem().toString();
                     usuario.estado = spinner_estado.getSelectedItem().toString();
 
-                    if(fecha_inicio.getVisibility() == View.VISIBLE ){
-                        if(fecha_cal_ini!=-1){
-                            usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
-                        }else{
-                            usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date().getTime());
-                        }
+                    if (fecha_inicio.getVisibility() == View.VISIBLE) {
+                        long fechaContrato = (fecha_cal_ini != -1) ? fecha_cal_ini : new Date().getTime();
+                        usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fechaContrato);
                     }
 
-                    if( fecha_fin.getVisibility() == View.VISIBLE){
-                        if(fecha_cal_fin!=-1){
-                            usuario.fecha_fin_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_fin);
-                        }else{
-                            usuario.fecha_fin_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date().getTime());
-                        }
+                    if (fecha_fin.getVisibility() == View.VISIBLE) {
+                        long fechaContratoFin = (fecha_cal_fin != -1) ? fecha_cal_fin : new Date().getTime();
+                        usuario.fecha_fin_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fechaContratoFin);
                     }
 
                     Fragment_Usuarios.ctlUsuarios.update_usuario(usuario);

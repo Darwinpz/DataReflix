@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -15,6 +16,11 @@ import com.jonathanaguilar.datareflix.Fragments.Fragment_Usuarios;
 import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import com.jonathanaguilar.datareflix.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class Add_usuario extends AppCompatActivity {
 
     EditText editTextcedula, editTextnombre, editTextTextEmailAddress, editTextTextPhone;
@@ -23,6 +29,8 @@ public class Add_usuario extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapterspinner_tipo, adapterspinner_estado;
     Alert_dialog alertDialog;
     Progress_dialog dialog;
+    CalendarView fecha_inicio;
+    long fecha_cal_ini;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,10 @@ public class Add_usuario extends AppCompatActivity {
         spinner_estado = findViewById(R.id.spinner_estado);
         btn_add_usuario = findViewById(R.id.btn_add_usuario);
 
+        Date dia = new Date();
+        fecha_inicio = findViewById(R.id.fecha_inicio);
+        fecha_cal_ini = dia.getTime();
+
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
 
@@ -50,6 +62,12 @@ public class Add_usuario extends AppCompatActivity {
         adapterspinner_estado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterspinner_estado);
 
+        fecha_inicio.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year,month,dayOfMonth);
+            view.setDate(calendar.getTimeInMillis());
+            fecha_cal_ini = view.getDate();
+        });
 
         btn_add_usuario.setOnClickListener(view -> {
 
@@ -67,7 +85,8 @@ public class Add_usuario extends AppCompatActivity {
                     usuario.telefono = editTextTextPhone.getText().toString();
                     usuario.rol = spinner_tipo.getSelectedItem().toString();
                     usuario.clave = usuario.cedula;
-
+                    usuario.estado = spinner_estado.getSelectedItem().toString();
+                    usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
                     Fragment_Usuarios.ctlUsuarios.crear_usuarios(usuario);
 
                     dialog.ocultar_mensaje();

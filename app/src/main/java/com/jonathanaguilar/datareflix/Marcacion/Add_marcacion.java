@@ -68,7 +68,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_marcacion);
 
-
         uid_biometric = Principal.preferences.getString("uid_biometric","");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
