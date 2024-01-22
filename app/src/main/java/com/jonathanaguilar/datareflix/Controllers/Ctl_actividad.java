@@ -110,11 +110,7 @@ public class Ctl_actividad {
                     txt_contador.setText(contador + " Actividades");
                     progressBar.setVisibility(View.GONE);
 
-                    if (list_actividad.getItemCount() == 0) {
-                        textView.setVisibility(View.VISIBLE);
-                    } else {
-                        textView.setVisibility(View.GONE);
-                    }
+                    textView.setVisibility(list_actividad.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                     list_actividad.notifyDataSetChanged();
 

@@ -7,7 +7,6 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.jonathanaguilar.datareflix.MainActivity;
 import com.jonathanaguilar.datareflix.R;
 
 public class Ver_reportes extends AppCompatActivity {
@@ -27,6 +26,9 @@ public class Ver_reportes extends AppCompatActivity {
         card_rpt_marcacion.setOnClickListener(view -> {
             startActivity(new Intent(this, Rpt_marcacion.class));
         });
+
+
+
 
     }
 }

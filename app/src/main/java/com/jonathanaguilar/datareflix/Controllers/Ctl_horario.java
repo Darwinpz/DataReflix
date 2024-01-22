@@ -69,11 +69,7 @@ public class Ctl_horario {
                     txt_contador.setText(contador + " Registros");
                     progressBar.setVisibility(View.GONE);
 
-                    if (list_horario.getItemCount() == 0) {
-                        textView.setVisibility(View.VISIBLE);
-                    } else {
-                        textView.setVisibility(View.GONE);
-                    }
+                    textView.setVisibility(list_horario.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                     list_horario.notifyDataSetChanged();
 

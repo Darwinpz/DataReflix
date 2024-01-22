@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.jonathanaguilar.datareflix.Actividades.Ver_actividades;
 import com.jonathanaguilar.datareflix.Horarios.Ver_horarios;
 import com.jonathanaguilar.datareflix.Marcacion.Ver_marcaciones;
+import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 import com.jonathanaguilar.datareflix.Reportes.Ver_reportes;
 import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
@@ -54,6 +55,11 @@ public class Fragment_Home extends Fragment {
             startActivity(new Intent(vista.getContext(), Ver_reportes.class));
         });
 
+        if(!Principal.rol.isEmpty()){
+
+            card_reportes.setVisibility(Principal.rol.equals("Administrador") ? View.VISIBLE : View.GONE);
+
+        }
         return vista;
 
     }

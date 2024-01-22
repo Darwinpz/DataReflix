@@ -32,7 +32,7 @@ public class Ctl_marcacion {
     }
 
 
-    public void VerMarcaciones(Adapter_marcacion list_marcacion, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+    public void VerMarcaciones(Adapter_marcacion list_marcacion, String usuario, String fecha, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -63,13 +63,24 @@ public class Ctl_marcacion {
                                 if (datos.child("estado").exists()) {
                                     marcacion.estado = Objects.requireNonNull(datos.child("estado").getValue()).toString();
                                 }
+                                String cedula = "";
                                 if (snapshot.child("nombre").exists()) {
                                     marcacion.empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                                 }
+
+                                if (snapshot.child("cedula").exists()) {
+                                    cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
+                                }
                                 marcacion.uid_empleado = snapshot.getKey();
 
-                                list_marcacion.AddMarcacion(marcacion);
-                                contador++;
+                                if(marcacion.empleado.toLowerCase().contains(usuario.toLowerCase()) || cedula.contains(usuario.toLowerCase())){
+
+                                    if (fecha.isEmpty() || marcacion.fecha_hora.contains(fecha)) {
+                                        list_marcacion.AddMarcacion(marcacion);
+                                    }
+                                    contador++;
+                                }
+
                             }
                         }
 
@@ -78,11 +89,7 @@ public class Ctl_marcacion {
                     txt_contador.setText(contador + " Marcaciones");
                     progressBar.setVisibility(View.GONE);
 
-                    if (list_marcacion.getItemCount() == 0) {
-                        textView.setVisibility(View.VISIBLE);
-                    } else {
-                        textView.setVisibility(View.GONE);
-                    }
+                    textView.setVisibility(list_marcacion.getItemCount() == 0 ? View.VISIBLE : View.GONE);
 
                     list_marcacion.notifyDataSetChanged();
 

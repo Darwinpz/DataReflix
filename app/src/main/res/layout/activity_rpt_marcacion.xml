@@ -48,11 +48,14 @@
                     >
 
                     <EditText
+                        android:id="@+id/txt_buscador"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Buscar usuario"
                         android:layout_margin="5dp"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
                         android:drawableEnd="@drawable/ic_search"
                         >
 
@@ -92,13 +95,14 @@
                     >
                 </TextView>
 
-                <DatePicker
+                <CalendarView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/fecha_busqueda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:datePickerMode="spinner"
-                    android:calendarViewShown="false"
+
                     >
-                </DatePicker>
+                </CalendarView>
 
             </androidx.cardview.widget.CardView>
 
