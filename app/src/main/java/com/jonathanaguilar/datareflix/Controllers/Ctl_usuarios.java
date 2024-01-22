@@ -16,6 +16,7 @@ import com.jonathanaguilar.datareflix.Objetos.Ob_usuario;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Ctl_usuarios {
 
@@ -141,5 +142,47 @@ public class Ctl_usuarios {
 
     }
 
+
+    public boolean Validar_Cedula(String cedula){
+
+        int suma = 0;
+
+        for (int i = 0; i < 9; i++)
+        {
+            int coeficiente = ((i % 2) == 0) ? 2 : 1;
+            int calculo = Integer.parseInt(String.valueOf(cedula.charAt(i))) * coeficiente;
+            suma += (calculo >= 10) ? calculo - 9 : calculo;
+        }
+
+        int residuo = suma % 10;
+        int valor = (residuo == 0) ? 0 : (10 - residuo);
+
+        return Integer.parseInt(String.valueOf(cedula.charAt(9))) == valor;
+
+    }
+
+    public boolean validar_correo(String correo){
+
+        Pattern patron = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+$");
+
+        return patron.matcher(correo).matches();
+
+    }
+
+    public boolean validar_usuario(String usuario){
+
+        Pattern patron = Pattern.compile("^[ a-zA-Z]+$");
+
+        return patron.matcher(usuario).matches();
+
+    }
+
+    public boolean validar_celular(String celular){
+
+        Pattern patron = Pattern.compile("^(0|593)?9[0-9]\\d{7}$");
+
+        return patron.matcher(celular).matches();
+
+    }
     
 }

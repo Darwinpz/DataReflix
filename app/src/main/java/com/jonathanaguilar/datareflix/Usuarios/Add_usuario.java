@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -69,41 +71,116 @@ public class Add_usuario extends AppCompatActivity {
             fecha_cal_ini = view.getDate();
         });
 
+        editTextcedula.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(editable.toString().length() == 10){
+                    if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString())){
+                        editTextcedula.setError("Cédula Incorrecta");
+                    }
+                }else{
+                    editTextcedula.setError("Ingresa 10 dígitos");
+                }
+
+            }
+        });
+
+        editTextnombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString())){
+                    editTextnombre.setError("Ingresa un nombre válido");
+                }
+            }
+        });
+
+        editTextTextEmailAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString())){
+                    editTextTextEmailAddress.setError("Ingresa un correo válido");
+                }
+            }
+        });
+
+
+        editTextTextPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())){
+                    editTextTextPhone.setError("Ingresa un celular válido");
+                }
+            }
+        });
+
         btn_add_usuario.setOnClickListener(view -> {
 
             dialog.mostrar_mensaje("Creando Usuario...");
 
-            if(!editTextcedula.getText().toString().isEmpty() && !editTextnombre.getText().toString().isEmpty() &&
-            !editTextTextEmailAddress.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty()) {
+            if(!editTextcedula.getText().toString().isEmpty() && editTextcedula.getError() == null &&
+                    !editTextnombre.getText().toString().isEmpty() && editTextnombre.getError() == null  &&
+                    !editTextTextEmailAddress.getText().toString().isEmpty() && editTextTextEmailAddress.getError() == null &&
+                    !editTextTextPhone.getText().toString().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
+                    && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
-                if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
+                Ob_usuario usuario = new Ob_usuario();
+                usuario.cedula = editTextcedula.getText().toString();
+                usuario.nombre = editTextnombre.getText().toString();
+                usuario.email = editTextTextEmailAddress.getText().toString();
+                usuario.telefono = editTextTextPhone.getText().toString();
+                usuario.rol = spinner_tipo.getSelectedItem().toString();
+                usuario.clave = usuario.cedula;
+                usuario.estado = spinner_estado.getSelectedItem().toString();
+                usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
+                Fragment_Usuarios.ctlUsuarios.crear_usuarios(usuario);
 
-                    Ob_usuario usuario = new Ob_usuario();
-                    usuario.cedula = editTextcedula.getText().toString();
-                    usuario.nombre = editTextnombre.getText().toString();
-                    usuario.email = editTextTextEmailAddress.getText().toString();
-                    usuario.telefono = editTextTextPhone.getText().toString();
-                    usuario.rol = spinner_tipo.getSelectedItem().toString();
-                    usuario.clave = usuario.cedula;
-                    usuario.estado = spinner_estado.getSelectedItem().toString();
-                    usuario.fecha_ini_contrato = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
-                    Fragment_Usuarios.ctlUsuarios.crear_usuarios(usuario);
-
-                    dialog.ocultar_mensaje();
-                    alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
-                        builder.setCancelable(false);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                        builder.create().show();
-                    });
-
-                } else {
-                    dialog.ocultar_mensaje();
-                    alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Rol", builder -> {
-                        builder.setCancelable(true);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                        builder.create().show();
-                    });
-                }
+                dialog.ocultar_mensaje();
+                alertDialog.crear_mensaje("Correcto", "Usuario Creado Correctamente", builder -> {
+                    builder.setCancelable(false);
+                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                    builder.create().show();
+                });
 
             }else{
                 dialog.ocultar_mensaje();

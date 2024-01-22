@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -121,14 +123,98 @@ public class Det_usuario extends AppCompatActivity {
 
             });
 
+            editTextcedula.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                    if(editable.toString().length() == 10){
+                        if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString())){
+                            editTextcedula.setError("Cédula Incorrecta");
+                        }
+                    }else{
+                        editTextcedula.setError("Ingresa 10 dígitos");
+                    }
+
+                }
+            });
+
+            editTextnombre.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString())){
+                        editTextnombre.setError("Ingresa un nombre válido");
+                    }
+                }
+            });
+
+
+            editTextTextEmailAddress.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString())){
+                        editTextTextEmailAddress.setError("Ingresa un correo válido");
+                    }
+                }
+            });
+
+            editTextTextPhone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())){
+                        editTextTextPhone.setError("Ingresa un celular válido");
+                    }
+                }
+            });
 
             btn_edit_usuario.setOnClickListener(view -> {
 
                 dialog.mostrar_mensaje("Actualizando Usuario...");
 
-                if(!editTextcedula.getText().toString().isEmpty() && !editTextnombre.getText().toString().isEmpty() &&
-                        !editTextTextEmailAddress.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty()
-                && !spinner_tipo.getSelectedItem().toString().equals("Selecciona") && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
+                if(!editTextcedula.getText().toString().isEmpty() && editTextcedula.getError() == null &&
+                        !editTextnombre.getText().toString().isEmpty() && editTextnombre.getError() == null  &&
+                        !editTextTextEmailAddress.getText().toString().isEmpty() && editTextTextEmailAddress.getError() == null &&
+                        !editTextTextPhone.getText().toString().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
+                        && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
                     Ob_usuario usuario = new Ob_usuario();
                     usuario.uid = uid;
