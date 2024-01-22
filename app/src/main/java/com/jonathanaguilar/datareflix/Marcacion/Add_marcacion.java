@@ -61,12 +61,15 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     Button btn_marcar_huella;
     ArrayAdapter<CharSequence> adapterspinner_tipo;
     Spinner spinner_tipo;
-    String uid_biometric = MainActivity.preferences.getString("uid_biometric","");
+    String uid_biometric  = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_marcacion);
+
+
+        uid_biometric = Principal.preferences.getString("uid_biometric","");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setOnClickListener(view -> finish());

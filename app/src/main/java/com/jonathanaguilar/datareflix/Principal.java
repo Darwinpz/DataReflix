@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,10 +35,11 @@ import java.util.Objects;
 public class Principal extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    public static String id = MainActivity.preferences.getString("uid","");
-    public static String rol = MainActivity.preferences.getString("rol","");
+    public static String id = "";
+    public static String rol = "";
     public static DatabaseReference databaseReference;
     public static String Nombre = "";
+    public static SharedPreferences preferences;
     Alert_dialog alertDialog;
     private boolean doubleBackToExitPressedOnce = false;
     private static final int DOUBLE_CLICK_INTERVAL = 2000;
@@ -45,6 +47,10 @@ public class Principal extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferences = getSharedPreferences("datareflix",MODE_PRIVATE);
+        id = preferences.getString("uid","");
+        rol =  preferences.getString("rol","");
 
         if(!id.isEmpty()) {
 
@@ -65,10 +71,10 @@ public class Principal extends AppCompatActivity {
 
             alertDialog = new Alert_dialog(this);
 
-            if(MainActivity.preferences.getString("uid_biometric","").isEmpty()){
+            if(preferences.getString("uid_biometric","").isEmpty()){
                 alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
                     builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                        SharedPreferences.Editor editor = MainActivity.preferences.edit();
+                        SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("uid_biometric", id);
                         editor.apply();
                         Toast.makeText(this,"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
@@ -90,6 +96,28 @@ public class Principal extends AppCompatActivity {
                         if (snapshot.child("nombre").exists()) {
                             Nombre = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
                             headerTextView.setText(Nombre);
+                        }
+
+                        if (snapshot.child("estado").exists()) {
+
+                            if(!Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo")){
+
+                                /*alertDialog.crear_mensaje("Tu usuario está Inactivo", "Se va a Cerrar tu sesión", builder -> {
+                                    builder.setCancelable(false);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                        SharedPreferences.Editor editor = MainActivity.preferences.edit();
+                                        editor.putString("uid", "");
+                                        editor.putString("rol", "");
+                                        editor.putString("estado", "");
+                                        editor.apply();
+                                        finish();
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    });
+                                    builder.create().show();
+                                });*/
+
+                            }
+
                         }
 
                         if (snapshot.child("url_foto").exists()) {
@@ -129,10 +157,8 @@ public class Principal extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
 
-        }else{
-            finish();
-            startActivity(new Intent(this, MainActivity.class));
         }
+
     }
 
     @Override

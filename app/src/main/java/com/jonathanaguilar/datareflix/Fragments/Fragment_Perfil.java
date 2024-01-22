@@ -200,14 +200,15 @@ public class Fragment_Perfil extends Fragment {
 
             dialog.mostrar_mensaje("Cerrando Sesión...");
 
-            SharedPreferences.Editor editor = MainActivity.preferences.edit();
+            SharedPreferences.Editor editor = Principal.preferences.edit();
             editor.putString("uid", "");
             editor.putString("rol", "");
+            editor.putString("estado", "");
             editor.apply();
             //MainActivity.preferences.edit().clear().apply();
             dialog.ocultar_mensaje();
-
-            startActivity(new Intent(vista.getContext(), MainActivity.class));
+            startActivity(new Intent(vista.getContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            requireActivity().finish();
 
         });
 

@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
             >
 
             <androidx.cardview.widget.CardView
@@ -163,6 +162,38 @@
                         >
 
                     </Spinner>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Estado:"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinner_estado"
+                        android:layout_marginBottom="10dp"
+                        >
+                    </Spinner>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha Inicio de Contrato:"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <CalendarView
+                        android:id="@+id/fecha_inicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    </CalendarView>
 
                 </LinearLayout>
 

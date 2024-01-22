@@ -18,9 +18,9 @@ import com.jonathanaguilar.datareflix.R;
 public class Add_usuario extends AppCompatActivity {
 
     EditText editTextcedula, editTextnombre, editTextTextEmailAddress, editTextTextPhone;
-    Spinner spinner_tipo;
+    Spinner spinner_tipo, spinner_estado;
     Button btn_add_usuario;
-    ArrayAdapter<CharSequence> adapterspinner_tipo;
+    ArrayAdapter<CharSequence> adapterspinner_tipo, adapterspinner_estado;
     Alert_dialog alertDialog;
     Progress_dialog dialog;
     @Override
@@ -36,6 +36,7 @@ public class Add_usuario extends AppCompatActivity {
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         editTextTextPhone = findViewById(R.id.editTextTextPhone);
         spinner_tipo = findViewById(R.id.spinner_tipo);
+        spinner_estado = findViewById(R.id.spinner_estado);
         btn_add_usuario = findViewById(R.id.btn_add_usuario);
 
         dialog = new Progress_dialog(this);
@@ -44,6 +45,11 @@ public class Add_usuario extends AppCompatActivity {
         adapterspinner_tipo = ArrayAdapter.createFromResource(this, R.array.rol, android.R.layout.simple_spinner_item);
         adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_tipo.setAdapter(adapterspinner_tipo);
+
+        adapterspinner_estado = ArrayAdapter.createFromResource(this, R.array.estado_user, android.R.layout.simple_spinner_item);
+        adapterspinner_estado.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_estado.setAdapter(adapterspinner_estado);
+
 
         btn_add_usuario.setOnClickListener(view -> {
 

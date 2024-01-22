@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 public class MainActivity extends AppCompatActivity {
 
     public static FirebaseDatabase DB = FirebaseDatabase.getInstance();
-    public static SharedPreferences preferences;
+    SharedPreferences preferences;
     DatabaseReference databaseReference;
     EditText txt_usuario, txt_clave;
     Progress_dialog dialog;
@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         Button btn_ingreso = findViewById(R.id.btn_ingresar);
         btn_ingresar_huella = findViewById(R.id.btn_ingresar_huella);
 
-        preferences = getPreferences(MODE_PRIVATE);
+        preferences = getSharedPreferences("datareflix",MODE_PRIVATE);
+
         databaseReference = DB.getReference();
         txt_usuario = findViewById(R.id.editTextTextEmailAddress);
         txt_clave = findViewById(R.id.editTextTextPassword);
@@ -113,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
                                             editor.putString("rol", Objects.requireNonNull(snapshot.child("rol").getValue()).toString());
                                             editor.putString("estado", Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
                                             editor.apply();
-                                            finish();
                                             startActivity(new Intent(getBaseContext(), Principal.class));
+                                            finish();
 
                                         }else{
                                             Toast.makeText(getApplicationContext(),"El usuario no está activo",Toast.LENGTH_LONG).show();
@@ -198,11 +199,12 @@ public class MainActivity extends AppCompatActivity {
                                             editor.putString("estado", Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
                                             editor.apply();
                                             dialog.ocultar_mensaje();
+                                            startActivity(new Intent(getBaseContext(), Principal.class));
                                             finish();
-                                            startActivity(new Intent(getApplicationContext(), Principal.class));
+
                                         }else{
                                             dialog.ocultar_mensaje();
-                                            Toast.makeText(getApplicationContext(),"El usuario no está activo",Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(),"El usuario no está activo",Toast.LENGTH_LONG).show();
                                         }
 
                                     }
@@ -251,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
         if (!preferences.getString("uid","").isEmpty() && !preferences.getString("estado","").isEmpty()) {
 
             if(preferences.getString("estado","").equalsIgnoreCase("activo")){
+                startActivity(new Intent(this, Principal.class));
                 finish();
-                startActivity(new Intent(getApplicationContext(), Principal.class));
             }else{
                 Toast.makeText(this,"El usuario no está activo",Toast.LENGTH_LONG).show();
             }
