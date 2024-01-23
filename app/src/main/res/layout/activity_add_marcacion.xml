@@ -28,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
             >
 
             <androidx.cardview.widget.CardView
@@ -77,15 +76,66 @@
                 android:layout_marginRight="15dp">
 
                 <TextView
+                    android:id="@+id/estado_gps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Estado de GPS"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:padding="5dp"
+                    android:textStyle="bold"
                     >
 
                 </TextView>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha y Hora de Ingreso:"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/fecha_hora_ingreso"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="dd/MM/yyyy - HH:mm:ss"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha y Hora de Salida:"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/fecha_hora_salida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="dd/MM/yyyy - HH:mm:ss"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -122,6 +172,7 @@
 
             </androidx.cardview.widget.CardView>
 
+
             <Button
                 android:id="@+id/btn_marcar_manual"
                 android:layout_width="match_parent"
@@ -141,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
                 android:backgroundTint="@color/proyecto_light"
                 android:padding="15dp"
                 android:textColor="@color/white"

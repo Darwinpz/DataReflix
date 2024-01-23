@@ -30,7 +30,7 @@ import java.util.Objects;
 public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
-    TextView fecha_hora_marcacion, txt_nombre, tipo_marcacion, estado_marcacion;
+    TextView fecha_hora_marcacion, txt_nombre, tipo_marcacion, estado_marcacion, fecha_hora_ingreso, fecha_hora_salida;
     Button btn_del_marcacion;
     String uid = "", uid_empleado = "", empleado = "", fecha_hora;
     Alert_dialog alertDialog;
@@ -49,6 +49,9 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
         estado_marcacion = findViewById(R.id.estado_marcacion);
         fecha_hora_marcacion = findViewById(R.id.fecha_hora_marcacion);
         btn_del_marcacion = findViewById(R.id.btn_del_marcacion);
+
+        fecha_hora_ingreso = findViewById(R.id.fecha_hora_ingreso);
+        fecha_hora_salida = findViewById(R.id.fecha_hora_salida);
 
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
@@ -71,6 +74,38 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
             }else{
                 btn_del_marcacion.setVisibility(View.GONE);
             }
+
+            Principal.databaseReference.child("horarios").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if(snapshot.exists()) {
+
+                        for (DataSnapshot datos : snapshot.getChildren()) {
+
+                            if (datos.child("fecha").exists() && datos.child("hora_inicio").exists() && datos.child("hora_fin").exists()) {
+
+                                if(Objects.requireNonNull(datos.child("fecha").getValue()).toString().equalsIgnoreCase(fecha_hora.split(" ")[0])){
+
+                                    if(datos.child("hora_inicio").exists()) {
+                                        String h_inicio = Objects.requireNonNull(datos.child("hora_inicio").getValue()).toString();
+                                        fecha_hora_ingreso.setText(fecha_hora.split(" ")[0] +" - "+h_inicio);
+                                    }
+                                    if(datos.child("hora_fin").exists()) {
+                                        String h_fin = Objects.requireNonNull(datos.child("hora_fin").getValue()).toString();
+                                        fecha_hora_salida.setText(fecha_hora.split(" ")[0] +" - "+h_fin);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
             btn_del_marcacion.setOnClickListener(view -> {
 

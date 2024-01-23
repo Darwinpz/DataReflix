@@ -17,11 +17,15 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,13 +41,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
-import com.jonathanaguilar.datareflix.MainActivity;
 import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executor;
@@ -62,9 +68,15 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     Progress_dialog dialog;
     Button btn_marcar_manual;
     Button btn_marcar_huella;
-    ArrayAdapter<CharSequence> adapterspinner_tipo;
+    ArrayAdapter<String> adapterspinner_tipo;
     Spinner spinner_tipo;
     String uid_biometric  = "";
+    TextView estado_gps, fecha_hora_ingreso, fecha_hora_salida;
+    String estado = "Asistencia";
+    String fecha_horario = "";
+    int hora_inicio, minutos_inicio, hora_fin, minutos_fin;
+
+    List<String> listaTipoMarcacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +91,18 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
         btn_marcar_manual = findViewById(R.id.btn_marcar_manual);
         btn_marcar_huella = findViewById(R.id.btn_marcar_huella);
 
+        fecha_hora_ingreso = findViewById(R.id.fecha_hora_ingreso);
+        fecha_hora_salida = findViewById(R.id.fecha_hora_salida);
+
+        estado_gps = findViewById(R.id.estado_gps);
+
         btn_marcar_manual.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
         btn_marcar_huella.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
 
         spinner_tipo = findViewById(R.id.spinner_tipo);
-        adapterspinner_tipo = ArrayAdapter.createFromResource(this, R.array.tipo_marcacion, android.R.layout.simple_spinner_item);
+
+        listaTipoMarcacion = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.tipo_marcacion)));
+        adapterspinner_tipo = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,listaTipoMarcacion);
         adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_tipo.setAdapter(adapterspinner_tipo);
 
@@ -91,6 +110,145 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
         alertDialog = new Alert_dialog(this);
 
         if(!uid_biometric.isEmpty()){
+
+            String fecha_comparar = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+
+            Principal.databaseReference.child("usuarios").child(Principal.id).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if(snapshot.exists()) {
+                        int count = 0;
+                        if (snapshot.child("marcaciones").exists()) {
+
+                            for (DataSnapshot datos : snapshot.child("marcaciones").getChildren()) {
+
+                                if (datos.child("fecha_hora").exists() && datos.child("tipo").exists()) {
+
+                                    if (Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString().contains(fecha_comparar)) {
+                                        count++;
+
+                                        listaTipoMarcacion.remove(Objects.requireNonNull(datos.child("tipo").getValue()).toString());
+                                        adapterspinner_tipo.notifyDataSetChanged();
+
+                                    }
+
+                                }
+
+                            }
+                            if(count<=0){
+                                listaTipoMarcacion.clear();
+                                listaTipoMarcacion.add("Selecciona");
+                                listaTipoMarcacion.add("Inicio de Jornada");
+                                adapterspinner_tipo.notifyDataSetChanged();
+                            }
+
+                            if(!listaTipoMarcacion.contains("Fin de Jornada") && !listaTipoMarcacion.contains("Inicio de Jornada")){
+                                listaTipoMarcacion.clear();
+                                listaTipoMarcacion.add("Selecciona");
+                                adapterspinner_tipo.notifyDataSetChanged();
+                            }
+
+                        }else{
+                            listaTipoMarcacion.clear();
+                            listaTipoMarcacion.add("Selecciona");
+                            listaTipoMarcacion.add("Inicio de Jornada");
+                            adapterspinner_tipo.notifyDataSetChanged();
+                        }
+
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+            Principal.databaseReference.child("horarios").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if(snapshot.exists()) {
+
+                        for (DataSnapshot datos : snapshot.getChildren()) {
+
+                            if (datos.child("fecha").exists() && datos.child("hora_inicio").exists() && datos.child("hora_fin").exists()) {
+
+                                if(Objects.requireNonNull(datos.child("fecha").getValue()).toString().equalsIgnoreCase(fecha_comparar)){
+
+                                    fecha_horario = fecha_comparar;
+
+                                    if(datos.child("hora_inicio").exists()) {
+                                        String h_inicio = Objects.requireNonNull(datos.child("hora_inicio").getValue()).toString();
+                                        hora_inicio = Integer.parseInt(h_inicio.split(":")[0]);
+                                        minutos_inicio = Integer.parseInt(h_inicio.split(":")[1].split(" ")[0]);
+                                        fecha_hora_ingreso.setText(fecha_horario +" - "+h_inicio);
+                                    }
+                                    if(datos.child("hora_fin").exists()) {
+                                        String h_fin = Objects.requireNonNull(datos.child("hora_fin").getValue()).toString();
+                                        hora_fin = Integer.parseInt(h_fin.split(":")[0]);
+                                        minutos_fin = Integer.parseInt(h_fin.split(":")[1].split(" ")[0]);
+                                        fecha_hora_salida.setText(fecha_horario +" - "+h_fin);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+
+                    Date horaActual = new Date();
+
+                    String hora_now = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(horaActual);
+                    // Actualiza el TextView con la hora formateada
+                    estado_gps.setText("Marcación: "+hora_now);
+
+                    // Programa el próximo llamado después de 1000 milisegundos (1 segundo)
+
+                    if(listaTipoMarcacion.contains("Inicio de Jornada")) {
+
+                        if (hora_inicio >= Integer.parseInt(hora_now.split(":")[0]) && minutos_inicio >= Integer.parseInt(hora_now.split(":")[1])) {
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.success));
+                            estado = "Asistencia";
+                        } else {
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
+                            estado = "Atraso";
+                        }
+
+                    }
+
+                    if(listaTipoMarcacion.contains("Fin de Jornada")) {
+
+                        if (hora_fin <= Integer.parseInt(hora_now.split(":")[0]) && minutos_fin <= Integer.parseInt(hora_now.split(":")[1])) {
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.warning));
+                            estado = "Horas extras";
+                        }else{
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.proyecto_night));
+                            estado = "Salida";
+                        }
+
+                    }
+
+                    handler.postDelayed(this, 1000);
+
+                }
+            };
+
+            // Inicia el primer llamado
+            handler.post(runnable);
 
             if(Principal.id.equals(uid_biometric)){
                 btn_marcar_huella.setVisibility(View.VISIBLE);
@@ -275,6 +433,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                 marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
                                 marcacion.latitud = LATITUD;
                                 marcacion.longitud =  LONGITUD;
+                                marcacion.estado = estado;
                                 marcacion.tipo = spinner_tipo.getSelectedItem().toString();
 
                                 Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
@@ -334,6 +493,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                         if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
                                             Ob_marcacion marcacion = new Ob_marcacion();
                                             marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                                            marcacion.estado = estado;
                                             marcacion.latitud = LATITUD;
                                             marcacion.longitud =  LONGITUD;
                                             marcacion.tipo = spinner_tipo.getSelectedItem().toString();
