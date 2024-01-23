@@ -148,8 +148,12 @@ public class Add_usuario extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())){
-                    editTextTextPhone.setError("Ingresa un celular válido");
+                if(editable.toString().length() == 10) {
+                    if (!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())) {
+                        editTextTextPhone.setError("Ingresa un celular válido");
+                    }
+                }else{
+                    editTextcedula.setError("Ingresa 10 dígitos");
                 }
             }
         });
