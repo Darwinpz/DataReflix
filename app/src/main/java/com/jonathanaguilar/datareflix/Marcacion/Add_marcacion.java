@@ -32,6 +32,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.MainActivity;
@@ -95,8 +98,8 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                 btn_marcar_huella.setVisibility(View.GONE);
             }
 
-        }
 
+        }
 
         getLocationPermission();
 

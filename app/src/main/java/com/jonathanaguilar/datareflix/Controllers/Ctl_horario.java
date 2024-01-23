@@ -13,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_horario;
 import com.jonathanaguilar.datareflix.Objetos.Ob_horario;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Ctl_horario {
@@ -33,6 +35,40 @@ public class Ctl_horario {
     public void eliminar_horario(String uid){
         dbref.child("horarios").child(uid).removeValue();
     }
+
+    public void Count_horario(long fecha_cal_ini, Interfaces.Firebase_count firebase_count){
+
+        String seleccionado = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
+        dbref.child("horarios").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int count = 0;
+                    for (DataSnapshot datos:snapshot.getChildren()) {
+
+                        if(datos.child("fecha").exists()){
+
+                            if(datos.child("fecha").getValue().toString().equalsIgnoreCase(seleccionado)){
+                               count ++ ;
+                            }
+
+                        }
+
+                    }
+
+                    firebase_count.count(count);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 
     public void VerHorarios(Adapter_horario list_horario, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 

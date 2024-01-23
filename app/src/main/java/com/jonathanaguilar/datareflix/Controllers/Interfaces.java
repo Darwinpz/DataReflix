@@ -9,5 +9,13 @@ public class Interfaces {
     public interface build{
         void verbuilder(AlertDialog.Builder builder);
     }
+
+    /**
+     * @implNote Obtener un contador de registros
+     */
+    public interface Firebase_count{
+        void count(long cantidad);
+    }
+
 }
 

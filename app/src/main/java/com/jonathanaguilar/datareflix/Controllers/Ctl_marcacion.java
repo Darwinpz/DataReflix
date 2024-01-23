@@ -32,6 +32,9 @@ public class Ctl_marcacion {
     }
 
 
+
+
+
     public void VerMarcaciones(Adapter_marcacion list_marcacion, String usuario, String fecha, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
