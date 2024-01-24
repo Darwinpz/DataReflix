@@ -58,12 +58,15 @@ public class MainActivity extends AppCompatActivity {
             case BiometricManager.BIOMETRIC_SUCCESS:
             case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
                 btn_ingresar_huella.setVisibility(View.VISIBLE);
+                Principal.vale_biometrico = true;
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 btn_ingresar_huella.setVisibility(View.GONE);
+                Principal.vale_biometrico = false;
                 break;
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 btn_ingresar_huella.setVisibility(View.GONE);
+                Principal.vale_biometrico = false;
                 break;
         }
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
                     Toast.makeText(getApplicationContext(), "ERROR "+errString,Toast.LENGTH_SHORT).show();
-
+                    Principal.vale_biometrico = false;
                     alertDialog.crear_mensaje("No está Configurado el Biométrico", "Configura y vuelve a Intentar", builder -> {
                         builder.setCancelable(false);
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
-
+                    Principal.vale_biometrico = true;
                     String uid_biometric = preferences.getString("uid_biometric","");
 
                     if(!uid_biometric.isEmpty()) {
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
+                    Principal.vale_biometrico = false;
                     Toast.makeText(getApplicationContext(), "Error al Autenticar",Toast.LENGTH_SHORT).show();
                 }
             });

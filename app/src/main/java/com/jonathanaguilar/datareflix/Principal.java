@@ -40,6 +40,7 @@ public class Principal extends AppCompatActivity {
     Alert_dialog alertDialog;
     private boolean doubleBackToExitPressedOnce = false;
     private static final int DOUBLE_CLICK_INTERVAL = 2000;
+    public static boolean vale_biometrico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,19 +70,23 @@ public class Principal extends AppCompatActivity {
             alertDialog = new Alert_dialog(this);
 
             if(preferences.getString("uid_biometric","").isEmpty()){
-                alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
-                    builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("uid_biometric", id);
-                        editor.apply();
-                        Toast.makeText(this,"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
 
+                if(vale_biometrico){
+
+                    alertDialog.crear_mensaje("¿Desea Agregar este usuario al Biométrico?", "Accede con un solo usuario, directamente con Biometría", builder -> {
+                        builder.setPositiveButton("Aceptar", (dialogInterface, i) -> {
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("uid_biometric", id);
+                            editor.apply();
+                            Toast.makeText(this,"Biometrico Agregado Correctamente", Toast.LENGTH_SHORT).show();
+
+                        });
+                        builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
+                        builder.setCancelable(false);
+                        builder.create().show();
                     });
-                    builder.setNeutralButton("Cancelar", (dialogInterface, i) -> {});
-                    builder.setCancelable(false);
-                    builder.create().show();
-                });
 
+                }
             }
 
             databaseReference.child("usuarios").child(id).addValueEventListener(new ValueEventListener() {

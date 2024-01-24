@@ -415,132 +415,142 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                     if (task.isSuccessful()) {
 
                         Location currLocation = (Location) task.getResult();
-                        LATITUD = currLocation.getLatitude();
-                        LONGITUD = currLocation.getLongitude();
 
-                        moveCamera(new LatLng(currLocation.getLatitude(), currLocation.getLongitude()), DEFAULT_ZOOM,"Mi Ubicación");
+                        if(currLocation != null){
 
-                        btn_marcar_manual.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.success)));
-                        btn_marcar_huella.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.proyecto_light)));
+                            LATITUD = currLocation.getLatitude();
+                            LONGITUD = currLocation.getLongitude();
 
-                        btn_marcar_manual.setOnClickListener(view -> {
+                            moveCamera(new LatLng(currLocation.getLatitude(), currLocation.getLongitude()), DEFAULT_ZOOM,"Mi Ubicación");
 
-                            dialog.mostrar_mensaje("Guardando Marcación...");
+                            btn_marcar_manual.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.success)));
+                            btn_marcar_huella.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.proyecto_light)));
 
-                            if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
+                            btn_marcar_manual.setOnClickListener(view -> {
 
-                                Ob_marcacion marcacion = new Ob_marcacion();
-                                marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-                                marcacion.latitud = LATITUD;
-                                marcacion.longitud =  LONGITUD;
-                                marcacion.estado = estado;
-                                marcacion.tipo = spinner_tipo.getSelectedItem().toString();
+                                dialog.mostrar_mensaje("Guardando Marcación...");
 
-                                Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
+                                if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
 
-                                dialog.ocultar_mensaje();
-                                alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
-                                    builder.setCancelable(false);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                                    builder.create().show();
-                                });
+                                    Ob_marcacion marcacion = new Ob_marcacion();
+                                    marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                                    marcacion.latitud = LATITUD;
+                                    marcacion.longitud =  LONGITUD;
+                                    marcacion.estado = estado;
+                                    marcacion.tipo = spinner_tipo.getSelectedItem().toString();
 
-                            }else{
-                                dialog.ocultar_mensaje();
-                                alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
-                                    builder.setCancelable(true);
-                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                    builder.create().show();
-                                });
-                            }
+                                    Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
 
-                        });
-
-                        btn_marcar_huella.setOnClickListener(view -> {
-
-                            Executor executor = ContextCompat.getMainExecutor(this);
-
-                            BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
-                                @Override
-                                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                                    super.onAuthenticationError(errorCode, errString);
-                                    Toast.makeText(getApplicationContext(), "ERROR "+errString,Toast.LENGTH_SHORT).show();
-
-                                    alertDialog.crear_mensaje("No está Configurado el Biométrico", "Configura y vuelve a Intentar", builder -> {
+                                    dialog.ocultar_mensaje();
+                                    alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
                                         builder.setCancelable(false);
-                                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
-
-                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-                                                Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
-                                                enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
-                                                startActivity(enrollIntent);
-                                            }
-
-                                        });
+                                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
                                         builder.create().show();
                                     });
 
+                                }else{
+                                    dialog.ocultar_mensaje();
+                                    alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
+                                        builder.setCancelable(true);
+                                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                                        builder.create().show();
+                                    });
                                 }
 
-                                @Override
-                                public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                                    super.onAuthenticationSucceeded(result);
-
-                                    if(!uid_biometric.isEmpty()) {
-
-                                        dialog.mostrar_mensaje("Guardando Marcación...");
-
-                                        if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
-                                            Ob_marcacion marcacion = new Ob_marcacion();
-                                            marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
-                                            marcacion.estado = estado;
-                                            marcacion.latitud = LATITUD;
-                                            marcacion.longitud =  LONGITUD;
-                                            marcacion.tipo = spinner_tipo.getSelectedItem().toString();
-
-                                            Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
-
-                                            dialog.ocultar_mensaje();
-                                            alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
-                                                builder.setCancelable(false);
-                                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                                                builder.create().show();
-                                            });
-                                        }else{
-                                            dialog.ocultar_mensaje();
-                                            alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
-                                                builder.setCancelable(true);
-                                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                                builder.create().show();
-                                            });
-                                        }
-
-                                    }else{
-                                        Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-
-                                @Override
-                                public void onAuthenticationFailed() {
-                                    super.onAuthenticationFailed();
-                                    Toast.makeText(getApplicationContext(), "Error al Autenticar",Toast.LENGTH_SHORT).show();
-                                }
                             });
 
+                            btn_marcar_huella.setOnClickListener(view -> {
 
-                            BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                                    .setTitle("Verificación DataReflix")
-                                    .setSubtitle("Ingresa tu huella para registrar la marcación")
-                                    .setNegativeButtonText("Cancelar")
-                                    .setConfirmationRequired(false)
-                                    .build();
+                                Executor executor = ContextCompat.getMainExecutor(this);
 
-                            biometricPrompt.authenticate(promptInfo);
+                                BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
+                                    @Override
+                                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                        super.onAuthenticationError(errorCode, errString);
+                                        Toast.makeText(getApplicationContext(), "ERROR "+errString,Toast.LENGTH_SHORT).show();
+
+                                        alertDialog.crear_mensaje("No está Configurado el Biométrico", "Configura y vuelve a Intentar", builder -> {
+                                            builder.setCancelable(false);
+                                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+
+                                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                                                    Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
+                                                    enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+                                                    startActivity(enrollIntent);
+                                                }
+
+                                            });
+                                            builder.create().show();
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                                        super.onAuthenticationSucceeded(result);
+
+                                        if(!uid_biometric.isEmpty()) {
+
+                                            dialog.mostrar_mensaje("Guardando Marcación...");
+
+                                            if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
+                                                Ob_marcacion marcacion = new Ob_marcacion();
+                                                marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                                                marcacion.estado = estado;
+                                                marcacion.latitud = LATITUD;
+                                                marcacion.longitud =  LONGITUD;
+                                                marcacion.tipo = spinner_tipo.getSelectedItem().toString();
+
+                                                Ver_marcaciones.ctlMarcacion.crear_marcacion(Principal.id,marcacion);
+
+                                                dialog.ocultar_mensaje();
+                                                alertDialog.crear_mensaje("Correcto", "Marcación Creada Correctamente", builder -> {
+                                                    builder.setCancelable(false);
+                                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                                                    builder.create().show();
+                                                });
+                                            }else{
+                                                dialog.ocultar_mensaje();
+                                                alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Tipo de Marcación", builder -> {
+                                                    builder.setCancelable(true);
+                                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                                                    builder.create().show();
+                                                });
+                                            }
+
+                                        }else{
+                                            Toast.makeText(getApplicationContext(),"No hay Registro Biometrico guardado",Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onAuthenticationFailed() {
+                                        super.onAuthenticationFailed();
+                                        Toast.makeText(getApplicationContext(), "Error al Autenticar",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
 
-                        });
+                                BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                                        .setTitle("Verificación DataReflix")
+                                        .setSubtitle("Ingresa tu huella para registrar la marcación")
+                                        .setNegativeButtonText("Cancelar")
+                                        .setConfirmationRequired(false)
+                                        .build();
 
+                                biometricPrompt.authenticate(promptInfo);
+
+
+                            });
+
+                        }else{
+                            alertDialog.crear_mensaje("Error al Obtener la Ubicación", "Activa los permisos de ubicación", builder -> {
+                                builder.setCancelable(false);
+                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                                builder.create().show();
+                            });
+                        }
                     }
 
                 });
