@@ -157,8 +157,14 @@ public class Ctl_actividad {
                             if (snapshot.child("fecha_inicio").exists()) {
                                 actividad.fecha_inicio = Objects.requireNonNull(snapshot.child("fecha_inicio").getValue()).toString();
                             }
+                            if (snapshot.child("hora_inicio").exists()) {
+                                actividad.hora_inicio = Objects.requireNonNull(snapshot.child("hora_inicio").getValue()).toString();
+                            }
                             if (snapshot.child("fecha_fin").exists()) {
                                 actividad.fecha_fin = Objects.requireNonNull(snapshot.child("fecha_fin").getValue()).toString();
+                            }
+                            if (snapshot.child("hora_fin").exists()) {
+                                actividad.hora_fin = Objects.requireNonNull(snapshot.child("hora_fin").getValue()).toString();
                             }
                             if (snapshot.child("estado").exists()) {
                                 actividad.estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();

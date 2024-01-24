@@ -56,10 +56,11 @@ public class Ver_marcaciones extends AppCompatActivity {
             startActivity(new Intent(this, Add_marcacion.class));
         });
 
+
+
         if(!Principal.id.isEmpty() && !Principal.Nombre.isEmpty()) {
 
-//          ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_sinresultados, progressBar, txt_contador);
-
+            txt_nombre.setText(Principal.Nombre);
             ctlMarcacion.Ver_my_Marcaciones(adapterMarcacion, Principal.id, txt_sinresultados, progressBar, txt_contador);
 
         }

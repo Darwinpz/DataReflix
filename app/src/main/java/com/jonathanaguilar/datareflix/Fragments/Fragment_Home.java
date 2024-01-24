@@ -18,6 +18,7 @@ import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 import com.jonathanaguilar.datareflix.Reportes.Ver_reportes;
 import com.jonathanaguilar.datareflix.Solicitudes.Ver_solicitudes;
+import com.jonathanaguilar.datareflix.Tiendas.Ver_tienda;
 
 public class Fragment_Home extends Fragment {
 
@@ -53,6 +54,10 @@ public class Fragment_Home extends Fragment {
 
         card_reportes.setOnClickListener(view -> {
             startActivity(new Intent(vista.getContext(), Ver_reportes.class));
+        });
+
+        card_tienda.setOnClickListener(view -> {
+            startActivity(new Intent(vista.getContext(), Ver_tienda.class));
         });
 
         if(!Principal.rol.isEmpty()){

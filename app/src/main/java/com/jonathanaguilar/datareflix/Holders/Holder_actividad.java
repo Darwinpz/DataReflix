@@ -12,13 +12,14 @@ import com.jonathanaguilar.datareflix.R;
 
 public class Holder_actividad extends RecyclerView.ViewHolder{
 
-    public TextView card_fecha, card_tipo, card_estado, card_empleado;
+    public TextView card_fecha, card_fecha_fin, card_tipo, card_estado, card_empleado;
     public CardView cardView;
 
     public Holder_actividad(@NonNull View itemView) {
         super(itemView);
 
         card_fecha = itemView.findViewById(R.id.card_fecha);
+        card_fecha_fin = itemView.findViewById(R.id.card_fecha_fin);
         card_tipo = itemView.findViewById(R.id.card_tipo);
         card_estado = itemView.findViewById(R.id.card_estado);
         card_empleado = itemView.findViewById(R.id.card_empleado);

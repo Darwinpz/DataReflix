@@ -45,7 +45,6 @@ public class Ver_horarios extends AppCompatActivity {
         mes = findViewById(R.id.mes);
         recyclerView = findViewById(R.id.recyclerview_semanal);
 
-
         adapterSemanas = new Adapter_semanas(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
