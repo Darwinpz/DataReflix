@@ -65,7 +65,7 @@ public class Dialog_Fragment_Usuarios extends DialogFragment {
             startActivity(new Intent(vista.getContext(), Add_usuario.class));
         });
 
-        ctlUsuarios.VerUsuarios(adapterUsuario, Principal.id, txt_sinresultados, progressBar, txt_contador);
+        ctlUsuarios.VerUsuarios(adapterUsuario,"activo", Principal.id, txt_sinresultados, progressBar, txt_contador);
 
         dialogFragment = this;
         return builder.create();

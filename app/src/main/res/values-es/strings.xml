@@ -64,6 +64,7 @@
     <string-array name="estado_user">
         <item>Selecciona</item>
         <item>Activo</item>
+        <item>Permiso</item>
         <item>Inactivo</item>
     </string-array>
 

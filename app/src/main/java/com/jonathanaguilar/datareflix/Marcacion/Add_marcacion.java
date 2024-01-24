@@ -137,6 +137,12 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                             }
 
+                            if(count == 0){
+                                listaTipoMarcacion.clear();
+                                listaTipoMarcacion.add("Selecciona");
+                                listaTipoMarcacion.add("Inicio de Jornada");
+                                adapterspinner_tipo.notifyDataSetChanged();
+                            }
                             if(count == 1){
                                 listaTipoMarcacion.clear();
                                 listaTipoMarcacion.add("Selecciona");
@@ -243,14 +249,30 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                     if(listaTipoMarcacion.contains("Fin de Jornada")) {
 
-                        if (hora_fin <= Integer.parseInt(hora_now.split(":")[0]) && minutos_fin <= Integer.parseInt(hora_now.split(":")[1])) {
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                            estado = "Registro";
-                        }else{
+                        if(Integer.parseInt(hora_now.split(":")[0]) < hora_fin ||
+                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) < minutos_fin )){
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
+                            estado = "Salida temprano";
+
+                        } else if(Integer.parseInt(hora_now.split(":")[0]) > hora_fin ||
+                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) > minutos_fin )){
                             estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.warning));
                             estado = "Horas extras";
+
+                        }else{
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                            estado = "Salida";
                         }
 
+                        /*if (hora_fin <= Integer.parseInt(hora_now.split(":")[0]) && minutos_fin <= Integer.parseInt(hora_now.split(":")[1])) {
+                            estado = "Registro";
+                        }*/
+
+                    }
+
+                    if(listaTipoMarcacion.contains("Inicio de Almuerzo") || listaTipoMarcacion.contains("Fin de Almuerzo")) {
+                        estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                        estado = "Registro";
                     }
 
                     handler.postDelayed(this, 1000);

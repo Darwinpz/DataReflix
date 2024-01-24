@@ -77,8 +77,14 @@ public class Ctl_actividad {
                                 if (datos.child("fecha_inicio").exists()) {
                                     actividad.fecha_inicio = Objects.requireNonNull(datos.child("fecha_inicio").getValue()).toString();
                                 }
+                                if (datos.child("hora_inicio").exists()) {
+                                    actividad.hora_inicio = Objects.requireNonNull(datos.child("hora_inicio").getValue()).toString();
+                                }
                                 if (datos.child("fecha_fin").exists()) {
                                     actividad.fecha_fin = Objects.requireNonNull(datos.child("fecha_fin").getValue()).toString();
+                                }
+                                if (datos.child("hora_fin").exists()) {
+                                    actividad.hora_fin = Objects.requireNonNull(datos.child("hora_fin").getValue()).toString();
                                 }
                                 if (datos.child("estado").exists()) {
                                     actividad.estado = Objects.requireNonNull(datos.child("estado").getValue()).toString();

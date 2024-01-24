@@ -53,7 +53,7 @@ public class Fragment_Usuarios extends Fragment {
             startActivity(new Intent(vista.getContext(), Add_usuario.class));
         });
 
-        ctlUsuarios.VerUsuarios(adapterUsuario,Principal.id, txt_sinresultados, progressBar, txt_contador);
+        ctlUsuarios.VerUsuarios(adapterUsuario,"",Principal.id, txt_sinresultados, progressBar, txt_contador);
 
         return vista;
 

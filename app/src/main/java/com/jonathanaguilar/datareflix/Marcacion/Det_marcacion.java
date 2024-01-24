@@ -164,13 +164,18 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
                         estado_marcacion.setText(Objects.requireNonNull(snapshot.child("estado").getValue()).toString());
                         switch (estado_marcacion.getText().toString().toLowerCase()){
                             case "asistencia":
+                            case "salida":
                                 estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.success));
                                 break;
                             case "atraso":
+                            case "salida temprano":
                                 estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.danger));
                                 break;
+                            case "horas extras":
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.warning));
+                                break;
                             default:
-                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext() ,R.color.proyecto_night));
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext() ,R.color.black));
                                 break;
                         }
 

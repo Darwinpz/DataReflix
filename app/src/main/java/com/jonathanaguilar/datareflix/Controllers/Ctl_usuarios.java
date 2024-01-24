@@ -66,7 +66,7 @@ public class Ctl_usuarios {
     }
 
 
-    public void VerUsuarios(Adapter_usuario list_usuario, String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
+    public void VerUsuarios(Adapter_usuario list_usuario, String estado , String uid, final TextView textView, final ProgressBar progressBar, TextView txt_contador) {
 
         progressBar.setVisibility(View.VISIBLE);
         textView.setVisibility(View.VISIBLE);
@@ -109,13 +109,14 @@ public class Ctl_usuarios {
                                 usuario.rol = Objects.requireNonNull(snapshot.child("rol").getValue()).toString();
                             }
 
-                            list_usuario.AddUsuario(usuario);
-                            contador++;
+                            if (estado.isEmpty() || usuario.estado.equalsIgnoreCase(estado)) {
+                                list_usuario.AddUsuario(usuario);
+                                contador++;
+                            }
 
                         }
 
                     }
-
 
                     txt_contador.setText(contador + " Usuarios");
                     progressBar.setVisibility(View.GONE);

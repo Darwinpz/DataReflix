@@ -102,7 +102,7 @@ public class Principal extends AppCompatActivity {
 
                         if (snapshot.child("estado").exists()) {
 
-                            if(!Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo")){
+                            if(Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("inactivo")){
 
                                 /*alertDialog.crear_mensaje("Tu usuario está Inactivo", "Se va a Cerrar tu sesión", builder -> {
                                     builder.setCancelable(false);

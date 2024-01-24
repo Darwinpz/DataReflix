@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (preferences.getString("uid", "").isEmpty()) {
 
-                                        if(Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo"))
+                                        if(!Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("inactivo"))
                                         {
                                             SharedPreferences.Editor editor = preferences.edit();
                                             editor.putString("uid", snapshot.getKey());
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         boolean existe = false;
                         for (DataSnapshot snapshot : datasnapshot.getChildren()) {
 
-                            if(snapshot.child("cedula").exists() && snapshot.child("clave").exists() && snapshot.child("rol").exists()) {
+                            if(snapshot.child("cedula").exists() && snapshot.child("clave").exists() && snapshot.child("rol").exists() && snapshot.child("estado").exists()) {
                                 if (Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().equals(usuario) &&
                                         Objects.requireNonNull(snapshot.child("clave").getValue()).toString().equals(clave)) {
 
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (preferences.getString("uid", "").isEmpty()) {
 
-                                        if(Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("activo"))
+                                        if(!Objects.requireNonNull(snapshot.child("estado").getValue()).toString().equalsIgnoreCase("inactivo"))
                                         {
                                             SharedPreferences.Editor editor = preferences.edit();
                                             editor.putString("uid", snapshot.getKey());
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!preferences.getString("uid","").isEmpty() && !preferences.getString("estado","").isEmpty()) {
 
-            if(preferences.getString("estado","").equalsIgnoreCase("activo")){
+            if(!preferences.getString("estado","").equalsIgnoreCase("inactivo")){
                 startActivity(new Intent(this, Principal.class));
                 finish();
             }else{

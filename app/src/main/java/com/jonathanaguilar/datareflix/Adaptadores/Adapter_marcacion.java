@@ -54,9 +54,11 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
         if(list_marcacion.get(position).estado!=null){
             switch (list_marcacion.get(position).estado.toLowerCase()){
                 case "asistencia":
+                case "salida":
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
                     break;
                 case "atraso":
+                case "salida temprano":
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.danger));
                     break;
                 case "horas extras":
