@@ -119,55 +119,64 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                     if(snapshot.exists()) {
                         int count = 0;
-                        if (snapshot.child("marcaciones").exists()) {
 
-                            for (DataSnapshot datos : snapshot.child("marcaciones").getChildren()) {
+                        if(snapshot.child("estado").getValue().toString().equalsIgnoreCase("activo")) {
 
-                                if (datos.child("fecha_hora").exists() && datos.child("tipo").exists()) {
+                            if (snapshot.child("marcaciones").exists()) {
 
-                                    if (Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString().contains(fecha_comparar)) {
-                                        count++;
+                                for (DataSnapshot datos : snapshot.child("marcaciones").getChildren()) {
 
-                                        listaTipoMarcacion.remove(Objects.requireNonNull(datos.child("tipo").getValue()).toString());
-                                        adapterspinner_tipo.notifyDataSetChanged();
+                                    if (datos.child("fecha_hora").exists() && datos.child("tipo").exists()) {
+
+                                        if (Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString().contains(fecha_comparar)) {
+                                            count++;
+
+                                            listaTipoMarcacion.remove(Objects.requireNonNull(datos.child("tipo").getValue()).toString());
+                                            adapterspinner_tipo.notifyDataSetChanged();
+
+                                        }
 
                                     }
 
                                 }
 
-                            }
+                                if (count == 0) {
+                                    listaTipoMarcacion.clear();
+                                    listaTipoMarcacion.add("Selecciona");
+                                    listaTipoMarcacion.add("Inicio de Jornada");
+                                    adapterspinner_tipo.notifyDataSetChanged();
+                                }
+                                if (count == 1) {
+                                    listaTipoMarcacion.clear();
+                                    listaTipoMarcacion.add("Selecciona");
+                                    listaTipoMarcacion.add("Inicio de Almuerzo");
+                                    adapterspinner_tipo.notifyDataSetChanged();
+                                }
 
-                            if(count == 0){
+                                if (count == 2) {
+                                    listaTipoMarcacion.clear();
+                                    listaTipoMarcacion.add("Selecciona");
+                                    listaTipoMarcacion.add("Fin de Almuerzo");
+                                    adapterspinner_tipo.notifyDataSetChanged();
+                                }
+
+                                if (count == 3) {
+                                    listaTipoMarcacion.clear();
+                                    listaTipoMarcacion.add("Selecciona");
+                                    listaTipoMarcacion.add("Fin de Jornada");
+                                    adapterspinner_tipo.notifyDataSetChanged();
+                                }
+
+                            } else {
                                 listaTipoMarcacion.clear();
                                 listaTipoMarcacion.add("Selecciona");
                                 listaTipoMarcacion.add("Inicio de Jornada");
-                                adapterspinner_tipo.notifyDataSetChanged();
-                            }
-                            if(count == 1){
-                                listaTipoMarcacion.clear();
-                                listaTipoMarcacion.add("Selecciona");
-                                listaTipoMarcacion.add("Inicio de Almuerzo");
-                                adapterspinner_tipo.notifyDataSetChanged();
-                            }
-
-                            if(count == 2){
-                                listaTipoMarcacion.clear();
-                                listaTipoMarcacion.add("Selecciona");
-                                listaTipoMarcacion.add("Fin de Almuerzo");
-                                adapterspinner_tipo.notifyDataSetChanged();
-                            }
-
-                            if(count == 3){
-                                listaTipoMarcacion.clear();
-                                listaTipoMarcacion.add("Selecciona");
-                                listaTipoMarcacion.add("Fin de Jornada");
                                 adapterspinner_tipo.notifyDataSetChanged();
                             }
 
                         }else{
                             listaTipoMarcacion.clear();
                             listaTipoMarcacion.add("Selecciona");
-                            listaTipoMarcacion.add("Inicio de Jornada");
                             adapterspinner_tipo.notifyDataSetChanged();
                         }
 
@@ -205,7 +214,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                     }
                                     if(datos.child("hora_fin").exists()) {
                                         String h_fin = Objects.requireNonNull(datos.child("hora_fin").getValue()).toString();
-                                        Log.e("PRUEBA",h_fin);
                                         hora_fin = Integer.parseInt(h_fin.split(":")[0]);
                                         minutos_fin = Integer.parseInt(h_fin.split(":")[1].split(" ")[0]);
                                         fecha_hora_salida.setText(fecha_horario +" - "+h_fin);
@@ -263,10 +271,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                             estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
                             estado = "Salida";
                         }
-
-                        /*if (hora_fin <= Integer.parseInt(hora_now.split(":")[0]) && minutos_fin <= Integer.parseInt(hora_now.split(":")[1])) {
-                            estado = "Registro";
-                        }*/
 
                     }
 

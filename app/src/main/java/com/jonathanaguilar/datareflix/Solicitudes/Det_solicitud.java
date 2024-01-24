@@ -23,7 +23,9 @@ import com.jonathanaguilar.datareflix.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class Det_solicitud extends AppCompatActivity {
@@ -119,8 +121,15 @@ public class Det_solicitud extends AppCompatActivity {
 
                     if(solicitud.estado.equals("Aprobado") || solicitud.estado.equals("Rechazado")){
                         solicitud.fecha_respuesta = (new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(dia.getTime())) + " - "+ hora;
+
                     }else{
                         solicitud.fecha_respuesta = "";
+                    }
+
+                    if(solicitud.estado.equals("Aprobado")){
+                        Map<String, Object> datos = new HashMap<>();
+                        datos.put("estado", "Permiso");
+                        Principal.databaseReference.child("usuarios").child(uid_empleado).updateChildren(datos);
                     }
 
                     Ver_solicitudes.ctlSolicitud.update_solicitud(uid_empleado,solicitud);
