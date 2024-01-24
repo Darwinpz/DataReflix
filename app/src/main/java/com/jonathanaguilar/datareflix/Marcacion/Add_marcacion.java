@@ -136,16 +136,25 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                 }
 
                             }
-                            if(count<=0){
+
+                            if(count == 1){
                                 listaTipoMarcacion.clear();
                                 listaTipoMarcacion.add("Selecciona");
-                                listaTipoMarcacion.add("Inicio de Jornada");
+                                listaTipoMarcacion.add("Inicio de Almuerzo");
                                 adapterspinner_tipo.notifyDataSetChanged();
                             }
 
-                            if(!listaTipoMarcacion.contains("Fin de Jornada") && !listaTipoMarcacion.contains("Inicio de Jornada")){
+                            if(count == 2){
                                 listaTipoMarcacion.clear();
                                 listaTipoMarcacion.add("Selecciona");
+                                listaTipoMarcacion.add("Fin de Almuerzo");
+                                adapterspinner_tipo.notifyDataSetChanged();
+                            }
+
+                            if(count == 3){
+                                listaTipoMarcacion.clear();
+                                listaTipoMarcacion.add("Selecciona");
+                                listaTipoMarcacion.add("Fin de Jornada");
                                 adapterspinner_tipo.notifyDataSetChanged();
                             }
 
@@ -235,11 +244,11 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                     if(listaTipoMarcacion.contains("Fin de Jornada")) {
 
                         if (hora_fin <= Integer.parseInt(hora_now.split(":")[0]) && minutos_fin <= Integer.parseInt(hora_now.split(":")[1])) {
+                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                            estado = "Registro";
+                        }else{
                             estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.warning));
                             estado = "Horas extras";
-                        }else{
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.proyecto_night));
-                            estado = "Salida";
                         }
 
                     }
