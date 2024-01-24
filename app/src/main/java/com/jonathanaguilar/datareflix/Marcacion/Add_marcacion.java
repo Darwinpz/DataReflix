@@ -190,11 +190,13 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                     }
                                     if(datos.child("hora_fin").exists()) {
                                         String h_fin = Objects.requireNonNull(datos.child("hora_fin").getValue()).toString();
+                                        Log.e("PRUEBA",h_fin);
                                         hora_fin = Integer.parseInt(h_fin.split(":")[0]);
                                         minutos_fin = Integer.parseInt(h_fin.split(":")[1].split(" ")[0]);
                                         fecha_hora_salida.setText(fecha_horario +" - "+h_fin);
                                     }
                                 }
+
                             }
                         }
                     }

@@ -86,7 +86,7 @@ public class Rpt_marcacion extends AppCompatActivity {
                 fecha_now =  new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
             }
 
-            ctlMarcacion.VerMarcaciones(adapterMarcacion,txt_buscador.getText().toString(),fecha_now, txt_sinresultados, progressBar, txt_contador);
+            ctlMarcacion.VerMarcaciones(adapterMarcacion,txt_buscador.getText().toString().trim(),fecha_now, txt_sinresultados, progressBar, txt_contador);
 
         });
 
@@ -102,7 +102,7 @@ public class Rpt_marcacion extends AppCompatActivity {
                     fecha_now =  new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
                 }
 
-                ctlMarcacion.VerMarcaciones(adapterMarcacion,txt_buscador.getText().toString(),fecha_now, txt_sinresultados, progressBar, txt_contador);
+                ctlMarcacion.VerMarcaciones(adapterMarcacion,txt_buscador.getText().toString().trim(),fecha_now, txt_sinresultados, progressBar, txt_contador);
 
                 return true;
 
