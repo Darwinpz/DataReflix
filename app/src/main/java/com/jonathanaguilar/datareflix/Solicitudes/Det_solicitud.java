@@ -131,7 +131,7 @@ public class Det_solicitud extends AppCompatActivity {
                         if(solicitud.tipo.equalsIgnoreCase("Reinicio de Actividades")){
                             datos.put("estado", "Activo");
                         }else{
-                            datos.put("estado", "Permiso");
+                            datos.put("estado", "Permiso Laboral");
                         }
                         Principal.databaseReference.child("usuarios").child(uid_empleado).updateChildren(datos);
                     }
@@ -179,6 +179,21 @@ public class Det_solicitud extends AppCompatActivity {
                             String estado = Objects.requireNonNull(snapshot.child("estado").getValue()).toString();
                             int spinnerPosition = adapterspinner_estado.getPosition(estado);
                             spinner_estado.setSelection(spinnerPosition);
+
+                            if(Principal.rol.equals("Administrador")) {
+                                if (estado.equalsIgnoreCase("aprobado") || estado.equalsIgnoreCase("rechazado")) {
+                                    spinner_estado.setEnabled(false);
+                                    spinner_tipo.setEnabled(false);
+                                    editTextMotivo.setEnabled(false);
+                                    btn_edit_solicitud.setVisibility(View.GONE);
+                                } else {
+                                    spinner_estado.setEnabled(true);
+                                    spinner_tipo.setEnabled(true);
+                                    editTextMotivo.setEnabled(true);
+                                    btn_edit_solicitud.setVisibility(View.VISIBLE);
+                                }
+                            }
+
                         }
                         if(snapshot.child("tipo").exists()){
                             String tipo = Objects.requireNonNull(snapshot.child("tipo").getValue()).toString();
