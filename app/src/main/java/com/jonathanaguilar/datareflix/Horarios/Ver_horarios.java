@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,8 +19,10 @@ import com.jonathanaguilar.datareflix.Objetos.Ob_semana;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 
@@ -27,9 +30,10 @@ public class Ver_horarios extends AppCompatActivity {
 
     ImageView btn_antes, btn_despues;
     private Calendar selectedDate;
-    TextView mes;
+    TextView mes, ver_cant_horas;
     Adapter_semanas adapterSemanas;
     RecyclerView recyclerView;
+    long cant_horas = 0, cant_minutos = 0, diferencia_milisegundos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class Ver_horarios extends AppCompatActivity {
         btn_despues = findViewById(R.id.btn_despues);
         mes = findViewById(R.id.mes);
         recyclerView = findViewById(R.id.recyclerview_semanal);
+        ver_cant_horas = findViewById(R.id.ver_cant_horas);
 
         adapterSemanas = new Adapter_semanas(this);
 
@@ -92,6 +97,9 @@ public class Ver_horarios extends AppCompatActivity {
             String fecha_comparar = format_anio.format(fechaClon.getTime());
 
             int finalI = i;
+
+            diferencia_milisegundos = 0;
+
             Principal.databaseReference.child("horarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,14 +111,36 @@ public class Ver_horarios extends AppCompatActivity {
                             if (datos.child("fecha").exists() && datos.child("hora_inicio").exists() && datos.child("hora_fin").exists() ) {
 
                                 if(datos.child("fecha").getValue().toString().equalsIgnoreCase(fecha_comparar)){
-                                    adapterSemanas.getSemana(finalI).hora_inicio = datos.child("hora_inicio").getValue().toString();
-                                    adapterSemanas.getSemana(finalI).hora_fin = datos.child("hora_fin").getValue().toString();
+
+                                    String h_inicio = datos.child("hora_inicio").getValue().toString();
+                                    String h_fin = datos.child("hora_fin").getValue().toString();
+
+                                    adapterSemanas.getSemana(finalI).hora_inicio = h_inicio;
+                                    adapterSemanas.getSemana(finalI).hora_fin = h_fin;
+
+                                    SimpleDateFormat formato24Horas = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+                                    try {
+                                        Date ini = formato24Horas.parse(h_inicio.split(" ")[0]);
+                                        Date f = formato24Horas.parse(h_fin.split(" ")[0]);
+
+                                        diferencia_milisegundos += f.getTime() - ini.getTime();
+
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+
                                 }
 
                             }
 
                         }
 
+                        cant_horas = diferencia_milisegundos / (60 * 60 * 1000);
+                        cant_minutos = (diferencia_milisegundos / (60 * 1000)) % 60;
+
+                        ver_cant_horas.setText(cant_horas + "h:"+ cant_minutos+"min semanales");
                         adapterSemanas.notifyDataSetChanged();
 
                     }
