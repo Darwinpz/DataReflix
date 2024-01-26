@@ -73,6 +73,7 @@ public class Ctl_marcacion {
 
                                 if (snapshot.child("cedula").exists()) {
                                     cedula = Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
+                                    marcacion.empleado  += " - " + cedula;
                                 }
                                 marcacion.uid_empleado = snapshot.getKey();
 
@@ -146,6 +147,7 @@ public class Ctl_marcacion {
                             if (dataSnapshot.child("nombre").exists()) {
                                 marcacion.empleado = Objects.requireNonNull(dataSnapshot.child("nombre").getValue()).toString();
                             }
+
                             marcacion.uid_empleado = dataSnapshot.getKey();
 
                             list_marcacion.AddMarcacion(marcacion);

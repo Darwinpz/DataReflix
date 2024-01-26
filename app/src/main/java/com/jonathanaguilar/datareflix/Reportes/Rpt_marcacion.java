@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_marcacion;
 import com.jonathanaguilar.datareflix.Controllers.Ctl_marcacion;
@@ -96,13 +97,20 @@ public class Rpt_marcacion extends AppCompatActivity {
 
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                ocultar_teclado();
+                if(!txt_buscador.getText().toString().trim().isEmpty()) {
 
-                if(card_filtro.getVisibility() == View.VISIBLE){
-                    fecha_now =  new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
+                    ocultar_teclado();
+
+                    if (card_filtro.getVisibility() == View.VISIBLE) {
+                        fecha_now = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha);
+                    }
+
+                    ctlMarcacion.VerMarcaciones(adapterMarcacion, txt_buscador.getText().toString().trim(), fecha_now, txt_sinresultados, progressBar, txt_contador);
+
+                }else{
+
+                    Toast.makeText(this,"Ingresa la cédula o nombre a buscar",Toast.LENGTH_SHORT).show();
                 }
-
-                ctlMarcacion.VerMarcaciones(adapterMarcacion,txt_buscador.getText().toString().trim(),fecha_now, txt_sinresultados, progressBar, txt_contador);
 
                 return true;
 

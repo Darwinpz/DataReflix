@@ -87,7 +87,7 @@ public class Ctl_solicitud {
                                     solicitud.motivo = Objects.requireNonNull(datos.child("motivo").getValue()).toString();
                                 }
                                 if (snapshot.child("nombre").exists()) {
-                                    solicitud.nombre_empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString();
+                                    solicitud.nombre_empleado = Objects.requireNonNull(snapshot.child("nombre").getValue()).toString() + " - " + Objects.requireNonNull(snapshot.child("cedula").getValue()).toString();
                                 }
 
                                 solicitud.uid_empleado = snapshot.getKey();

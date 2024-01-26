@@ -68,7 +68,7 @@ public class Adapter_actividad extends RecyclerView.Adapter<Holder_actividad> {
 
         if(Principal.rol.equals("Administrador")) {
             holder.card_empleado.setVisibility(View.VISIBLE);
-            holder.card_empleado.setText(list_actividad.get(position).empleado);
+            holder.card_empleado.setText(list_actividad.get(position).empleado + " - " + list_actividad.get(position).ced_empleado);
         }else{
             holder.card_empleado.setVisibility(View.GONE);
             holder.card_empleado.setText("");
