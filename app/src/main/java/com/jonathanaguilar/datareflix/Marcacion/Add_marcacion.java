@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -75,7 +76,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     String estado = "Asistencia";
     String fecha_horario = "";
     int hora_inicio, minutos_inicio, hora_fin, minutos_fin;
-
     List<String> listaTipoMarcacion;
 
     @Override
@@ -113,14 +113,17 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
             String fecha_comparar = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
+
             Principal.databaseReference.child("usuarios").child(Principal.id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     if(snapshot.exists()) {
+
+
                         int count = 0;
 
-                        if(snapshot.child("estado").getValue().toString().equalsIgnoreCase("activo")) {
+                        if (snapshot.child("estado").getValue().toString().equalsIgnoreCase("activo")) {
 
                             if (snapshot.child("marcaciones").exists()) {
 
@@ -174,7 +177,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                 adapterspinner_tipo.notifyDataSetChanged();
                             }
 
-                        }else{
+                        } else {
                             listaTipoMarcacion.clear();
                             listaTipoMarcacion.add("Selecciona");
                             adapterspinner_tipo.notifyDataSetChanged();
@@ -191,13 +194,28 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                 }
             });
 
+            spinner_tipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(fecha_hora_ingreso.getText().toString().equalsIgnoreCase("Sin Horario")){
+                        listaTipoMarcacion.clear();
+                        listaTipoMarcacion.add("Selecciona");
+                        adapterspinner_tipo.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
 
             Principal.databaseReference.child("horarios").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                     if(snapshot.exists()) {
-
+                        int count = 0;
                         for (DataSnapshot datos : snapshot.getChildren()) {
 
                             if (datos.child("fecha").exists() && datos.child("hora_inicio").exists() && datos.child("hora_fin").exists()) {
@@ -205,7 +223,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                 if(Objects.requireNonNull(datos.child("fecha").getValue()).toString().equalsIgnoreCase(fecha_comparar)){
 
                                     fecha_horario = fecha_comparar;
-
+                                    count++;
                                     if(datos.child("hora_inicio").exists()) {
                                         String h_inicio = Objects.requireNonNull(datos.child("hora_inicio").getValue()).toString();
                                         hora_inicio = Integer.parseInt(h_inicio.split(":")[0]);
@@ -222,6 +240,12 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                             }
                         }
+
+                        if(count<=0){
+                            fecha_hora_ingreso.setText("Sin Horario");
+                            fecha_hora_salida.setText("Sin Horario");
+                        }
+
                     }
                 }
                 @Override
