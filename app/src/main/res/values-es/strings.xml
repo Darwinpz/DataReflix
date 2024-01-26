@@ -64,7 +64,7 @@
     <string-array name="estado_user">
         <item>Selecciona</item>
         <item>Activo</item>
-        <item>Permiso</item>
+        <item>Permiso Laboral</item>
         <item>Inactivo</item>
     </string-array>
 
@@ -80,6 +80,7 @@
         <item>Selecciona</item>
         <item>Permiso Laboral</item>
         <item>Vacaciones</item>
+        <item>Reinicio de Actividades</item>
     </string-array>
 
     <string-array name="tipo_actividad">

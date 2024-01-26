@@ -128,7 +128,11 @@ public class Det_solicitud extends AppCompatActivity {
 
                     if(solicitud.estado.equals("Aprobado")){
                         Map<String, Object> datos = new HashMap<>();
-                        datos.put("estado", "Permiso");
+                        if(solicitud.tipo.equalsIgnoreCase("Reinicio de Actividades")){
+                            datos.put("estado", "Activo");
+                        }else{
+                            datos.put("estado", "Permiso");
+                        }
                         Principal.databaseReference.child("usuarios").child(uid_empleado).updateChildren(datos);
                     }
 

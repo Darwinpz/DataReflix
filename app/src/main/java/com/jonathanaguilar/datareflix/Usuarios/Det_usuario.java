@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -136,9 +137,8 @@ public class Det_usuario extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
-                    if(editable.toString().length() == 10){
-                        if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString())){
+                    if(editable.toString().trim().length() == 10){
+                        if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString().trim())){
                             editTextcedula.setError("Cédula Incorrecta");
                         }
                     }else{
@@ -161,7 +161,7 @@ public class Det_usuario extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString())){
+                    if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString().trim())){
                         editTextnombre.setError("Ingresa un nombre válido");
                     }
                 }
@@ -181,7 +181,7 @@ public class Det_usuario extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString())){
+                    if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString().trim())){
                         editTextTextEmailAddress.setError("Ingresa un correo válido");
                     }
                 }
@@ -200,12 +200,12 @@ public class Det_usuario extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    if(editable.toString().length() == 10) {
-                        if (!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())) {
+                    if(editable.toString().trim().length() == 10) {
+                        if (!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString().trim())) {
                             editTextTextPhone.setError("Ingresa un celular válido");
                         }
                     }else{
-                        editTextcedula.setError("Ingresa 10 dígitos");
+                        editTextTextPhone.setError("Ingresa 10 dígitos");
                     }
                 }
             });
@@ -214,10 +214,10 @@ public class Det_usuario extends AppCompatActivity {
 
                 dialog.mostrar_mensaje("Actualizando Usuario...");
 
-                if(!editTextcedula.getText().toString().isEmpty() && editTextcedula.getError() == null &&
-                        !editTextnombre.getText().toString().isEmpty() && editTextnombre.getError() == null  &&
-                        !editTextTextEmailAddress.getText().toString().isEmpty() && editTextTextEmailAddress.getError() == null &&
-                        !editTextTextPhone.getText().toString().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
+                if(!editTextcedula.getText().toString().trim().isEmpty() && editTextcedula.getError() == null &&
+                        !editTextnombre.getText().toString().trim().isEmpty() && editTextnombre.getError() == null  &&
+                        !editTextTextEmailAddress.getText().toString().trim().isEmpty() && editTextTextEmailAddress.getError() == null &&
+                        !editTextTextPhone.getText().toString().trim().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
                         && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
                     Ob_usuario usuario = new Ob_usuario();
@@ -266,10 +266,10 @@ public class Det_usuario extends AppCompatActivity {
                     if(snapshot.exists()){
 
                         if(snapshot.child("cedula").exists()) {
-                            editTextcedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString());
+                            editTextcedula.setText(Objects.requireNonNull(snapshot.child("cedula").getValue()).toString().trim());
                         }
                         if(snapshot.child("nombre").exists()) {
-                            editTextnombre.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString());
+                            editTextnombre.setText(Objects.requireNonNull(snapshot.child("nombre").getValue()).toString().trim());
                         }
                         if(snapshot.child("url_foto").exists()){
                             String url_foto = Objects.requireNonNull(snapshot.child("url_foto").getValue()).toString();
@@ -278,10 +278,10 @@ public class Det_usuario extends AppCompatActivity {
                             img_perfil.setImageResource(R.drawable.perfil);
                         }
                         if(snapshot.child("email").exists()){
-                            editTextTextEmailAddress.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
+                            editTextTextEmailAddress.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString().trim());
                         }
                         if(snapshot.child("telefono").exists()){
-                            editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString());
+                            editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString().trim());
                         }
 
                         if(snapshot.child("fecha_ini_contrato").exists()){

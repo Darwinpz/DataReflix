@@ -62,7 +62,7 @@ public class Adapter_usuario extends RecyclerView.Adapter<Holder_usuario> {
                 case "activo":
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.success));
                     break;
-                case "permiso":
+                case "permiso laboral":
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.warning));
                     break;
                 case "inactivo":

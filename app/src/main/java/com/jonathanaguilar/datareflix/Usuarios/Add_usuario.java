@@ -85,8 +85,8 @@ public class Add_usuario extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if(editable.toString().length() == 10){
-                    if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString())){
+                if(editable.toString().trim().length() == 10){
+                    if(!Fragment_Usuarios.ctlUsuarios.Validar_Cedula(editable.toString().trim())){
                         editTextcedula.setError("Cédula Incorrecta");
                     }
                 }else{
@@ -109,7 +109,7 @@ public class Add_usuario extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString())){
+                if(!Fragment_Usuarios.ctlUsuarios.validar_usuario(editable.toString().trim())){
                     editTextnombre.setError("Ingresa un nombre válido");
                 }
             }
@@ -128,7 +128,7 @@ public class Add_usuario extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString())){
+                if(!Fragment_Usuarios.ctlUsuarios.validar_correo(editable.toString().trim())){
                     editTextTextEmailAddress.setError("Ingresa un correo válido");
                 }
             }
@@ -148,12 +148,12 @@ public class Add_usuario extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable.toString().length() == 10) {
-                    if (!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString())) {
+                if(editable.toString().trim().length() == 10) {
+                    if (!Fragment_Usuarios.ctlUsuarios.validar_celular(editable.toString().trim())) {
                         editTextTextPhone.setError("Ingresa un celular válido");
                     }
                 }else{
-                    editTextcedula.setError("Ingresa 10 dígitos");
+                    editTextTextPhone.setError("Ingresa 10 dígitos");
                 }
             }
         });
@@ -162,10 +162,10 @@ public class Add_usuario extends AppCompatActivity {
 
             dialog.mostrar_mensaje("Creando Usuario...");
 
-            if(!editTextcedula.getText().toString().isEmpty() && editTextcedula.getError() == null &&
-                    !editTextnombre.getText().toString().isEmpty() && editTextnombre.getError() == null  &&
-                    !editTextTextEmailAddress.getText().toString().isEmpty() && editTextTextEmailAddress.getError() == null &&
-                    !editTextTextPhone.getText().toString().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
+            if(!editTextcedula.getText().toString().trim().isEmpty() && editTextcedula.getError() == null &&
+                    !editTextnombre.getText().toString().trim().isEmpty() && editTextnombre.getError() == null  &&
+                    !editTextTextEmailAddress.getText().toString().trim().isEmpty() && editTextTextEmailAddress.getError() == null &&
+                    !editTextTextPhone.getText().toString().trim().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
                     && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
                 Ob_usuario usuario = new Ob_usuario();
