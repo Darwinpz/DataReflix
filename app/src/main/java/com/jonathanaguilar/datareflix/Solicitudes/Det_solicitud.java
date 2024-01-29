@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Controllers.Alert_dialog;
 import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
+import com.jonathanaguilar.datareflix.Marcacion.Ver_marcaciones;
+import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
 import com.jonathanaguilar.datareflix.Objetos.Ob_solicitud;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
@@ -127,12 +129,24 @@ public class Det_solicitud extends AppCompatActivity {
                     }
 
                     if(solicitud.estado.equals("Aprobado")){
+
                         Map<String, Object> datos = new HashMap<>();
                         if(solicitud.tipo.equalsIgnoreCase("Reinicio de Actividades")){
                             datos.put("estado", "Activo");
                         }else{
                             datos.put("estado", "Permiso Laboral");
+
+                            Ob_marcacion marcacion = new Ob_marcacion();
+                            marcacion.fecha_hora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
+                            marcacion.latitud = -3.2875615;
+                            marcacion.longitud =  -79.9111926;
+                            marcacion.estado = "Permiso Laboral";
+                            marcacion.tipo = spinner_tipo.getSelectedItem().toString();
+
+                            Principal.databaseReference.child("usuarios").child(uid_empleado).child("marcaciones").push().setValue(marcacion);
+
                         }
+
                         Principal.databaseReference.child("usuarios").child(uid_empleado).updateChildren(datos);
                     }
 

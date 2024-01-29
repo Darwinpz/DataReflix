@@ -64,6 +64,9 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
                 case "horas extras":
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.warning));
                     break;
+                case "permiso laboral":
+                    holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.gray));
+                    break;
                 default:
                     holder.card_estado.setTextColor(ContextCompat.getColor(context,R.color.black));
                     break;

@@ -174,6 +174,9 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
                             case "horas extras":
                                 estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.warning));
                                 break;
+                            case "permiso laboral":
+                                estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.gray));
+                                break;
                             default:
                                 estado_marcacion.setTextColor(ContextCompat.getColor(getApplicationContext() ,R.color.black));
                                 break;

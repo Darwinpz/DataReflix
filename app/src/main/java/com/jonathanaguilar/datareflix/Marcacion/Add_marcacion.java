@@ -120,7 +120,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
 
                     if(snapshot.exists()) {
 
-
                         int count = 0;
 
                         if (snapshot.child("estado").getValue().toString().equalsIgnoreCase("activo")) {
@@ -132,15 +131,26 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                                     if (datos.child("fecha_hora").exists() && datos.child("tipo").exists()) {
 
                                         if (Objects.requireNonNull(datos.child("fecha_hora").getValue()).toString().contains(fecha_comparar)) {
-                                            count++;
 
-                                            listaTipoMarcacion.remove(Objects.requireNonNull(datos.child("tipo").getValue()).toString());
-                                            adapterspinner_tipo.notifyDataSetChanged();
+                                            String tipo = Objects.requireNonNull(datos.child("tipo").getValue()).toString();
+                                            if(!tipo.equalsIgnoreCase("permiso laboral")) {
+                                                count++;
+                                                listaTipoMarcacion.remove(tipo);
+                                                adapterspinner_tipo.notifyDataSetChanged();
+                                            }else{
+                                                count = -1;
+                                            }
 
                                         }
 
                                     }
 
+                                }
+
+                                if(count == -1){
+                                    listaTipoMarcacion.clear();
+                                    listaTipoMarcacion.add("Selecciona");
+                                    adapterspinner_tipo.notifyDataSetChanged();
                                 }
 
                                 if (count == 0) {
@@ -450,7 +460,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                     finish();
                     startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                 });
-                builder.setNegativeButton("Cancelar", (dialogInterface, i) -> {});
+                builder.setNegativeButton("Cancelar", (dialogInterface, i) -> {finish();});
                 builder.setCancelable(false);
                 builder.create().show();
             });
@@ -606,11 +616,17 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                             });
 
                         }else{
+
                             alertDialog.crear_mensaje("Error al Obtener la Ubicación", "Activa los permisos de ubicación", builder -> {
+                                builder.setPositiveButton("Activar GPS", (dialogInterface, i) -> {
+                                    finish();
+                                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                                });
+                                builder.setNegativeButton("Cancelar", (dialogInterface, i) -> {finish();});
                                 builder.setCancelable(false);
-                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
                                 builder.create().show();
                             });
+
                         }
                     }
 
