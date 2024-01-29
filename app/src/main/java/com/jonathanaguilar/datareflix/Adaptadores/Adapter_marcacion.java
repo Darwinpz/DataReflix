@@ -2,6 +2,7 @@ package com.jonathanaguilar.datareflix.Adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,11 @@ import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
 
@@ -47,7 +51,11 @@ public class Adapter_marcacion extends RecyclerView.Adapter<Holder_marcacion> {
     @Override
     public void onBindViewHolder(@NonNull Holder_marcacion holder, int position) {
 
-        holder.card_fecha_hora.setText(list_marcacion.get(position).fecha_hora);
+        String fecha_hora = list_marcacion.get(position).fecha_hora;
+        if(!fecha_hora.contains("/")) {
+            fecha_hora =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date(Long.parseLong(fecha_hora)));
+        }
+        holder.card_fecha_hora.setText(fecha_hora);
         holder.card_tipo.setText(list_marcacion.get(position).tipo);
         holder.card_estado.setText(list_marcacion.get(position).estado);
 

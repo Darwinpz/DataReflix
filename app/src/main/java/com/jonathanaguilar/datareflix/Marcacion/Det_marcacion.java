@@ -25,6 +25,9 @@ import com.jonathanaguilar.datareflix.Controllers.Progress_dialog;
 import com.jonathanaguilar.datareflix.Principal;
 import com.jonathanaguilar.datareflix.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallback {
@@ -60,6 +63,10 @@ public class Det_marcacion extends AppCompatActivity implements OnMapReadyCallba
         uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado","");
         empleado = Objects.requireNonNull(getIntent().getExtras()).getString("empleado","");
         fecha_hora = Objects.requireNonNull(getIntent().getExtras()).getString("fecha_hora","");
+
+        if(!fecha_hora.contains("/")) {
+            fecha_hora =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date(Long.parseLong(fecha_hora)));
+        }
 
         assert uid!=null;
         if(!uid.isEmpty() && ! uid_empleado.isEmpty()) {

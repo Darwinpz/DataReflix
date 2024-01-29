@@ -9,10 +9,13 @@ import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.jonathanaguilar.datareflix.Adaptadores.Adapter_marcacion;
 import com.jonathanaguilar.datareflix.Objetos.Ob_marcacion;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Ctl_marcacion {
@@ -26,7 +29,13 @@ public class Ctl_marcacion {
     public void crear_marcacion(String uid, Ob_marcacion obMarcacion){
 
         if(uid != null && !uid.isEmpty()) {
-            dbref.child("usuarios").child(uid).child("marcaciones").push().setValue(obMarcacion);
+            Map<String, Object> datos = new HashMap<>();
+            datos.put("fecha_hora", ServerValue.TIMESTAMP);
+            datos.put("latitud",obMarcacion.latitud);
+            datos.put("longitud",obMarcacion.longitud);
+            datos.put("estado",obMarcacion.estado);
+            datos.put("tipo",obMarcacion.tipo);
+            dbref.child("usuarios").child(uid).child("marcaciones").push().setValue(datos);
         }
 
     }
