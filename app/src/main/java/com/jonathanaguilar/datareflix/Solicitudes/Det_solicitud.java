@@ -37,6 +37,7 @@ public class Det_solicitud extends AppCompatActivity {
     EditText editTextMotivo;
     String uid = "";
     String uid_empleado = "";
+    String ced_empleado = "";
     ArrayAdapter<CharSequence> adapterspinner_tipo, adapterspinner_estado;
     Button btn_edit_solicitud, btn_del_solicitud;;
     Alert_dialog alertDialog;
@@ -64,6 +65,7 @@ public class Det_solicitud extends AppCompatActivity {
 
         uid = Objects.requireNonNull(getIntent().getExtras()).getString("uid","");
         uid_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("uid_empleado","");
+        ced_empleado = Objects.requireNonNull(getIntent().getExtras()).getString("ced_empleado","");
 
         adapterspinner_tipo = ArrayAdapter.createFromResource(this, R.array.tipo_solicitud, android.R.layout.simple_spinner_item);
         adapterspinner_tipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -133,6 +135,12 @@ public class Det_solicitud extends AppCompatActivity {
                         Map<String, Object> datos = new HashMap<>();
                         if(solicitud.tipo.equalsIgnoreCase("Reinicio de Actividades")){
                             datos.put("estado", "Activo");
+                        }else if(solicitud.tipo.equalsIgnoreCase("Reseteo de clave")) {
+                            if(ced_empleado.isEmpty()){
+                                datos.put("clave", "DataReflix");
+                            }else{
+                                datos.put("clave", ced_empleado.split("-")[1].trim());
+                            }
                         }else{
                             datos.put("estado", "Permiso Laboral");
 

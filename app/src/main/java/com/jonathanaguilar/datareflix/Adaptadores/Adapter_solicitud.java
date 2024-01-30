@@ -82,6 +82,7 @@ public class Adapter_solicitud extends RecyclerView.Adapter<Holder_solicitud> {
             i.setClass(context, Det_solicitud.class);
             i.putExtra("uid",list_solicitud.get(position).uid);
             i.putExtra("uid_empleado",list_solicitud.get(position).uid_empleado);
+            i.putExtra("ced_empleado",list_solicitud.get(position).nombre_empleado);
             context.startActivity(i);
 
         });

@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static FirebaseDatabase DB = FirebaseDatabase.getInstance();
     SharedPreferences preferences;
     DatabaseReference databaseReference;
+    TextView text_forget;
     EditText txt_usuario, txt_clave;
     Progress_dialog dialog;
     public Activity activity;
@@ -52,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
         txt_clave = findViewById(R.id.editTextTextPassword);
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
+
+        text_forget = findViewById(R.id.text_forget);
+
+
+        text_forget.setOnClickListener(view -> {
+            startActivity(new Intent(this,Olvide_usuario.class));
+        });
 
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {

@@ -79,6 +79,7 @@
         <item>Permiso Laboral</item>
         <item>Vacaciones</item>
         <item>Reinicio de Actividades</item>
+        <item>Reseteo de clave</item>
     </string-array>
 
     <string-array name="tipo_actividad">

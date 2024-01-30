@@ -47,7 +47,7 @@
                android:textColor="@color/black"
                android:ems="10"
                android:hint="@string/text_myusername"
-               android:inputType="textEmailAddress"
+               android:inputType="text"
                android:textSize="20sp"
                android:autofillHints="emailAddress" />
 
