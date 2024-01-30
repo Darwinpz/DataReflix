@@ -217,7 +217,8 @@ public class Det_usuario extends AppCompatActivity {
                 if(!editTextcedula.getText().toString().trim().isEmpty() && editTextcedula.getError() == null &&
                         !editTextnombre.getText().toString().trim().isEmpty() && editTextnombre.getError() == null  &&
                         !editTextTextEmailAddress.getText().toString().trim().isEmpty() && editTextTextEmailAddress.getError() == null &&
-                        !editTextTextPhone.getText().toString().trim().isEmpty() &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
+                        !editTextTextPhone.getText().toString().trim().isEmpty() && editTextTextPhone.getError() == null
+                        &&  !spinner_tipo.getSelectedItem().toString().equals("Selecciona")
                         && !spinner_estado.getSelectedItem().toString().equals("Selecciona")) {
 
                     Ob_usuario usuario = new Ob_usuario();

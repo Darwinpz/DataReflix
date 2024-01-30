@@ -77,7 +77,9 @@ public class Fragment_Perfil extends Fragment {
 
                 dialog.mostrar_mensaje("Actualizando Perfil...");
 
-                if(!editTextEmail.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty() && !editTextTextClave.getText().toString().isEmpty()) {
+                if(!editTextEmail.getText().toString().isEmpty() && editTextEmail.getError() == null
+                        && !editTextTextPhone.getText().toString().isEmpty()  && editTextTextPhone.getError() == null
+                        && !editTextTextClave.getText().toString().isEmpty()) {
 
                     Ob_usuario usuario = new Ob_usuario();
                     usuario.uid = Principal.id;
@@ -126,6 +128,25 @@ public class Fragment_Perfil extends Fragment {
                 }
             });
 
+            editTextEmail.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(!validar_correo(editable.toString().trim())){
+                        editTextEmail.setError("Ingresa un correo válido");
+                    }
+                }
+            });
+
             txt_rol.setText(Principal.rol);
             Principal.databaseReference.child("usuarios").child(Principal.id).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -161,14 +182,14 @@ public class Fragment_Perfil extends Fragment {
                             img_perfil.setImageResource(R.drawable.perfil);
                         }
                         if(snapshot.child("email").exists()){
-                            editTextEmail.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
+                            editTextEmail.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString().trim());
                         }
                         if(snapshot.child("clave").exists()){
                             editTextTextClave.setText(Objects.requireNonNull(snapshot.child("clave").getValue()).toString());
                             clave = Objects.requireNonNull(snapshot.child("clave").getValue()).toString();
                         }
                         if(snapshot.child("telefono").exists()){
-                            editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString());
+                            editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString().trim());
                         }
 
                         if(snapshot.child("fecha_ini_contrato").exists()){
@@ -276,6 +297,14 @@ public class Fragment_Perfil extends Fragment {
         Pattern patron = Pattern.compile("^(0|593)?9[0-9]\\d{7}$");
 
         return patron.matcher(celular).matches();
+
+    }
+
+    public boolean validar_correo(String correo){
+
+        Pattern patron = Pattern.compile("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.([a-zA-Z]{2,4})+$");
+
+        return patron.matcher(correo).matches();
 
     }
 
