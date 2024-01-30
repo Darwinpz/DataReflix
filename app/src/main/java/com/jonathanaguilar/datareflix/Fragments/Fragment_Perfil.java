@@ -3,6 +3,8 @@ package com.jonathanaguilar.datareflix.Fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,16 +34,17 @@ import com.jonathanaguilar.datareflix.Vi_fotos;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Fragment_Perfil extends Fragment {
 
     Button btn_salir, btn_update_profile;
     TextView txt_nombre, txt_cedula,txt_estado, txt_rol, cant_marcaciones, cant_solicitudes, txtfecha_ini_contrato,txtfecha_fin_contrato;
-    EditText editTextEmail, editTextTextPhone;
+    EditText editTextEmail, editTextTextPhone, editTextTextClave;
     Progress_dialog dialog;
     ImageView img_perfil;
     Alert_dialog alertDialog;
-    String URL_FOTO = "", NOMBRE = "";
+    String URL_FOTO = "", NOMBRE = "", clave ="";
 
     @Nullable
     @Override
@@ -58,6 +62,7 @@ public class Fragment_Perfil extends Fragment {
         img_perfil = vista.findViewById(R.id.img_perfil);
         dialog = new Progress_dialog(vista.getContext());
         alertDialog = new Alert_dialog(vista.getContext());
+        editTextTextClave = vista.findViewById(R.id.editTextTextClave);
 
         cant_marcaciones = vista.findViewById(R.id.cant_marcaciones);
         cant_solicitudes = vista.findViewById(R.id.cant_solicitudes);
@@ -72,12 +77,13 @@ public class Fragment_Perfil extends Fragment {
 
                 dialog.mostrar_mensaje("Actualizando Perfil...");
 
-                if(!editTextEmail.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty()) {
+                if(!editTextEmail.getText().toString().isEmpty() && !editTextTextPhone.getText().toString().isEmpty() && !editTextTextClave.getText().toString().isEmpty()) {
 
                     Ob_usuario usuario = new Ob_usuario();
                     usuario.uid = Principal.id;
                     usuario.email = editTextEmail.getText().toString();
                     usuario.telefono = editTextTextPhone.getText().toString();
+                    usuario.clave = editTextTextClave.getText().toString();
                     update_perfil(usuario);
 
                     dialog.ocultar_mensaje();
@@ -94,6 +100,29 @@ public class Fragment_Perfil extends Fragment {
                         builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
                         builder.create().show();
                     });
+                }
+            });
+
+            editTextTextPhone.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if(editable.toString().trim().length() == 10) {
+                        if (!validar_celular(editable.toString().trim())) {
+                            editTextTextPhone.setError("Ingresa un celular válido");
+                        }
+                    }else{
+                        editTextTextPhone.setError("Ingresa 10 dígitos");
+                    }
                 }
             });
 
@@ -133,6 +162,10 @@ public class Fragment_Perfil extends Fragment {
                         }
                         if(snapshot.child("email").exists()){
                             editTextEmail.setText(Objects.requireNonNull(snapshot.child("email").getValue()).toString());
+                        }
+                        if(snapshot.child("clave").exists()){
+                            editTextTextClave.setText(Objects.requireNonNull(snapshot.child("clave").getValue()).toString());
+                            clave = Objects.requireNonNull(snapshot.child("clave").getValue()).toString();
                         }
                         if(snapshot.child("telefono").exists()){
                             editTextTextPhone.setText(Objects.requireNonNull(snapshot.child("telefono").getValue()).toString());
@@ -221,8 +254,28 @@ public class Fragment_Perfil extends Fragment {
             Map<String, Object> datos = new HashMap<>();
             datos.put("email", usuario.email.toLowerCase());
             datos.put("telefono", usuario.telefono);
+
+            if(!clave.equals(usuario.clave)){
+                if(!Principal.preferences.getString("uid_biometric","").isEmpty()){
+                    SharedPreferences.Editor editor = Principal.preferences.edit();
+                    editor.putString("uid_biometric","");
+                    editor.apply();
+                }
+                datos.put("clave", usuario.clave);
+            }
+
             Principal.databaseReference.child("usuarios").child(usuario.uid).updateChildren(datos);
+
+
         }
+
+    }
+
+    public boolean validar_celular(String celular){
+
+        Pattern patron = Pattern.compile("^(0|593)?9[0-9]\\d{7}$");
+
+        return patron.matcher(celular).matches();
 
     }
 
