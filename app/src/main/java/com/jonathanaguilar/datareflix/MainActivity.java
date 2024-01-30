@@ -218,12 +218,15 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if(!existe) {
-                            dialog.ocultar_mensaje();
-                            alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
-                                builder.setCancelable(true);
-                                builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
-                                builder.create().show();
-                            });
+                            if (preferences.getString("uid", "").isEmpty()) {
+                                dialog.ocultar_mensaje();
+                                alertDialog.crear_mensaje("Advertencia", "Usuario y/o Clave Incorrecto", builder -> {
+                                    builder.setCancelable(true);
+                                    builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {
+                                    });
+                                    builder.create().show();
+                                });
+                            }
                         }
                     }
                 }
