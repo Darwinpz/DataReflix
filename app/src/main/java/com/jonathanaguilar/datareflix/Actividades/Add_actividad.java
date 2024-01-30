@@ -116,23 +116,33 @@ public class Add_actividad extends AppCompatActivity {
 
                 if (!spinner_tipo.getSelectedItem().toString().equals("Selecciona")) {
 
-                    Ob_actividad obActividad = new Ob_actividad();
-                    obActividad.estado = "Pendiente";
-                    obActividad.fecha_inicio = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
-                    obActividad.fecha_fin = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_fin);
-                    obActividad.hora_inicio = hora_time_inicio;
-                    obActividad.hora_fin = hora_time_fin;
-                    obActividad.tipo = spinner_tipo.getSelectedItem().toString();
-                    obActividad.mensaje = editTextActividad.getText().toString();
+                    if(!UID_EMPLEADO.isEmpty()) {
 
-                    Ver_actividades.ctlActividad.crear_actividad(Principal.id,obActividad);
+                        Ob_actividad obActividad = new Ob_actividad();
+                        obActividad.estado = "Pendiente";
+                        obActividad.fecha_inicio = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_ini);
+                        obActividad.fecha_fin = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(fecha_cal_fin);
+                        obActividad.hora_inicio = hora_time_inicio;
+                        obActividad.hora_fin = hora_time_fin;
+                        obActividad.tipo = spinner_tipo.getSelectedItem().toString();
+                        obActividad.mensaje = editTextActividad.getText().toString();
 
-                    dialog.ocultar_mensaje();
-                    alertDialog.crear_mensaje("Correcto", "Actividad Creada Correctamente", builder -> {
-                        builder.setCancelable(false);
-                        builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
-                        builder.create().show();
-                    });
+                        Ver_actividades.ctlActividad.crear_actividad(UID_EMPLEADO, obActividad);
+
+                        dialog.ocultar_mensaje();
+                        alertDialog.crear_mensaje("Correcto", "Actividad Creada Correctamente", builder -> {
+                            builder.setCancelable(false);
+                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> finish());
+                            builder.create().show();
+                        });
+                    }else{
+                        dialog.ocultar_mensaje();
+                        alertDialog.crear_mensaje("¡Advertencia!", "Selecciona un Empleado", builder -> {
+                            builder.setCancelable(true);
+                            builder.setNeutralButton("Aceptar", (dialogInterface, i) -> {});
+                            builder.create().show();
+                        });
+                    }
 
                 }else{
                     dialog.ocultar_mensaje();
