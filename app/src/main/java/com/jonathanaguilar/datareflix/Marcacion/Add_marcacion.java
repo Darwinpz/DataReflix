@@ -80,7 +80,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     String fecha_horario = "";
     int hora_inicio, minutos_inicio, hora_fin, minutos_fin;
     List<String> listaTipoMarcacion;
-    Date horaActual_prueba = new Date();
+    Date horaActual_prueba;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -273,8 +273,6 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                 }
             });
 
-            Handler handler = new Handler(Looper.getMainLooper());
-
 
             Principal.databaseReference.child("servidor").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -283,7 +281,69 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                     if(snapshot.exists()){
 
                         if(snapshot.child("timestamp").exists()){
+
                             horaActual_prueba =  new Date(Long.parseLong(snapshot.child("timestamp").getValue().toString()));
+
+                            Handler handler = new Handler(Looper.getMainLooper());
+
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    Date horaActual = new Date(horaActual_prueba.getTime());
+
+                                    String hora_now = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(horaActual);
+                                    // Actualiza el TextView con la hora formateada
+                                    estado_gps.setText("Marcación: "+hora_now);
+
+                                    // Programa el próximo llamado después de 1000 milisegundos (1 segundo)
+
+                                    if(listaTipoMarcacion.contains("Inicio de Jornada")) {
+
+                                        if (hora_inicio >= Integer.parseInt(hora_now.split(":")[0]) && minutos_inicio >= Integer.parseInt(hora_now.split(":")[1])) {
+                                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.success));
+                                            estado = "Asistencia";
+                                        } else {
+                                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
+                                            estado = "Atraso";
+                                        }
+
+                                    }
+
+                                    if(listaTipoMarcacion.contains("Fin de Jornada")) {
+
+                                        if(Integer.parseInt(hora_now.split(":")[0]) < hora_fin ||
+                                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) < minutos_fin )){
+                                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
+                                            estado = "Salida temprano";
+
+                                        } else if(Integer.parseInt(hora_now.split(":")[0]) > hora_fin ||
+                                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) > minutos_fin )){
+                                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.warning));
+                                            estado = "Horas extras";
+
+                                        }else{
+                                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                                            estado = "Salida";
+                                        }
+
+                                    }
+
+                                    if(listaTipoMarcacion.contains("Inicio de Almuerzo") || listaTipoMarcacion.contains("Fin de Almuerzo")) {
+                                        estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
+                                        estado = "Registro";
+                                    }
+
+                                    horaActual_prueba = new Date(horaActual_prueba.getTime()+1000);
+
+                                    handler.postDelayed(this, 1000);
+
+                                }
+                            };
+
+                            // Inicia el primer llamado
+                            handler.post(runnable);
+
                         }
 
                     }
@@ -296,63 +356,8 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                 }
             });
 
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
 
-                    Date horaActual = new Date(horaActual_prueba.getTime());
 
-                    String hora_now = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(horaActual);
-                    // Actualiza el TextView con la hora formateada
-                    estado_gps.setText("Marcación: "+hora_now);
-
-                    // Programa el próximo llamado después de 1000 milisegundos (1 segundo)
-
-                    if(listaTipoMarcacion.contains("Inicio de Jornada")) {
-
-                        if (hora_inicio >= Integer.parseInt(hora_now.split(":")[0]) && minutos_inicio >= Integer.parseInt(hora_now.split(":")[1])) {
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.success));
-                            estado = "Asistencia";
-                        } else {
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
-                            estado = "Atraso";
-                        }
-
-                    }
-
-                    if(listaTipoMarcacion.contains("Fin de Jornada")) {
-
-                        if(Integer.parseInt(hora_now.split(":")[0]) < hora_fin ||
-                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) < minutos_fin )){
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.danger));
-                            estado = "Salida temprano";
-
-                        } else if(Integer.parseInt(hora_now.split(":")[0]) > hora_fin ||
-                                (Integer.parseInt(hora_now.split(":")[0]) == hora_fin && Integer.parseInt(hora_now.split(":")[1]) > minutos_fin )){
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.warning));
-                            estado = "Horas extras";
-
-                        }else{
-                            estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                            estado = "Salida";
-                        }
-
-                    }
-
-                    if(listaTipoMarcacion.contains("Inicio de Almuerzo") || listaTipoMarcacion.contains("Fin de Almuerzo")) {
-                        estado_gps.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.black));
-                        estado = "Registro";
-                    }
-
-                    horaActual_prueba = new Date(horaActual_prueba.getTime()+1000);
-
-                    handler.postDelayed(this, 1000);
-
-                }
-            };
-
-            // Inicia el primer llamado
-            handler.post(runnable);
 
             if(Principal.id.equals(uid_biometric)){
                 btn_marcar_huella.setVisibility(View.VISIBLE);
