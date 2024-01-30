@@ -51,8 +51,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -78,6 +80,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
     String fecha_horario = "";
     int hora_inicio, minutos_inicio, hora_fin, minutos_fin;
     List<String> listaTipoMarcacion;
+    Date horaActual_prueba = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +113,13 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
         dialog = new Progress_dialog(this);
         alertDialog = new Alert_dialog(this);
 
+
         if(!uid_biometric.isEmpty()){
+
+            //Actualizar la fecha del servidor
+            Map<String, Object> timestampData = new HashMap<>();
+            timestampData.put("timestamp", ServerValue.TIMESTAMP);
+            Principal.databaseReference.child("servidor").setValue(timestampData);
 
             String fecha_comparar = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
@@ -265,11 +274,33 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
             });
 
             Handler handler = new Handler(Looper.getMainLooper());
+
+
+            Principal.databaseReference.child("servidor").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if(snapshot.exists()){
+
+                        if(snapshot.child("timestamp").exists()){
+                            horaActual_prueba =  new Date(Long.parseLong(snapshot.child("timestamp").getValue().toString()));
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
 
-                    Date horaActual = new Date();
+                    Date horaActual = new Date(horaActual_prueba.getTime());
 
                     String hora_now = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(horaActual);
                     // Actualiza el TextView con la hora formateada
@@ -313,6 +344,8 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
                         estado = "Registro";
                     }
 
+                    horaActual_prueba = new Date(horaActual_prueba.getTime()+1000);
+
                     handler.postDelayed(this, 1000);
 
                 }
@@ -333,6 +366,7 @@ public class Add_marcacion extends AppCompatActivity implements OnMapReadyCallba
         getLocationPermission();
 
     }
+
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
